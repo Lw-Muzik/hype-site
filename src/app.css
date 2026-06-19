@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+/* =========================================================================
+   HypeMuzik brand theme — gold→green "spectrum sweep" + 3-bar EQ glyph.
+   Tokens pulled from the app's own theme; exposed as Tailwind utilities
+   (bg-bg, text-muted, font-display, animate-vu, ease-brand, …).
+   ========================================================================= */
+@theme {
+  --color-bg: #0a0b0e;
+  --color-surface: #14161c;
+  --color-surface-1: #101218;
+  --color-surface-2: #1b1e26;
+  --color-line: #20242e;
+  --color-line-2: #2b303c;
+
+  --color-text: #eceef2;
+  --color-muted: #9aa1ad;
+  --color-faint: #6a7280;
+
+  --color-gold: #ffca42;
+  --color-gold-deep: #f5b40f;
+  --color-green: #34c13a;
+
+  --font-display: 'Clash Display', 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Satoshi', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --animate-vu: vu 1s ease-in-out infinite;
+  --animate-flow: flow 2.4s var(--ease-brand) infinite;
+  --animate-bob: bob 2.4s ease-in-out infinite;
+  --animate-dash: dash 1.2s linear infinite;
+}
+
+@keyframes vu {
+  0%, 100% { height: 28%; }
+  50% { height: 100%; }
+}
+@keyframes flow {
+  0% { transform: translateX(-130%); }
+  100% { transform: translateX(560%); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+@keyframes dash {
+  to { stroke-dashoffset: -20; }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--color-gold); color: #0a0b0e; }
+  :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; border-radius: 6px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* the signature gradient — text + fill */
+  .grad-text {
+    background-image: linear-gradient(110deg, var(--color-gold), #b9c93a 46%, var(--color-green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sweep {
+    background-image: linear-gradient(110deg, var(--color-gold), #b9c93a 46%, var(--color-green));
+  }
+
+  /* layout + repeated patterns */
+  .wrap { @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8 lg:px-12; }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-[22px] py-[13px] text-[15px] font-bold transition;
+  }
+  .btn-primary {
+    @apply text-bg;
+    background-image: linear-gradient(110deg, var(--color-gold), #b9c93a 46%, var(--color-green));
+    box-shadow: 0 6px 24px -8px rgba(255, 202, 66, 0.5);
+  }
+  .btn-primary:hover { @apply -translate-y-0.5; box-shadow: 0 12px 34px -10px rgba(255, 202, 66, 0.6); }
+  .btn-ghost {
+    @apply border border-line-2 bg-white/[0.03] text-text;
+  }
+  .btn-ghost:hover { @apply -translate-y-0.5 text-white; border-color: var(--color-gold); }
+
+  .kicker { @apply font-mono text-[12.5px] uppercase tracking-[0.14em] text-gold-deep; }
+  .eyebrow { @apply inline-flex items-center gap-2.5 font-mono text-[12.5px] uppercase tracking-[0.14em] text-muted; }
+  .section-title { @apply font-display font-semibold leading-[1.02] tracking-[-0.02em]; }
+
+  /* scroll-reveal (toggled by the reveal action) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.7s var(--ease-brand), transform 0.7s var(--ease-brand);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+  }
+}
