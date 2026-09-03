@@ -1,0 +1,153 @@
+name: Deploy HypeMuzik Site
+
+# Build → save → scp → docker load → docker run (same pipeline as hype-admin).
+# The site is fully prerendered, so the container is nginx serving static files
+# on 9500 — no Node process in production.
+#
+# Required GitHub repo settings (Settings → Secrets and variables → Actions):
+#   Variables: VPS_HOST, VPS_USER, PROJECT_PATH   (e.g. /var/www/hype/site)
+#   Secrets:   SSH_KEY   (private key authorized on the VPS, port 30620)
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: hype-site
+  SSH_PORT: "30620"
+  CONTAINER_NAME: hype-site-prod
+  CONTAINER_PORT: "9500" # host port → container 9500
+
+jobs:
+  checks:
+    name: Build Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable pnpm
+        run: corepack enable && corepack prepare pnpm@11.9.0 --activate
+
+      # Not --ignore-scripts: the build needs esbuild's binary shim and
+      # @tailwindcss/oxide's native binding, or vite dies with
+      # ERR_PNPM_IGNORED_BUILDS. The `allowBuilds:` block in
+      # pnpm-workspace.yaml is the explicit allowlist for exactly those two.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Binaries are invoked through `pnpm exec` because pnpm-workspace.yaml
+      # makes this a workspace root, where a bare `pnpm <script>` can fail with
+      # "Command not found" (same workaround as hype-admin/hype-backend).
+      - name: Build project
+        run: pnpm exec vite build
+
+      # Gates on errors only; the site currently has 4 known warnings
+      # (3 placeholder href="#" desktop download links + missing @types/node).
+      - name: Type & Svelte check
+        run: pnpm exec svelte-kit sync && pnpm exec svelte-check --tsconfig ./tsconfig.json
+
+  deploy:
+    name: Deploy to Production
+    needs: checks
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: docker build -t ${{ env.IMAGE_NAME }}:production .
+
+      - name: Save Docker Image
+        run: docker save ${{ env.IMAGE_NAME }}:production | gzip > image.tar.gz
+
+      - name: Setup SSH Connection
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ env.SSH_PORT }} -H ${{ vars.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Transfer Image to Server
+        run: |
+          ssh -p ${{ env.SSH_PORT }} ${{ vars.VPS_USER }}@${{ vars.VPS_HOST }} "mkdir -p ${{ vars.PROJECT_PATH }}"
+          scp -P ${{ env.SSH_PORT }} image.tar.gz ${{ vars.VPS_USER }}@${{ vars.VPS_HOST }}:${{ vars.PROJECT_PATH }}/image.tar.gz
+
+      - name: Deploy Container
+        run: |
+          ssh -p ${{ env.SSH_PORT }} \
+            -o StrictHostKeyChecking=no \
+            -o ConnectTimeout=30 \
+            -o ServerAliveInterval=60 \
+            ${{ vars.VPS_USER }}@${{ vars.VPS_HOST }} << 'ENDSSH'
+            set -e
+
+            PROJECT_DIR="${{ vars.PROJECT_PATH }}"
+            IMAGE="${{ env.IMAGE_NAME }}:production"
+            CONTAINER="${{ env.CONTAINER_NAME }}"
+            PORT=${{ env.CONTAINER_PORT }}
+
+            cd ${PROJECT_DIR}
+
+            # Load image
+            docker load < image.tar.gz
+            rm -f image.tar.gz
+
+            # Stop and remove existing container
+            docker stop ${CONTAINER} 2>/dev/null || true
+            docker rm ${CONTAINER} 2>/dev/null || true
+
+            # Run new container.
+            # --read-only + tmpfs /tmp: nginx keeps its pid file and temp dirs
+            # under /tmp (see nginx/nginx.conf), so nothing else needs to be
+            # writable. --cap-drop ALL is safe because the server listens on
+            # 9500, not a privileged port.
+            # NOTE: if a reverse proxy fronts this later, change
+            # `-p ${PORT}:` to `-p 127.0.0.1:${PORT}:`.
+            docker run -d \
+              --name ${CONTAINER} \
+              --restart unless-stopped \
+              --read-only \
+              --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m \
+              --cap-drop ALL \
+              --security-opt no-new-privileges:true \
+              --pids-limit 128 \
+              --memory 128m \
+              --memory-swap 128m \
+              -p ${PORT}:9500 \
+              ${IMAGE}
+
+            # `docker run -d` returns before nginx is serving — wait for the
+            # image's HEALTHCHECK so a green job means a reachable site.
+            HEALTHY=0
+            for i in $(seq 1 20); do
+              STATUS=$(docker inspect --format='{{.State.Health.Status}}' ${CONTAINER} 2>/dev/null || echo starting)
+              if [ "$STATUS" = "healthy" ]; then HEALTHY=1; break; fi
+              sleep 3
+            done
+
+            if [ "$HEALTHY" -ne 1 ]; then
+              echo "✗ Container did not become healthy. Logs:"
+              docker logs --tail 100 ${CONTAINER} || true
+              exit 1
+            fi
+
+            # Cleanup old images
+            docker image prune -f
+
+            echo "✓ Site deployment completed: ${CONTAINER} on port ${PORT}"
+          ENDSSH
