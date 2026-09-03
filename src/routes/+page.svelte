@@ -1,17 +1,27 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import Logo from '$lib/components/Logo.svelte';
   import Spectrum from '$lib/components/Spectrum.svelte';
+  import DownloadButton from '$lib/components/DownloadButton.svelte';
+  import SiteFooter from '$lib/components/SiteFooter.svelte';
   import { reveal, countup } from '$lib/actions';
+  import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
+  import { IOS_URL, PLAY_URL } from '$lib/links';
 
   let y = $state(0);
   const stuck = $derived(y > 8);
 
+  // Desktop downloads resolve against the live GitHub release, so publishing a
+  // new hype-desktop version updates this page with no rebuild. Until it
+  // resolves — and if it never does — the buttons point at the releases page.
+  let release = $state<LatestRelease | null>(null);
+  onMount(async () => {
+    release = await fetchLatestRelease();
+  });
+
   // Deterministic, varied animation timings for the mock equalizer.
   const phoneEq = Array.from({ length: 12 }, (_, i) => ({ delay: (i * 90) % 900 }));
 
-  // Live store listings for the mobile app.
-  const IOS_URL = 'https://apps.apple.com/us/app/hypemuzik-dsp/id6760889647';
-  const PLAY_URL = 'https://play.google.com/store/apps/details?id=x.a.zix&hl=en';
 
   const platforms = ['macOS', 'Windows', 'Linux', 'Android', 'iOS'];
   const chain = [
@@ -449,18 +459,15 @@
         <h2 class="section-title relative text-[clamp(36px,6vw,76px)] tracking-[-0.025em]">Hear the difference.</h2>
         <p class="relative mt-3.5 text-lg text-muted">Free to try. Studio-grade out of the box.</p>
         <div class="relative mt-8 flex flex-wrap justify-center gap-3">
-          <a href="#" class="btn btn-primary">
+          <DownloadButton label="macOS" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
-            macOS
-          </a>
-          <a href="#" class="btn btn-primary">
+          </DownloadButton>
+          <DownloadButton label="Windows" fallbackUrl={RELEASES_URL} platform={release?.platforms.windows}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 4.5l8-1.1v8.1H3V4.5zm0 15l8 1.1v-8H3v6.9zM12 3.3L21 2v9.5h-9V3.3zM12 12.5h9V22l-9-1.3v-8.2z"/></svg>
-            Windows
-          </a>
-          <a href="#" class="btn btn-primary">
+          </DownloadButton>
+          <DownloadButton label="Linux" fallbackUrl={RELEASES_URL} platform={release?.platforms.linux}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2c2 0 3 2 3 4 0 1 .6 2 1.4 3.2C17.6 11 19 13 19 16c0 3-2 6-7 6s-7-3-7-6c0-3 1.4-5 2.6-6.8C8.4 8 9 7 9 6c0-2 1-4 3-4z"/></svg>
-            Linux
-          </a>
+          </DownloadButton>
           <a href={IOS_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
             App Store
@@ -470,23 +477,22 @@
             Google Play
           </a>
         </div>
+
+        <!-- Reserves its own height so resolving the release doesn't shift the
+             buttons above it. -->
+        <p class="relative mt-6 min-h-[20px] font-mono text-[12.5px] text-faint">
+          {#if release}
+            Desktop v{release.version}
+            {#if release.publishedAt}· {formatDate(release.publishedAt)}{/if}
+            · macOS is one universal build (Apple Silicon + Intel) ·
+            <a href={release.htmlUrl} rel="noopener" class="underline decoration-line-2 underline-offset-4 transition hover:text-gold">
+              all downloads
+            </a>
+          {/if}
+        </p>
       </div>
     </div>
   </section>
 </main>
 
-<!-- ============================== FOOTER ============================== -->
-<footer class="border-t border-line py-11">
-  <div class="wrap flex flex-wrap items-center justify-between gap-6">
-    <a href="#top" class="flex items-center gap-2.5">
-      <Logo size={26} />
-      <span class="font-display text-[17px] font-semibold">HypeMuzik</span>
-    </a>
-    <nav class="flex flex-wrap gap-6" aria-label="Footer">
-      {#each [['#connect', 'Connect'], ['#desktop', 'Desktop'], ['#chain', 'The chain'], ['#mobile', 'Mobile'], ['#download', 'Download']] as [href, label]}
-        <a {href} class="text-[14.5px] text-muted transition-colors hover:text-text">{label}</a>
-      {/each}
-    </nav>
-    <p class="w-full text-[13px] text-faint">© 2026 HypeMuzik. Studio-grade sound, on every device.</p>
-  </div>
-</footer>
+<SiteFooter {release} />
