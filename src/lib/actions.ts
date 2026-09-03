@@ -72,3 +72,59 @@ export const countup: Action<HTMLElement, number> = (node, value = 0) => {
     destroy: () => io.disconnect()
   };
 };
+
+/**
+ * Pointer-driven 3D tilt.
+ *
+ * The rotation is small on purpose — this is depth in answer to a person's
+ * movement, not a novelty. Skipped entirely for coarse pointers (a phone can't
+ * hover, and the transform would only fight the scroll) and for reduced motion.
+ */
+export const tilt = (node: HTMLElement, max = 6) => {
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || still) return;
+
+  let raf = 0;
+
+  const apply = (rx: number, ry: number, lift: number) => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      node.style.transform =
+        `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(${lift}px)`;
+    });
+  };
+
+  const onMove = (e: PointerEvent) => {
+    // No CSS transition while tracking: pointermove already fires per frame, so
+    // easing here would only add lag. Setting `style.transition` permanently
+    // would also override the shorthand `.reveal` uses for its fade-in.
+    node.style.transition = '';
+    const r = node.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    apply(-py * max, px * max, -2);
+  };
+
+  const onLeave = () => {
+    cancelAnimationFrame(raf);
+    // Ease back to flat, then hand the transition property back to CSS.
+    node.style.transition = 'transform 220ms var(--ease-brand)';
+    node.style.transform = '';
+    window.setTimeout(() => {
+      node.style.transition = '';
+    }, 260);
+  };
+
+  node.style.transformStyle = 'preserve-3d';
+  node.addEventListener('pointermove', onMove);
+  node.addEventListener('pointerleave', onLeave);
+
+  return {
+    destroy() {
+      cancelAnimationFrame(raf);
+      node.removeEventListener('pointermove', onMove);
+      node.removeEventListener('pointerleave', onLeave);
+    }
+  };
+};

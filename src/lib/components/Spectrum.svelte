@@ -31,11 +31,8 @@
 
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h);
-      const grad = ctx.createLinearGradient(0, h, 0, 0);
-      grad.addColorStop(0, 'rgba(52,193,58,0.85)');
-      grad.addColorStop(0.55, 'rgba(185,201,58,0.9)');
-      grad.addColorStop(1, 'rgba(255,202,66,0.95)');
-      ctx.fillStyle = grad;
+      // Flat accent fill — no gradient. Depth comes from bar height alone.
+      ctx.fillStyle = 'rgba(255,202,66,0.9)';
 
       const gap = 3;
       const bw = (w - gap * (bars - 1)) / bars;

@@ -45,10 +45,8 @@
 
 <div class="relative" bind:this={root}>
   <div
-    class="group inline-flex items-stretch overflow-hidden rounded-full text-bg transition
-           hover:-translate-y-0.5"
-    style="background-image: linear-gradient(110deg, var(--color-gold), #b9c93a 46%, var(--color-green));
-           box-shadow: 0 6px 24px -8px rgba(255, 202, 66, 0.5);"
+    class="group inline-flex items-stretch overflow-hidden rounded-full bg-gold text-bg
+           transition hover:bg-[#ffd876]"
   >
     <a
       {href}

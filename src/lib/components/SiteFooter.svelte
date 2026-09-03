@@ -5,18 +5,31 @@
 
   let { release = null }: { release?: LatestRelease | null } = $props();
 
-  // The footer's top edge is the product: 31 ticks, one per EQ band, in the
-  // smile curve the app opens with. It replaces the hairline rule rather than
-  // sitting on top of one, so it carries structure instead of decoration.
-  const BANDS = Array.from({ length: 31 }, (_, i) => {
-    const t = i / 30;
-    return {
-      height: 7 + 15 * (0.5 + 0.5 * Math.cos(2 * Math.PI * t)),
-      // Gold at the low bands, green at the high ones — the brand sweep read
-      // left to right across the spectrum.
-      mix: Math.round(t * 100)
-    };
-  });
+  // The footer opens on the frequency axis the equalizer above it sits on:
+  // the ISO ⅓-octave centres of the app's actual 31 bands. Those are evenly
+  // spaced on a log scale, which is why 31 evenly spaced ticks is the honest
+  // drawing of them — and why the labels below land where they do.
+  const CENTRES = [
+    20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630,
+    800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000, 10000,
+    12500, 16000, 20000
+  ];
+
+  /** The marked frequencies: decades, plus the two ends of the range. */
+  const MARKED = new Map([
+    [20, '20 Hz'],
+    [100, '100'],
+    [1000, '1k'],
+    [10000, '10k'],
+    [20000, '20 kHz']
+  ]);
+
+  const AXIS_LABELS = [...MARKED].map(([hz, text], i, all) => ({
+    text,
+    left: (CENTRES.indexOf(hz) / (CENTRES.length - 1)) * 100,
+    // The end labels sit inside the axis rather than hanging off it.
+    shift: i === 0 ? '0' : i === all.length - 1 ? '-100%' : '-50%'
+  }));
 
   const product = [
     ['#connect', 'Connect'],
@@ -35,14 +48,23 @@
 </script>
 
 <footer class="mt-[clamp(56px,8vw,104px)]">
-  <div class="wrap" aria-hidden="true">
-    <div class="flex h-[22px] items-end gap-[3px] opacity-60">
-      {#each BANDS as band}
+  <div class="wrap pb-5" aria-hidden="true">
+    <div class="relative flex h-[11px] items-end justify-between">
+      {#each CENTRES as hz}
         <span
-          class="flex-1 rounded-t-[2px]"
-          style="height: {band.height}px;
-                 background: color-mix(in oklab, var(--color-green) {band.mix}%, var(--color-gold));"
+          class="w-px {MARKED.has(hz) ? 'bg-gold' : 'bg-line-2'}"
+          style="height: {MARKED.has(hz) ? 11 : 5}px;"
         ></span>
+      {/each}
+    </div>
+    <div class="relative mt-2 h-[13px]">
+      {#each AXIS_LABELS as { text, left, shift }}
+        <span
+          class="absolute top-0 whitespace-nowrap font-mono text-[10.5px] leading-none text-faint"
+          style="left: {left}%; transform: translateX({shift});"
+        >
+          {text}
+        </span>
       {/each}
     </div>
   </div>
