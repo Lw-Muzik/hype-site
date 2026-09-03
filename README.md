@@ -56,10 +56,10 @@ Settings → Secrets and variables → Actions:
 
 | Kind     | Name           | Example                     |
 | -------- | -------------- | --------------------------- |
-| Variable | `VPS_HOST`     | `37.60.225.220`             |
-| Variable | `VPS_USER`     | `root`                      |
-| Variable | `PROJECT_PATH` | `/var/www/hype/site`        |
-| Secret   | `SSH_KEY`      | private key authorized on the VPS (port 30620) |
+| Variable | `VPS_HOST`     | `[IP_ADDRESS]`             |
+| Variable | `VPS_USER`     | `ubuntu`                      |
+| Variable | `PROJECT_PATH` | `/mysite`        |
+| Secret   | `SSH_KEY`      | private key authorized on the VPS |
 
 On the VPS, open the port once: `ufw allow 9500/tcp`. (Docker's published-port
 rules usually bypass ufw for bridge networking, but don't count on it —
