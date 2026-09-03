@@ -102,6 +102,7 @@ export const tilt = (node: HTMLElement, max = 6) => {
   if (!fine || still) return;
 
   let raf = 0;
+  let leaveTimer = 0;
 
   const apply = (rx: number, ry: number, lift: number) => {
     cancelAnimationFrame(raf);
@@ -112,6 +113,10 @@ export const tilt = (node: HTMLElement, max = 6) => {
   };
 
   const onMove = (e: PointerEvent) => {
+    // `.reveal` animates transform for 700ms on entry. Tilting during that
+    // window would replace the in-flight transform and snap the card.
+    if (node.classList.contains('reveal') && !node.classList.contains('in')) return;
+
     // `transition: none`, not '': clearing the inline value would hand control
     // back to `.reveal`'s class rule, which eases transform over 700ms and
     // makes the tilt lag a third of a second behind the pointer.
@@ -127,7 +132,8 @@ export const tilt = (node: HTMLElement, max = 6) => {
     // Ease back to flat, then hand the transition property back to CSS.
     node.style.transition = 'transform 220ms var(--ease-brand)';
     node.style.transform = '';
-    window.setTimeout(() => {
+    clearTimeout(leaveTimer);
+    leaveTimer = window.setTimeout(() => {
       node.style.transition = '';
     }, 260);
   };
@@ -135,12 +141,17 @@ export const tilt = (node: HTMLElement, max = 6) => {
   node.style.transformStyle = 'preserve-3d';
   node.addEventListener('pointermove', onMove);
   node.addEventListener('pointerleave', onLeave);
+  // A touch-drag on a hybrid laptop reports as a fine pointer; without this an
+  // interrupted gesture leaves the card tilted until the next pointer event.
+  node.addEventListener('pointercancel', onLeave);
 
   return {
     destroy() {
       cancelAnimationFrame(raf);
+      clearTimeout(leaveTimer);
       node.removeEventListener('pointermove', onMove);
       node.removeEventListener('pointerleave', onLeave);
+      node.removeEventListener('pointercancel', onLeave);
     }
   };
 };

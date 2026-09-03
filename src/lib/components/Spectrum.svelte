@@ -11,9 +11,17 @@
     if (!ctx) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // roundRect is Safari 16.4+. This canvas is also what Scene3D falls back to
+    // when WebGL is unavailable — largely the same old-Safari population — so
+    // calling it blind would blank the fallback on exactly the browsers that
+    // need it. An uncaught throw inside the rAF callback would also kill the
+    // loop before it could reschedule.
+    const hasRoundRect = typeof ctx.roundRect === 'function';
+
     let raf = 0;
     let w = 1;
     let h = 1;
+    let onScreen = true;
     const phases = Array.from({ length: bars }, (_, i) => i * 0.55);
 
     const resize = () => {
@@ -46,20 +54,48 @@
         v *= 0.32 + 0.68 * Math.max(0, center);
         const bh = Math.max(2, v * h * 0.94);
         const x = i * (bw + gap);
-        const r = Math.min(bw / 2, 3);
-        ctx.beginPath();
-        ctx.roundRect(x, h - bh, bw, bh, [r, r, 0, 0]);
-        ctx.fill();
+        if (hasRoundRect) {
+          const r = Math.min(bw / 2, 3);
+          ctx.beginPath();
+          ctx.roundRect(x, h - bh, bw, bh, [r, r, 0, 0]);
+          ctx.fill();
+        } else {
+          ctx.fillRect(x, h - bh, bw, bh);
+        }
       }
+      // Only keep the loop alive while it is animating AND on screen. A
+      // marketing page is scrolled past in seconds; rendering for the rest of
+      // the visit keeps the GPU out of idle power states for nothing.
+      if (!reduce && onScreen) raf = requestAnimationFrame(draw);
+    };
+
+    const start = () => {
+      cancelAnimationFrame(raf);
       raf = requestAnimationFrame(draw);
     };
 
+    let io: IntersectionObserver | undefined;
+    try {
+      io = new IntersectionObserver(
+        ([entry]) => {
+          onScreen = entry.isIntersecting;
+          if (onScreen && !reduce) start();
+        },
+        { threshold: 0 }
+      );
+      io.observe(canvas);
+    } catch {
+      onScreen = true;
+    }
+
+    // One static frame under reduced motion; otherwise animate.
     if (reduce) draw(900);
-    else raf = requestAnimationFrame(draw);
+    else start();
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      io?.disconnect();
     };
   });
 </script>

@@ -7,8 +7,11 @@
    *
    * Deliberately flat-shaded — no gradients, no environment maps, no bloom.
    * The depth comes from geometry and a single key light, so it reads as an
-   * instrument rather than a graphic. three.js is imported dynamically, so a
-   * visitor who never sees it (reduced motion, no WebGL) never downloads it.
+   * instrument rather than a graphic.
+   *
+   * three.js is imported dynamically AND only for visitors who will actually
+   * see it move: reduced-motion and non-WebGL visitors fall back to the 2D
+   * spectrum and never pay the download.
    */
   let { class: klass = '' }: { class?: string } = $props();
 
@@ -17,7 +20,11 @@
   let failed = $state(false);
 
   onMount(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      failed = true;
+      return;
+    }
+
     let dispose: (() => void) | undefined;
     let cancelled = false;
 
@@ -95,6 +102,9 @@
         const r = host.getBoundingClientRect();
         const w = Math.max(1, r.width);
         const h = Math.max(1, r.height);
+        // Re-applied here too: dragging the window to a display with a
+        // different devicePixelRatio would otherwise leave a stale ratio.
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.updateProjectionMatrix();
@@ -140,6 +150,7 @@
       };
 
       let raf = 0;
+      let onScreen = true;
       const frame = (t: number) => {
         write(t);
         // A slow drift plus a little parallax — the object answers the pointer
@@ -147,21 +158,35 @@
         group.rotation.y = Math.sin(t * 0.00012) * 0.14 + pointerX * 0.12;
         group.rotation.x = -0.04 + pointerY * 0.05;
         renderer.render(scene, camera);
+        if (onScreen) raf = requestAnimationFrame(frame);
+      };
+
+      const start = () => {
+        cancelAnimationFrame(raf);
         raf = requestAnimationFrame(frame);
       };
 
-      if (reduce) {
-        // One static frame: the shape, none of the motion.
-        for (let r = 0; r < ROWS; r++)
-          for (let i = 0; i < BANDS; i++) heights[r][i] = sample(i, 1200 + r * 90);
-        write(1e9);
-        renderer.render(scene, camera);
-      } else {
-        raf = requestAnimationFrame(frame);
+      // The hero scrolls out of view within seconds; rendering for the rest of
+      // the visit would hold the GPU out of idle for content nobody can see.
+      let io: IntersectionObserver | undefined;
+      try {
+        io = new IntersectionObserver(
+          ([entry]) => {
+            onScreen = entry.isIntersecting;
+            if (onScreen) start();
+          },
+          { threshold: 0 }
+        );
+        io.observe(host);
+      } catch {
+        onScreen = true;
       }
+
+      start();
 
       dispose = () => {
         cancelAnimationFrame(raf);
+        io?.disconnect();
         ro.disconnect();
         window.removeEventListener('pointermove', onPointer);
         geometry.dispose();
