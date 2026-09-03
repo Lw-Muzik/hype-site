@@ -12,6 +12,16 @@
   let y = $state(0);
   const stuck = $derived(y > 8);
 
+  // Below md the section links have nowhere to live, so they get a
+  // disclosure panel rather than disappearing.
+  let menuOpen = $state(false);
+  const NAV = [
+    ['#connect', 'Connect'],
+    ['#desktop', 'Desktop'],
+    ['#chain', 'The chain'],
+    ['#mobile', 'Mobile']
+  ];
+
   // Desktop downloads resolve against the live GitHub release, so publishing a
   // new hype-desktop version updates this page with no rebuild. Until it
   // resolves — and if it never does — the buttons point at the releases page.
@@ -76,7 +86,7 @@
       <span class="font-display text-[19px] font-semibold tracking-[-0.01em]">HypeMuzik</span>
     </a>
     <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
-      {#each [['#connect', 'Connect'], ['#desktop', 'Desktop'], ['#chain', 'The chain'], ['#mobile', 'Mobile']] as [href, label]}
+      {#each NAV as [href, label]}
         <a
           {href}
           class="group relative text-[15px] font-medium text-muted transition-colors hover:text-text"
@@ -88,8 +98,48 @@
         </a>
       {/each}
     </nav>
-    <a href="#download" class="btn btn-ghost px-[18px] py-[9px]">Get HypeMuzik</a>
+    <div class="flex items-center gap-2">
+      <a href="#download" class="btn btn-ghost px-[18px] py-[9px]">Get HypeMuzik</a>
+      <button
+        type="button"
+        class="flex size-10 items-center justify-center rounded-full border border-line-2 text-muted transition hover:border-gold hover:text-text md:hidden"
+        aria-expanded={menuOpen}
+        aria-controls="mobile-nav"
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        onclick={() => (menuOpen = !menuOpen)}
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          {#if menuOpen}
+            <path d="M6 6l12 12M18 6L6 18" />
+          {:else}
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          {/if}
+        </svg>
+      </button>
+    </div>
   </div>
+
+  {#if menuOpen}
+    <nav
+      id="mobile-nav"
+      aria-label="Sections"
+      class="border-t border-line bg-bg px-5 pb-4 pt-2 sm:px-8 md:hidden"
+    >
+      <ul>
+        {#each NAV as [href, label]}
+          <li>
+            <a
+              {href}
+              class="block border-b border-line py-3 text-[15px] text-muted transition-colors last:border-b-0 hover:text-text"
+              onclick={() => (menuOpen = false)}
+            >
+              {label}
+            </a>
+          </li>
+        {/each}
+      </ul>
+    </nav>
+  {/if}
 </header>
 
 <main id="top">

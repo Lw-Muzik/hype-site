@@ -18,19 +18,35 @@ export const reveal: Action<HTMLElement, { delay?: number } | undefined> = (node
     show();
     return;
   }
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          show();
-          io.unobserve(node);
+  let io: IntersectionObserver;
+  try {
+    io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            show();
+            io.unobserve(node);
+          }
         }
-      }
-    },
-    { threshold: 0, rootMargin: '0px 0px -10% 0px' }
-  );
-  io.observe(node);
-  return { destroy: () => io.disconnect() };
+      },
+      { threshold: 0, rootMargin: '0px 0px -10% 0px' }
+    );
+    io.observe(node);
+  } catch {
+    show();
+    return;
+  }
+
+  // Watchdog. The reveal hides real content, so it must never be the reason a
+  // section stays blank: if the observer hasn't fired by now, show it anyway.
+  const watchdog = window.setTimeout(show, 2500);
+
+  return {
+    destroy() {
+      clearTimeout(watchdog);
+      io.disconnect();
+    }
+  };
 };
 
 /** Count from 0 up to `value` once the element is in view. */
@@ -96,10 +112,10 @@ export const tilt = (node: HTMLElement, max = 6) => {
   };
 
   const onMove = (e: PointerEvent) => {
-    // No CSS transition while tracking: pointermove already fires per frame, so
-    // easing here would only add lag. Setting `style.transition` permanently
-    // would also override the shorthand `.reveal` uses for its fade-in.
-    node.style.transition = '';
+    // `transition: none`, not '': clearing the inline value would hand control
+    // back to `.reveal`'s class rule, which eases transform over 700ms and
+    // makes the tilt lag a third of a second behind the pointer.
+    node.style.transition = 'none';
     const r = node.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
