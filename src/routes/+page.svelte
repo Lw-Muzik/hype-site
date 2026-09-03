@@ -94,9 +94,9 @@
 
 <main id="top">
   <!-- ============================== HERO ============================== -->
-  <section class="relative overflow-hidden pb-[clamp(40px,6vw,80px)] pt-[clamp(48px,8vw,100px)]">
+  <section class="relative overflow-hidden pb-[clamp(76px,9vw,132px)] pt-[clamp(48px,8vw,100px)]">
     <Scene3D
-      class="pointer-events-none absolute inset-x-0 bottom-0 h-[46%] w-full opacity-60"
+      class="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] w-full opacity-90"
     />
 
     <div class="wrap relative z-[2] grid items-center gap-[clamp(24px,4vw,56px)] lg:grid-cols-[1.05fr_0.95fr]">
@@ -157,10 +157,14 @@
           class="absolute -bottom-[8%] -right-[6%] w-[168px] rounded-[28px] border border-line-2 bg-surface-1 px-3 pb-4 pt-3 shadow-[0_50px_70px_-30px_rgba(0,0,0,.85)] [transform:rotateY(-13deg)_rotateX(4deg)_translateZ(40px)]"
         >
           <div class="mx-auto mb-3 h-[5px] w-[46px] rounded-full bg-line-2"></div>
-          <div
-            class="h-[120px] rounded-[14px]"
-            style="background:var(--color-surface-2)"
-          ></div>
+          <div class="flex h-[120px] items-end gap-[3px] rounded-[14px] bg-surface-2 p-3">
+            {#each phoneEq as b}
+              <i
+                class="flex-1 animate-vu rounded-[2px] bg-gold/80"
+                style="height:34%;animation-delay:{b.delay}ms"
+              ></i>
+            {/each}
+          </div>
           <div class="mt-3 flex flex-col gap-[5px]">
             <p class="text-xs font-bold text-text/50 [filter:blur(.3px)]">Lights blur into the rain</p>
             <p class="text-[13.5px] font-bold text-white">
@@ -243,9 +247,7 @@
 
         <div class="flex flex-col justify-center gap-2.5 px-1.5">
           <span class="text-center font-mono text-[11px] tracking-[0.08em] text-faint">mDNS · PIN-paired · LAN</span>
-          <div class="relative h-[3px] overflow-hidden rounded-full bg-line">
-            <span class="sweep absolute -top-[3px] h-[9px] w-[26%] animate-flow rounded-full shadow-[0_0_16px_var(--color-gold)]"></span>
-          </div>
+          <Spectrum class="h-[46px] w-full opacity-70" bars={40} />
           <span class="text-center font-mono text-[11px] tracking-[0.08em] text-green">Cast back · Now-playing sync</span>
         </div>
 
@@ -426,10 +428,12 @@
           class="w-[280px] rounded-[34px] border border-line-2 bg-surface-1 px-4 pb-[22px] pt-4 shadow-[0_50px_80px_-40px_rgba(0,0,0,.9)] [transform:perspective(1600px)_rotateY(12deg)_rotateX(4deg)]"
         >
           <div class="mx-auto mb-3.5 h-[5px] w-[52px] rounded-full bg-line-2"></div>
-          <div class="h-[200px] rounded-[16px]" style="background:var(--color-surface-2)"></div>
-          <div class="mt-3.5 flex h-[26px] items-end gap-[3px]">
+          <div class="flex h-[200px] items-end gap-[5px] rounded-[16px] bg-surface-2 p-4">
             {#each phoneEq as b}
-              <i class="sweep flex-1 animate-vu rounded-[2px]" style="height:30%;animation-delay:{b.delay}ms"></i>
+              <i
+                class="flex-1 animate-vu rounded-[3px] bg-gold/80"
+                style="height:34%;animation-delay:{b.delay}ms"
+              ></i>
             {/each}
           </div>
           <div class="mt-3.5 flex flex-col gap-[5px]">
