@@ -8,3 +8,6 @@ node_modules
 .DS_Store
 vite.config.ts.timestamp-*
 vite.config.js.timestamp-*
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
