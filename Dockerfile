@@ -19,6 +19,11 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
+# Analytics endpoint, baked at build time. Left empty the beacon is inert —
+# see src/lib/beacon.ts for why there is no localhost default.
+ARG VITE_MANAGEMENT_API=""
+ENV VITE_MANAGEMENT_API=${VITE_MANAGEMENT_API}
+
 # `pnpm exec vite build` rather than `pnpm build`: pnpm-workspace.yaml makes
 # this directory a workspace root, and at the pinned pnpm version a bare
 # `pnpm <script>` there can fail with "Command not found" (same reason the

@@ -6,6 +6,9 @@ name: Deploy HypeMuzik Site
 #
 # Required GitHub repo settings (Settings → Secrets and variables → Actions):
 #   Variables: VPS_HOST, VPS_USER, PROJECT_PATH   (e.g. /var/www/hype/site)
+#              VITE_MANAGEMENT_API (optional, https:// — analytics stays off
+#              while unset; an http:// endpoint would be blocked as mixed
+#              content because the site is served over TLS)
 #   Secrets:   SSH_KEY   (private key authorized on the VPS, port 30620)
 
 on:
@@ -70,7 +73,10 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker Image
-        run: docker build -t ${{ env.IMAGE_NAME }}:production .
+        run: |
+          docker build \
+            --build-arg VITE_MANAGEMENT_API="${{ vars.VITE_MANAGEMENT_API }}" \
+            -t ${{ env.IMAGE_NAME }}:production .
 
       - name: Save Docker Image
         run: docker save ${{ env.IMAGE_NAME }}:production | gzip > image.tar.gz

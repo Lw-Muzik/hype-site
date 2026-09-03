@@ -1,0 +1,24 @@
+# HypeMuzik
+
+> A desktop and mobile audio player built around a 31-band graphic equalizer and
+> a 12-stage DSP chain, with phone-to-desktop audio streaming.
+
+HypeMuzik runs the same sound engine on macOS, Windows, Linux, Android and iOS.
+The desktop app processes system-wide audio, not just its own playback.
+
+## Product
+- [Home](https://hypemuzik.com/): features, the signal chain, and downloads.
+- [Desktop releases](https://github.com/Lw-Muzik/hype-dsp/releases/latest): macOS (universal .dmg), Windows (.exe/.msi), Linux (AppImage/.deb/.rpm).
+- [iOS](https://apps.apple.com/us/app/hypemuzik-dsp/id6760889647)
+- [Android](https://play.google.com/store/apps/details?id=x.a.zix)
+
+## Key facts
+- 31-band graphic equalizer at ISO third-octave centres (20 Hz – 20 kHz).
+- 12-stage DSP chain, in order: headphone correction, graphic EQ, bass boost,
+  spatializer, 3D surround, room reverb, convolution IR, multiband compander,
+  tube saturation, script processor, makeup gain, brickwall limiter.
+- 3,938 bundled AutoEq headphone profiles.
+- Stem separation, synced karaoke lyrics, internet radio and TV, cloud
+  libraries (Google Drive, Dropbox) and YouTube Music.
+- Phone Link streams a phone's library through the desktop's DSP chain over the
+  local network, with no cloud intermediary.
