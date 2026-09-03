@@ -7,7 +7,8 @@
   import SiteFooter from '$lib/components/SiteFooter.svelte';
   import { reveal, countup, tilt } from '$lib/actions';
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
-  import { IOS_URL, PLAY_URL } from '$lib/links';
+  import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
+  import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT } from '$lib/seo';
 
   let y = $state(0);
   const stuck = $derived(y > 8);
@@ -61,11 +62,55 @@
 </script>
 
 <svelte:head>
-  <title>HypeMuzik — Studio-grade sound, on every device</title>
-  <meta
-    name="description"
-    content="A 31-band equalizer, a full custom DSP chain, system-wide audio, and a phone that streams straight into your desktop's sound. One sound engine, every device."
-  />
+  <title>{TITLE}</title>
+  <meta name="description" content={DESCRIPTION} />
+  <link rel="canonical" href={SITE_URL} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={SITE_NAME} />
+  <meta property="og:title" content={TITLE} />
+  <meta property="og:description" content={DESCRIPTION} />
+  <meta property="og:url" content={SITE_URL} />
+  <meta property="og:image" content={OG_IMAGE} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={OG_IMAGE_ALT} />
+  <meta property="og:locale" content="en_US" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={TITLE} />
+  <meta name="twitter:description" content={DESCRIPTION} />
+  <meta name="twitter:image" content={OG_IMAGE} />
+  <meta name="twitter:image:alt" content={OG_IMAGE_ALT} />
+
+  <!-- Describes the product itself, so a result can carry the platforms and
+       price rather than just a blue link. Deliberately omits the version: this
+       page is prerendered, and the release is resolved at runtime, so a baked
+       version number would go stale on the next release. -->
+  {@html `<script type="application/ld+json">${JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: DESCRIPTION,
+    applicationCategory: 'MultimediaApplication',
+    applicationSubCategory: 'Music player and audio equalizer',
+    operatingSystem: 'macOS, Windows, Linux, Android, iOS',
+    image: OG_IMAGE,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    downloadUrl: [RELEASES_URL, IOS_URL, PLAY_URL],
+    softwareHelp: GITHUB_URL,
+    featureList: [
+      '31-band graphic equalizer',
+      '12-stage DSP chain',
+      'System-wide audio processing',
+      'Stem separation',
+      'Phone to desktop audio streaming',
+      'Synced karaoke lyrics',
+      'Internet radio, TV and movies',
+      'Google Drive and Dropbox libraries'
+    ]
+  })}<\/script>`}
 </svelte:head>
 
 <svelte:window bind:scrollY={y} />
