@@ -9,6 +9,7 @@
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
   import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT } from '$lib/seo';
+  import { GOOGLE_DRIVE_SCOPE as DRIVE, GOOGLE_PERMISSIONS_URL } from '$lib/legal';
 
   let y = $state(0);
   const stuck = $derived(y > 8);
@@ -20,7 +21,8 @@
     ['#connect', 'Connect'],
     ['#desktop', 'Desktop'],
     ['#chain', 'The chain'],
-    ['#mobile', 'Mobile']
+    ['#mobile', 'Mobile'],
+    ['#data', 'Your data']
   ];
 
   // Desktop downloads resolve against the live GitHub release, so publishing a
@@ -575,6 +577,85 @@
           <span class="mt-2 block text-sm text-muted">{s.l}</span>
         </div>
       {/each}
+    </div>
+  </section>
+
+  <!-- ============================== YOUR DATA ==============================
+       Google's OAuth verification requires the homepage to state, in plain
+       language and without a login, exactly why the app asks for user data.
+       The scope text comes from $lib/legal so this block, the privacy policy
+       and the consent screen cannot drift apart. -->
+  <section id="data" class="py-[clamp(72px,10vw,140px)]">
+    <div class="wrap">
+      <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
+        <p class="kicker">05 &mdash; Your data</p>
+        <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">
+          Your library<br /><span class="grad-text">stays yours.</span>
+        </h2>
+        <p class="mx-auto mt-[18px] max-w-[58ch] text-[clamp(15px,1.4vw,18px)] text-muted">
+          HypeMuzik has no accounts, no ads, and no server holding your music. Here is
+          exactly what it touches, and why &mdash; before you install anything.
+        </p>
+      </header>
+
+      <div class="mt-14 grid gap-4 lg:grid-cols-[1fr_1.25fr_1fr]">
+        <article class="reveal rounded-2xl border border-line bg-surface-1 p-7" use:reveal>
+          <span class="font-mono text-[11px] uppercase tracking-[0.08em] text-gold-deep">On device</span>
+          <h3 class="mt-3 font-display text-[19px] font-semibold leading-snug">Nothing leaves your machine</h3>
+          <p class="mt-2.5 text-[14.5px] text-muted">
+            Your library index, your EQ curves, your presets and your play history are stored
+            locally and never uploaded. Phone Link streams device to device over your own
+            Wi-Fi &mdash; there is no middleman to send it through.
+          </p>
+        </article>
+
+        <article
+          class="reveal rounded-2xl border border-gold/35 bg-surface-1 p-7 shadow-[0_30px_60px_-34px_rgba(255,202,66,.3)]"
+          use:reveal={{ delay: 70 }}
+        >
+          <span class="font-mono text-[11px] uppercase tracking-[0.08em] text-gold-deep">Why we ask</span>
+          <h3 class="mt-3 font-display text-[19px] font-semibold leading-snug">Google Drive access, in full</h3>
+          <p class="mt-2.5 text-[14.5px] text-muted">
+            Connecting Drive is optional and never on by default. When you connect, HypeMuzik
+            requests one permission &mdash; {DRIVE.grants} &mdash; {DRIVE.purpose}.
+          </p>
+          <p class="mt-3 text-[14.5px] text-muted">
+            Your files stream <strong class="font-semibold text-text">straight from Google to your
+            device</strong>. They are never copied to, cached on, or read by any server we run.
+            HypeMuzik only ever reads; it cannot change or delete anything in your Drive.
+          </p>
+          <p class="mt-4 font-mono text-[11.5px] leading-relaxed break-all text-faint">{DRIVE.id}</p>
+          <p class="mt-4 text-[14.5px] text-muted">
+            Disconnect inside the app at any time, or revoke it at
+            <a
+              href={GOOGLE_PERMISSIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text underline decoration-line-2 underline-offset-[3px] transition-colors hover:decoration-gold"
+            >your Google Account permissions</a>.
+          </p>
+        </article>
+
+        <article class="reveal rounded-2xl border border-line bg-surface-1 p-7" use:reveal={{ delay: 140 }}>
+          <span class="font-mono text-[11px] uppercase tracking-[0.08em] text-gold-deep">Never</span>
+          <h3 class="mt-3 font-display text-[19px] font-semibold leading-snug">What we don&rsquo;t do</h3>
+          <ul class="mt-3 space-y-2.5 text-[14.5px] text-muted">
+            {#each ['We never sell or share your data', 'We never use it for advertising', 'We never train AI models on it', 'We never upload your music library'] as line}
+              <li class="flex gap-2.5">
+                <span class="mt-[7px] size-1.5 shrink-0 rounded-full bg-green"></span>
+                <span>{line}</span>
+              </li>
+            {/each}
+          </ul>
+        </article>
+      </div>
+
+      <p class="reveal mt-8 text-center text-[14.5px] text-muted" use:reveal>
+        The full detail lives in our
+        <a href="/privacy" class="text-text underline decoration-line-2 underline-offset-[3px] transition-colors hover:decoration-gold">Privacy Policy</a>
+        and
+        <a href="/terms" class="text-text underline decoration-line-2 underline-offset-[3px] transition-colors hover:decoration-gold">Terms &amp; Conditions</a>.
+      </p>
     </div>
   </section>
 

@@ -108,3 +108,71 @@
     .reveal { opacity: 1; transform: none; }
   }
 }
+
+/* =========================================================================
+   Legal pages (/privacy, /terms).
+
+   Tailwind v4 here ships without @tailwindcss/typography, so long-form prose
+   gets its own small scoped block rather than a plugin. Everything below is
+   built from the brand tokens above so the legal pages read as the same site,
+   not as a bolted-on document.
+   ========================================================================= */
+@layer components {
+  .legal {
+    @apply text-[15.5px] leading-[1.75] text-muted;
+  }
+
+  .legal h2 {
+    @apply mt-11 mb-3.5 font-display text-[21px] font-semibold leading-[1.2] tracking-[-0.01em] text-text;
+    scroll-margin-top: 96px;
+  }
+  .legal h3 {
+    @apply mt-7 mb-2 font-display text-[16.5px] font-semibold text-text;
+  }
+  .legal > section:first-child h2 { @apply mt-0; }
+
+  .legal p { @apply mb-4; }
+  .legal p:last-child { @apply mb-0; }
+
+  .legal ul { @apply mb-[18px] list-none p-0; }
+  .legal li { @apply relative mb-2.5 pl-[22px]; }
+  .legal li::before {
+    content: '';
+    @apply absolute left-0 top-[11px] size-[5px] rounded-full bg-gold-deep;
+  }
+  .legal li:last-child { @apply mb-0; }
+
+  .legal a {
+    @apply text-text underline decoration-line-2 underline-offset-[3px] transition-colors;
+  }
+  .legal a:hover { @apply decoration-gold; color: #fff; }
+
+  .legal strong { @apply font-semibold text-text; }
+  .legal code { @apply font-mono text-[13px] text-gold-deep; }
+
+  /* Sections that need to be impossible to skim past: the Google Limited Use
+     disclosure, the warranty disclaimer, the liability cap. */
+  .legal-note {
+    @apply my-6 rounded-2xl border border-line-2 bg-surface-1 p-5 text-[14.5px] leading-relaxed;
+  }
+  .legal-note.is-key { border-color: var(--color-gold-deep); }
+  .legal-note p:last-child { @apply mb-0; }
+
+  /* Capitalised legal boilerplate stays legible instead of shouting. */
+  .legal-caps {
+    @apply text-[13.5px] uppercase leading-[1.7] tracking-[0.01em] text-faint;
+  }
+
+  /* The "what we collect" table. Narrow screens scroll it rather than
+     squeezing four columns into 360px. */
+  .legal-table-wrap { @apply my-6 overflow-x-auto; }
+  .legal table {
+    @apply w-full min-w-[560px] border-collapse text-left text-[14px];
+  }
+  .legal th {
+    @apply border-b border-line-2 pb-2.5 pr-5 align-bottom font-mono text-[11.5px] font-normal uppercase tracking-[0.06em] text-faint;
+  }
+  .legal td { @apply border-b border-line py-3 pr-5 align-top; }
+  .legal tr:last-child td { @apply border-b-0; }
+  .legal td:first-child { @apply font-medium text-text; }
+}

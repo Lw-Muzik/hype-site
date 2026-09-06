@@ -2,6 +2,7 @@
   import Logo from '$lib/components/Logo.svelte';
   import { RELEASES_URL, formatDate, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
+  import { CONTACT_EMAIL } from '$lib/legal';
 
   let { release = null }: { release?: LatestRelease | null } = $props();
 
@@ -31,11 +32,19 @@
     shift: i === 0 ? '0' : i === all.length - 1 ? '-100%' : '-50%'
   }));
 
+  // Absolute, not bare '#connect': this footer also renders on /privacy and
+  // /terms, where those sections do not exist and a bare hash goes nowhere.
   const product = [
-    ['#connect', 'Connect'],
-    ['#desktop', 'Desktop'],
-    ['#chain', 'The chain'],
-    ['#mobile', 'Mobile']
+    ['/#connect', 'Connect'],
+    ['/#desktop', 'Desktop'],
+    ['/#chain', 'The chain'],
+    ['/#mobile', 'Mobile']
+  ];
+
+  const legal = [
+    ['/privacy', 'Privacy Policy'],
+    ['/terms', 'Terms & Conditions'],
+    [`mailto:${CONTACT_EMAIL}`, 'Contact']
   ];
 
   // Same live release the download buttons use, so the footer is a second,
@@ -70,9 +79,9 @@
   </div>
 
   <div class="border-t border-line">
-    <div class="wrap grid gap-x-10 gap-y-11 py-[clamp(40px,6vw,72px)] sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
+    <div class="wrap grid gap-x-10 gap-y-11 py-[clamp(40px,6vw,72px)] sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
       <div class="max-w-[34ch]">
-        <a href="#top" class="inline-flex items-center gap-2.5">
+        <a href="/#top" class="inline-flex items-center gap-2.5">
           <Logo size={28} />
           <span class="font-display text-[18px] font-semibold">HypeMuzik</span>
         </a>
@@ -130,11 +139,28 @@
           </li>
         </ul>
       </nav>
+
+      <nav aria-labelledby="footer-legal">
+        <h2 id="footer-legal" class="text-[13px] font-semibold text-faint">Legal</h2>
+        <ul class="mt-4 space-y-2.5">
+          {#each legal as [href, label]}
+            <li>
+              <a {href} class="text-[14.5px] text-muted transition-colors hover:text-text">{label}</a>
+            </li>
+          {/each}
+        </ul>
+      </nav>
     </div>
 
     <div class="border-t border-line">
       <div class="wrap flex flex-wrap items-center justify-between gap-x-8 gap-y-4 py-6">
-        <p class="text-[13px] text-faint">© 2026 HypeMuzik. Studio-grade sound, on every device.</p>
+        <p class="text-[13px] text-faint">
+          © 2026 HypeMuzik. Studio-grade sound, on every device.
+          <span class="mx-1.5 text-line-2">·</span>
+          <a href="/privacy" class="transition-colors hover:text-muted">Privacy</a>
+          <span class="mx-1.5 text-line-2">·</span>
+          <a href="/terms" class="transition-colors hover:text-muted">Terms</a>
+        </p>
 
         <div class="flex flex-wrap items-center gap-3">
           {#if release}
