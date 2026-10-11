@@ -39,6 +39,11 @@ COPY nginx/nginx.conf            /etc/nginx/nginx.conf
 COPY nginx/security-headers.conf /etc/nginx/security-headers.conf
 COPY --from=builder /app/build   /usr/share/nginx/html
 
+# Validate the config at build time. The deploy stops the running container
+# before starting the new one, so a config that only failed at runtime would
+# take the site down; failing here keeps the old container serving.
+RUN nginx -t
+
 EXPOSE 9500
 USER nginx
 

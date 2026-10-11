@@ -23,6 +23,8 @@ env:
   SSH_PORT: "30620"
   CONTAINER_NAME: hype-site-prod
   CONTAINER_PORT: "9500" # host port → container 9500
+  # Host directory behind https://hypemuzik.com/models/ (see deploy/models.sha256).
+  MODELS_PATH: /var/www/hype/models
 
 jobs:
   checks:
@@ -88,6 +90,34 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p ${{ env.SSH_PORT }} -H ${{ vars.VPS_HOST }} >> ~/.ssh/known_hosts
 
+      # Model files for the mobile app (served at /models/, see nginx.conf) live
+      # on the host, outside the image. Uploads only what is missing on the
+      # server or differs from the pinned SHA-256 — a no-op on most deploys —
+      # and verifies every download before it leaves the runner.
+      - name: Sync Model Files
+        run: |
+          set -euo pipefail
+          REMOTE="${{ vars.VPS_USER }}@${{ vars.VPS_HOST }}"
+          SSH="ssh -p ${{ env.SSH_PORT }} -o ConnectTimeout=30 $REMOTE"
+          MODELS="${{ env.MODELS_PATH }}"
+          grep -vE '^[[:space:]]*(#|$)' deploy/models.sha256 | while read -r sum rel url; do
+            target="$MODELS/$rel"
+            have=$($SSH "sha256sum '$target' 2>/dev/null | cut -d' ' -f1" < /dev/null || true)
+            if [ "$have" = "$sum" ]; then
+              echo "✓ $rel"
+              continue
+            fi
+            echo "↓ $rel"
+            mkdir -p "models-tmp/$(dirname "$rel")"
+            curl -fsSL --retry 3 --retry-delay 5 -o "models-tmp/$rel" "$url"
+            echo "$sum  models-tmp/$rel" | sha256sum -c -
+            $SSH "mkdir -p '$(dirname "$target")'" < /dev/null
+            scp -P ${{ env.SSH_PORT }} "models-tmp/$rel" "$REMOTE:$target.part" < /dev/null
+            $SSH "chmod 0644 '$target.part' && mv -f '$target.part' '$target'" < /dev/null
+          done
+          # The container's nginx runs unprivileged: everything must be world-readable.
+          $SSH "mkdir -p '$MODELS' && chmod -R a+rX '$MODELS'"
+
       - name: Transfer Image to Server
         run: |
           ssh -p ${{ env.SSH_PORT }} ${{ vars.VPS_USER }}@${{ vars.VPS_HOST }} "mkdir -p ${{ vars.PROJECT_PATH }}"
@@ -108,6 +138,7 @@ jobs:
             PORT=${{ env.CONTAINER_PORT }}
 
             cd ${PROJECT_DIR}
+            mkdir -p ${{ env.MODELS_PATH }}
 
             # Load image
             docker load < image.tar.gz
@@ -135,6 +166,7 @@ jobs:
               --memory 128m \
               --memory-swap 128m \
               -p ${PORT}:9500 \
+              -v ${{ env.MODELS_PATH }}:/srv/models:ro \
               ${IMAGE}
 
             # `docker run -d` returns before nginx is serving — wait for the

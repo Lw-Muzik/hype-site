@@ -1,0 +1,18 @@
+# Model files served at https://hypemuzik.com/models/<path> (nginx: location ^~ /models/).
+#
+# They live on the host in $MODELS_PATH (bind-mounted read-only into the
+# container at /srv/models), not in this repo or the image. The deploy
+# workflow's "Sync Model Files" step uploads any file that is missing on the
+# server or has a different SHA-256, fetching it from the listed source and
+# verifying it against the pinned hash first.
+#
+# <sha256>  <path under /models/>  <source url>
+
+# Live stems in the Hype Muzik mobile app: Deezer's Spleeter 4-stem nets
+# (weights MIT per the authors' JOSS paper, doi:10.21105/joss.02154), ONNX fp16
+# export by Best-Practice/spleeter-4stems-onnx (Apache-2.0). The app pins the
+# same hashes (lib/services/stems/stems_manifest.dart in the hype repo).
+db47148ab1c52709ce694893f532c91abfe3edc4d46238939570e036a22878ca  stems/spleeter-4stems-fp16-v1/vocals.onnx  https://huggingface.co/Best-Practice/spleeter-4stems-onnx/resolve/main/vocals.fp16.onnx
+7ae4002e5633634674f74dc3356d5875b0da894d59ce0f60e844bb8f9cb8aa92  stems/spleeter-4stems-fp16-v1/drums.onnx  https://huggingface.co/Best-Practice/spleeter-4stems-onnx/resolve/main/drums.fp16.onnx
+ba4c4949a27222492cca49859901a873b4b71461dc48c7c5a51f93d31eb11f55  stems/spleeter-4stems-fp16-v1/bass.onnx  https://huggingface.co/Best-Practice/spleeter-4stems-onnx/resolve/main/bass.fp16.onnx
+3cc59116cb7195946ab9596d8ca25984d09c0f8a70db8cf85d063132f97bc61d  stems/spleeter-4stems-fp16-v1/other.onnx  https://huggingface.co/Best-Practice/spleeter-4stems-onnx/resolve/main/other.fp16.onnx
