@@ -8,7 +8,7 @@
   import { reveal, countup, tilt } from '$lib/actions';
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
-  import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT } from '$lib/seo';
+  import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT, structuredDataJson } from '$lib/seo';
   import { GOOGLE_DRIVE_SCOPE as DRIVE, GOOGLE_PERMISSIONS_URL } from '$lib/legal';
 
   let y = $state(0);
@@ -89,30 +89,13 @@
        price rather than just a blue link. Deliberately omits the version: this
        page is prerendered, and the release is resolved at runtime, so a baked
        version number would go stale on the next release. -->
-  {@html `<script type="application/ld+json">${JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: SITE_NAME,
-    url: SITE_URL,
-    description: DESCRIPTION,
-    applicationCategory: 'MultimediaApplication',
-    applicationSubCategory: 'Music player and audio equalizer',
-    operatingSystem: 'macOS, Windows, Linux, Android, iOS',
-    image: OG_IMAGE,
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    downloadUrl: [RELEASES_URL, IOS_URL, PLAY_URL],
-    softwareHelp: GITHUB_URL,
-    featureList: [
-      '31-band graphic equalizer',
-      '12-stage DSP chain',
-      'System-wide audio processing',
-      'Stem separation',
-      'Phone to desktop audio streaming',
-      'Synced karaoke lyrics',
-      'Internet radio, TV and movies',
-      'Google Drive and Dropbox libraries'
-    ]
-  })}<\/script>`}
+  {@html `<script type="application/ld+json">${structuredDataJson}<\/script>`}
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+  />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="apple-itunes-app" content="app-id=6760889647" />
 </svelte:head>
 
 <svelte:window bind:scrollY={y} />
