@@ -64,6 +64,9 @@
 
 <svelte:head>
   <link rel="preload" as="image" type="image/avif" imagesrcset="/hero/app-desktop-960.avif 960w, /hero/app-desktop-1440.avif 1440w, /hero/app-desktop-2160.avif 2160w" imagesizes="(min-width: 800px) 760px, 92vw" fetchpriority="high" />
+  <!-- The intro's gate waits on the phone screenshot (the first thing shown),
+       so fetch it as early as the desktop one. Sizes must match the <img>. -->
+  <link rel="preload" as="image" type="image/avif" imagesrcset="/hero/phone-visualiser-540.avif 540w, /hero/phone-visualiser-1080.avif 1080w" imagesizes="(min-width: 800px) 480px, 66vw" />
   <title>{TITLE}</title>
   <meta name="description" content={DESCRIPTION} />
   <link rel="canonical" href={SITE_URL} />
