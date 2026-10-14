@@ -180,3 +180,76 @@
   .legal tr:last-child td { @apply border-b-0; }
   .legal td:first-child { @apply font-medium text-text; }
 }
+
+/* =========================================================================
+   #mobile scrollytelling: flat phone bezel, sticky stage, snap gallery.
+   ========================================================================= */
+.pframe { container-type: inline-size; }
+.pbezel {
+  padding: 2.2cqw;
+  border: 1px solid var(--color-line-2);
+  border-radius: 13cqw;
+  background: #060708;
+  box-shadow: 0 30cqw 42cqw -18cqw rgba(0, 0, 0, 0.85);
+}
+.pscreen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10.8cqw;
+  background: #0a0b0e;
+  aspect-ratio: 1080 / 2340;
+}
+
+.phone-sticky {
+  --pw: min(300px, 32svh);
+  position: sticky;
+  /* centred in the viewport, never under the 68px header */
+  top: max(88px, calc(50svh - var(--pw) * 1.1));
+}
+.shot-fade { opacity: 0; transition: opacity 0.3s cubic-bezier(0.33, 1, 0.68, 1); }
+.shot-fade[data-active='true'] { opacity: 1; }
+
+@media (min-width: 1024px) {
+  .story-item { position: relative; padding-left: 18px; }
+  .story-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18px;
+    bottom: 18px;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--color-gold);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out-cubic);
+  }
+  html.js .story-item {
+    opacity: 0.45;
+    transition: opacity 0.3s var(--ease-out-cubic);
+  }
+  html.js .story-item[data-active='true'] { opacity: 1; }
+  .story-item[data-active='true']::before { opacity: 1; }
+  .story-item[data-active='true'] > b { color: var(--color-text); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shot-fade, .story-item, .story-item::before { transition: none !important; }
+}
+
+.gallery {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px calc(50% - min(31vw, 130px)) 8px;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.gallery::-webkit-scrollbar { display: none; }
+.gallery-card {
+  flex: 0 0 min(62vw, 260px);
+  margin: 0;
+  scroll-snap-align: center;
+}
+@media (min-width: 1024px) {
+  .gallery { display: none; }
+}

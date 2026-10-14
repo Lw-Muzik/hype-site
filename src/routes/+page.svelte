@@ -5,6 +5,7 @@
   import Hero from '$lib/components/Hero.svelte';
   import DownloadButton from '$lib/components/DownloadButton.svelte';
   import SiteFooter from '$lib/components/SiteFooter.svelte';
+  import DesktopShowcase from '$lib/components/DesktopShowcase.svelte';
   import { reveal, countup, tilt } from '$lib/actions';
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
@@ -35,6 +36,41 @@
 
   // Deterministic, varied animation timings for the mock equalizer.
 
+
+  // #mobile scrollytelling: one real screen per feature, the phone follows the list.
+  const shots = [
+    { n: 'eq', alt: 'HypeMuzik mobile — graphic equalizer with presets' },
+    { n: 'stems', alt: 'HypeMuzik mobile — stem separation: vocals, drums, instruments' },
+    { n: 'search', alt: 'HypeMuzik mobile — one search across your library, cloud drives and YouTube Music' },
+    { n: 'queue', alt: 'HypeMuzik mobile — now playing with a 26-track daily-mix queue' },
+    { n: 'settings', alt: 'HypeMuzik mobile — playback settings: gapless, crossfade, replay gain, autoplay' },
+    { n: 'nowplaying', alt: 'HypeMuzik mobile — now playing with album art, waveform and synced lyrics' }
+  ];
+  const features = [
+    { b: 'The full chain, on a phone', s: 'Graphic and parametric EQ, tone, dynamics, space, room reverb and a speaker EQ — the desktop stages, hand-tuned in C++.', shot: 0 },
+    { b: 'Stem separation on device', s: 'Split a track into vocals, drums, bass and other, then mix the stems live.', shot: 1 },
+    { b: 'One search, every source', s: 'Your library, your cloud drives and YouTube Music in a single list — tap anything to start a station.', shot: 2 },
+    { b: 'Daily mixes that learn', s: 'Mixes blended from your drive, YouTube and videos, seeded by the time of day and what you actually play.', shot: 3 },
+    { b: 'Gapless, crossfade & replay-gain', s: 'Seamless transitions and consistent loudness across your library.', shot: 4 },
+    { b: 'Synced lyrics & identify', s: 'Karaoke lyrics and AcoustID fingerprinting, the same as desktop.', shot: 5 },
+    { b: 'Be a source, or a speaker', s: 'Stream your library to the desktop over your own Wi-Fi, or receive a cast from it.', shot: 5 }
+  ];
+  let activeFeature = $state(0);
+  const activeShot = $derived(features[activeFeature].shot);
+  // Active feature = the list item crossing the vertical middle of the viewport.
+  function story(node: HTMLElement) {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) activeFeature = Number((e.target as HTMLElement).dataset.i);
+        }
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+    node.querySelectorAll('[data-i]').forEach((el) => io.observe(el));
+    return { destroy: () => io.disconnect() };
+  }
 
   const platforms = ['macOS', 'Windows', 'Linux', 'Android', 'iOS'];
   // The desktop's actual signal chain, in the order StageChain::standard()
@@ -268,6 +304,8 @@
         </p>
       </header>
 
+      <DesktopShowcase />
+
       <div class="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <!-- wide: system-wide -->
         <article class="reveal group relative overflow-hidden rounded-[18px] border border-line bg-surface-1 p-[30px] transition-colors hover:border-line-2 md:col-span-2" use:tilt={4} use:reveal>
@@ -398,49 +436,84 @@
 
   <!-- ============================== MOBILE ============================== -->
   <section id="mobile" class="py-[clamp(72px,10vw,140px)]">
-    <div class="wrap grid items-center gap-[clamp(30px,6vw,80px)] lg:grid-cols-[0.9fr_1.1fr]">
-      <div class="order-2 grid place-items-center lg:order-1">
-        <div
-          class="w-[260px] rounded-[34px] border border-line-2 bg-[#060708] p-[6px] shadow-[0_50px_80px_-40px_rgba(0,0,0,.9)] [transform:perspective(1600px)_rotateY(12deg)_rotateX(4deg)]"
-        >
-          <picture>
-            <source
-              type="image/avif"
-              srcset="/shots/mobile-eq-540.avif 540w, /shots/mobile-eq-1080.avif 1080w"
-              sizes="248px"
-            />
-            <img
-              src="/shots/mobile-eq-540.webp"
-              srcset="/shots/mobile-eq-540.webp 540w, /shots/mobile-eq-1080.webp 1080w"
-              sizes="248px"
-              width="540"
-              height="1170"
-              loading="lazy"
-              decoding="async"
-              alt="HypeMuzik mobile — graphic equalizer with presets"
-              class="block h-auto w-full rounded-[28px]"
-            />
-          </picture>
+    <div class="wrap grid items-center gap-[clamp(30px,6vw,80px)] lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+      <!-- lg+: sticky phone; the screen follows the story -->
+      <div class="order-2 hidden lg:order-1 lg:block">
+        <div class="phone-sticky">
+          <div class="pframe mx-auto w-[var(--pw)]">
+            <div class="pbezel">
+              <div class="pscreen">
+                {#each shots as s, i}
+                  <picture class="shot-fade" data-active={activeShot === i}>
+                    <source type="image/avif" srcset="/shots/mobile-{s.n}-540.avif 540w, /shots/mobile-{s.n}-1080.avif 1080w" sizes="300px" />
+                    <img
+                      src="/shots/mobile-{s.n}-540.webp"
+                      srcset="/shots/mobile-{s.n}-540.webp 540w, /shots/mobile-{s.n}-1080.webp 1080w"
+                      sizes="300px"
+                      width="540"
+                      height="1170"
+                      loading="lazy"
+                      decoding="async"
+                      alt={s.alt}
+                      class="absolute inset-0 h-full w-full"
+                    />
+                  </picture>
+                {/each}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="order-1 lg:order-2">
+      <div class="order-1 min-w-0 lg:order-2 lg:pb-[22svh]">
         <header class="reveal" use:reveal>
           <p class="kicker">04 — In your pocket</p>
           <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">The same engine,<br /><span class="grad-text">smaller screen.</span></h2>
           <p class="mt-[18px] text-[clamp(15px,1.4vw,18px)] text-muted">HypeMuzik for Android &amp; iOS carries a hand-tuned C++ DSP pipeline — the desktop&rsquo;s sound, wherever you are.</p>
         </header>
-        <ul class="reveal mt-7 flex flex-col" use:reveal={{ delay: 80 }}>
-          {#each [
-            { b: 'The full chain, on a phone', s: 'Graphic and parametric EQ, tone, dynamics, space, room reverb and a speaker EQ — the desktop stages, hand-tuned in C++.' },
-            { b: 'Stem separation on device', s: 'Split a track into vocals, drums, bass and other, then mix the stems live.' },
-            { b: 'One search, every source', s: 'Your library, your cloud drives and YouTube Music in a single list — tap anything to start a station.' },
-            { b: 'Daily mixes that learn', s: 'Mixes blended from your drive, YouTube and videos, seeded by the time of day and what you actually play.' },
-            { b: 'Gapless, crossfade & replay-gain', s: 'Seamless transitions and consistent loudness across your library.' },
-            { b: 'Synced lyrics & identify', s: 'Karaoke lyrics and AcoustID fingerprinting, the same as desktop.' },
-            { b: 'Be a source, or a speaker', s: 'Stream your library to the desktop over your own Wi-Fi, or receive a cast from it.' }
-          ] as f}
-            <li class="flex flex-col gap-1 border-b border-line py-[18px] last:border-b-0">
+
+        <!-- below lg: horizontal scroll-snap gallery -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+        <div
+          class="gallery mt-8 lg:hidden"
+          role="region"
+          aria-label="HypeMuzik mobile screens"
+          tabindex="0"
+        >
+          {#each shots as s, i}
+            <figure class="gallery-card">
+              <div class="pframe">
+                <div class="pbezel">
+                  <div class="pscreen">
+                    <picture>
+                      <source type="image/avif" srcset="/shots/mobile-{s.n}-540.avif 540w, /shots/mobile-{s.n}-1080.avif 1080w" sizes="(min-width: 420px) 260px, 62vw" />
+                      <img
+                        src="/shots/mobile-{s.n}-540.webp"
+                        srcset="/shots/mobile-{s.n}-540.webp 540w, /shots/mobile-{s.n}-1080.webp 1080w"
+                        sizes="(min-width: 420px) 260px, 62vw"
+                        width="540"
+                        height="1170"
+                        loading="lazy"
+                        decoding="async"
+                        alt={s.alt}
+                        class="absolute inset-0 h-full w-full"
+                      />
+                    </picture>
+                  </div>
+                </div>
+              </div>
+              <figcaption class="mt-3 text-center font-mono text-[12px] text-muted">{features[i].b}</figcaption>
+            </figure>
+          {/each}
+        </div>
+
+        <ul class="reveal mt-7 flex flex-col" use:reveal={{ delay: 80 }} use:story>
+          {#each features as f, i}
+            <li
+              class="story-item flex flex-col gap-1 border-b border-line py-[18px] last:border-b-0"
+              data-i={i}
+              data-active={activeFeature === i}
+            >
               <b class="text-[16.5px]">{f.b}</b>
               <span class="text-[14.5px] text-muted">{f.s}</span>
             </li>
