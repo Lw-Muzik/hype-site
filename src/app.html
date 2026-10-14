@@ -53,5 +53,33 @@
   </head>
   <body data-sveltekit-preload-data="hover" class="bg-bg text-text">
     <div style="display: contents">%sveltekit.body%</div>
+    <script>
+      // Hero intro gate. Lives here, not in a component, so it runs during HTML
+      // parse and the intro never waits on the JS bundles. `go` needs the phone
+      // screenshot (the first thing shown) decoded AND >=650ms of ring bloom;
+      // past 1.8s we skip the intro rather than hold the headline hostage to a
+      // slow image. It also measures where the phone must start so its screen
+      // centre sits at the window centre (layout offsets: transform-free).
+      (function () {
+        var d = document.documentElement, img = document.getElementById('phone-shot');
+        var dock = document.getElementById('phone-dock'), cx = dock && dock.offsetParent;
+        var decoded = false, waited = false, done = false;
+        function end(c) { if (!done) { done = true; d.classList.add(c); } }
+        function check() { if (decoded && waited) end('intro-go'); }
+        try {
+          var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (!img || !img.decode || !cx || !d.classList.contains('js') || rm) return end('intro-skip');
+          // 0.545 = centre (0.5) + undoing the cluster's static -4.5% shift.
+          var dx = cx.offsetWidth * 0.545 - (dock.offsetLeft + dock.offsetWidth / 2);
+          var dy = cx.offsetHeight / 2 - (dock.offsetTop + dock.offsetHeight / 2);
+          if (!isFinite(dx) || !isFinite(dy) || !cx.offsetWidth) return end('intro-skip');
+          d.style.setProperty('--dock-x', dx + 'px');
+          d.style.setProperty('--dock-y', dy + 'px');
+          img.decode().then(function () { decoded = true; check(); }, function () { end('intro-skip'); });
+          setTimeout(function () { waited = true; check(); }, 650);
+          setTimeout(function () { end('intro-skip'); }, 1800);
+        } catch (e) { end('intro-skip'); }
+      })();
+    </script>
   </body>
 </html>

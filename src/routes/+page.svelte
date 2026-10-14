@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import Logo from '$lib/components/Logo.svelte';
   import Spectrum from '$lib/components/Spectrum.svelte';
-  import Scene3D from '$lib/components/Scene3D.svelte';
+  import Hero from '$lib/components/Hero.svelte';
   import DownloadButton from '$lib/components/DownloadButton.svelte';
   import SiteFooter from '$lib/components/SiteFooter.svelte';
   import { reveal, countup, tilt } from '$lib/actions';
@@ -34,7 +34,6 @@
   });
 
   // Deterministic, varied animation timings for the mock equalizer.
-  const phoneEq = Array.from({ length: 12 }, (_, i) => ({ delay: (i * 90) % 900 }));
 
 
   const platforms = ['macOS', 'Windows', 'Linux', 'Android', 'iOS'];
@@ -64,6 +63,7 @@
 </script>
 
 <svelte:head>
+  <link rel="preload" as="image" type="image/avif" imagesrcset="/hero/app-desktop-960.avif 960w, /hero/app-desktop-1440.avif 1440w, /hero/app-desktop-2160.avif 2160w" imagesizes="(min-width: 800px) 760px, 92vw" fetchpriority="high" />
   <title>{TITLE}</title>
   <meta name="description" content={DESCRIPTION} />
   <link rel="canonical" href={SITE_URL} />
@@ -127,8 +127,8 @@
     ? 'background:rgba(10,11,14,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%)'
     : ''}
 >
-  <div class="wrap flex h-[68px] items-center justify-between gap-6">
-    <a href="#top" class="flex items-center gap-2.5">
+  <div class="wrap flex h-[68px] items-center justify-between gap-3 sm:gap-6">
+    <a href="#top" class="flex min-w-0 items-center gap-2.5">
       <Logo size={30} />
       <span class="font-display text-[19px] font-semibold tracking-[-0.01em]">HypeMuzik</span>
     </a>
@@ -145,8 +145,8 @@
         </a>
       {/each}
     </nav>
-    <div class="flex items-center gap-2">
-      <a href="#download" class="btn btn-ghost px-[18px] py-[9px]">Get HypeMuzik</a>
+    <div class="flex shrink-0 items-center gap-2">
+      <a href="#download" class="btn btn-ghost px-3.5 py-[9px] sm:px-[18px]"><span class="sm:hidden">Get the app</span><span class="hidden sm:inline">Get HypeMuzik</span></a>
       <button
         type="button"
         class="flex size-10 items-center justify-center rounded-full border border-line-2 text-muted transition hover:border-gold hover:text-text md:hidden"
@@ -191,114 +191,7 @@
 
 <main id="top">
   <!-- ============================== HERO ============================== -->
-  <section class="relative overflow-hidden pb-[clamp(76px,9vw,132px)] pt-[clamp(48px,8vw,100px)]">
-    <Scene3D
-      class="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] w-full opacity-90"
-    />
-
-    <div class="wrap relative z-[2] grid items-center gap-[clamp(24px,4vw,56px)] lg:grid-cols-[1.05fr_0.95fr]">
-      <div>
-        <p class="eyebrow">
-          <span class="sweep h-2 w-2 rounded-full shadow-[0_0_12px_var(--color-gold)]"></span>
-          Desktop&nbsp;+&nbsp;Mobile · One sound engine
-        </p>
-        <h1 class="section-title mt-5 text-[clamp(44px,7.4vw,92px)] leading-[0.98] tracking-[-0.025em]">
-          Shape every<br /><span class="grad-text">sound</span> you hear.
-        </h1>
-        <p class="mt-6 max-w-[34em] text-[clamp(16px,1.5vw,19px)] text-muted">
-          A 31-band equalizer, a full custom DSP chain, and system-wide processing —
-          on the desktop. A player that carries the same engine in your pocket. And a
-          link that streams your phone&rsquo;s music straight through your desktop&rsquo;s sound.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3.5">
-          <a href="#download" class="btn btn-primary">
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
-              ><path fill="currentColor" d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5z" /></svg
-            >
-            Download for desktop
-          </a>
-          <a href="#mobile" class="btn btn-ghost">Get the mobile app</a>
-        </div>
-        <ul class="mt-8 flex flex-wrap gap-2.5" aria-label="At a glance">
-          {#each ['31-band EQ', 'System-wide audio', 'Phone → Desktop streaming', 'Karaoke lyrics'] as chip}
-            <li class="rounded-full border border-line bg-white/[0.02] px-3.5 py-[7px] font-mono text-[12.5px] text-muted">
-              {chip}
-            </li>
-          {/each}
-        </ul>
-      </div>
-
-      <!-- Device cluster -->
-      <div class="relative min-h-[400px] [perspective:1400px]" aria-hidden="true">
-        <!-- Desktop window -->
-        <div
-          class="overflow-hidden rounded-[18px] border border-line bg-surface-1 shadow-[0_40px_80px_-30px_rgba(0,0,0,.8)] transition-transform duration-500 [transform:rotateY(-13deg)_rotateX(5deg)]"
-        >
-          <div class="flex items-center gap-[7px] border-b border-line bg-white/[0.02] px-4 py-3">
-            <span class="h-[11px] w-[11px] rounded-full bg-[#e5564b]"></span>
-            <span class="h-[11px] w-[11px] rounded-full bg-[#efab3c]"></span>
-            <span class="h-[11px] w-[11px] rounded-full bg-[#34c13a]"></span>
-            <b class="ml-2.5 font-mono text-xs font-normal text-faint">HypeMuzik — Player</b>
-          </div>
-          <img
-            src="/app-desktop.png"
-            alt="HypeMuzik desktop app — player, library and now-playing"
-            class="block w-full"
-            width="1600"
-            height="966"
-          />
-        </div>
-
-        <!-- Phone -->
-        <div
-          class="absolute -bottom-[8%] -right-[6%] w-[168px] rounded-[28px] border border-line-2 bg-surface-1 px-3 pb-4 pt-3 shadow-[0_50px_70px_-30px_rgba(0,0,0,.85)] [transform:rotateY(-13deg)_rotateX(4deg)_translateZ(40px)]"
-        >
-          <div class="mx-auto mb-3 h-[5px] w-[46px] rounded-full bg-line-2"></div>
-          <div class="flex h-[120px] items-end gap-[3px] rounded-[14px] bg-surface-2 p-3">
-            {#each phoneEq as b}
-              <i
-                class="flex-1 animate-vu rounded-[2px] bg-gold/80"
-                style="height:34%;animation-delay:{b.delay}ms"
-              ></i>
-            {/each}
-          </div>
-          <div class="mt-3 flex flex-col gap-[5px]">
-            <p class="text-xs font-bold text-text/50 [filter:blur(.3px)]">Lights blur into the rain</p>
-            <p class="text-[13.5px] font-bold text-white">
-              <span>Words</span> <span>light</span> <span class="text-text/30">up as they</span>
-            </p>
-            <p class="text-xs font-bold text-text/25">Following the signal home</p>
-          </div>
-          <div class="mt-3.5 flex items-center justify-center gap-4">
-            <span class="h-[9px] w-[9px] rounded-[2px] bg-faint"></span>
-            <span class="sweep h-[26px] w-[26px] rounded-full"></span>
-            <span class="h-[9px] w-[9px] rounded-[2px] bg-faint"></span>
-          </div>
-        </div>
-
-        <!-- Link wire -->
-        <svg class="absolute bottom-[14%] right-[4%] z-[1] h-auto w-[46%]" viewBox="0 0 200 120" aria-hidden="true">
-          <path
-            class="animate-dash"
-            d="M20 92 C 80 92, 110 40, 178 28"
-            fill="none"
-            stroke="url(#cl)"
-            stroke-width="2"
-            stroke-dasharray="4 6"
-            opacity=".55"
-          />
-      </svg>
-      </div>
-    </div>
-
-    <div
-      class="absolute bottom-[18px] left-1/2 flex animate-bob flex-col items-center gap-1 font-mono text-[11px] uppercase tracking-[0.2em] text-faint"
-      aria-hidden="true"
-    >
-      scroll
-      <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 16l-6-6h12z" /></svg>
-    </div>
-  </section>
+  <Hero />
 
   <!-- platform ribbon -->
   <div
@@ -520,24 +413,28 @@
   <!-- ============================== MOBILE ============================== -->
   <section id="mobile" class="py-[clamp(72px,10vw,140px)]">
     <div class="wrap grid items-center gap-[clamp(30px,6vw,80px)] lg:grid-cols-[0.9fr_1.1fr]">
-      <div class="order-2 grid place-items-center lg:order-1" aria-hidden="true">
+      <div class="order-2 grid place-items-center lg:order-1">
         <div
-          class="w-[280px] rounded-[34px] border border-line-2 bg-surface-1 px-4 pb-[22px] pt-4 shadow-[0_50px_80px_-40px_rgba(0,0,0,.9)] [transform:perspective(1600px)_rotateY(12deg)_rotateX(4deg)]"
+          class="w-[260px] rounded-[34px] border border-line-2 bg-[#060708] p-[6px] shadow-[0_50px_80px_-40px_rgba(0,0,0,.9)] [transform:perspective(1600px)_rotateY(12deg)_rotateX(4deg)]"
         >
-          <div class="mx-auto mb-3.5 h-[5px] w-[52px] rounded-full bg-line-2"></div>
-          <div class="flex h-[200px] items-end gap-[5px] rounded-[16px] bg-surface-2 p-4">
-            {#each phoneEq as b}
-              <i
-                class="flex-1 animate-vu rounded-[3px] bg-gold/80"
-                style="height:34%;animation-delay:{b.delay}ms"
-              ></i>
-            {/each}
-          </div>
-          <div class="mt-3.5 flex flex-col gap-[5px]">
-            <p class="text-xs font-bold text-text/50 [filter:blur(.3px)]">Carry the sound with me</p>
-            <p class="text-[13.5px] font-bold text-white"><span>Everywhere</span> <span class="text-text/30">I go</span></p>
-            <p class="text-xs font-bold text-text/25">Same engine, smaller screen</p>
-          </div>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="/shots/mobile-eq-540.avif 540w, /shots/mobile-eq-1080.avif 1080w"
+              sizes="248px"
+            />
+            <img
+              src="/shots/mobile-eq-540.webp"
+              srcset="/shots/mobile-eq-540.webp 540w, /shots/mobile-eq-1080.webp 1080w"
+              sizes="248px"
+              width="540"
+              height="1170"
+              loading="lazy"
+              decoding="async"
+              alt="HypeMuzik mobile — graphic equalizer with presets"
+              class="block h-auto w-full rounded-[28px]"
+            />
+          </picture>
         </div>
       </div>
 
