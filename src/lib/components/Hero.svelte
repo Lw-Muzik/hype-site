@@ -399,14 +399,16 @@
     font-size: 21px;
     font-weight: 600;
     line-height: 1.2;
+    word-spacing: 0.12em;
   }
   h1 {
     margin: 14px 0 0;
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: clamp(40px, 5.6vw, 80px);
+    font-size: clamp(40px, 5.2vw, 76px);
     line-height: 1;
     letter-spacing: -0.025em;
+    word-spacing: 0.12em; /* Clash's narrow space; see .section-title in app.css */
     text-wrap: balance;
   }
   .lede {
