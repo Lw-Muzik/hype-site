@@ -6,7 +6,7 @@
  * everything here is built from one origin constant.
  */
 
-import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
+import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
 import { RELEASES_URL } from '$lib/releases';
 
 export const SITE_URL = 'https://hypemuzik.com';
@@ -79,8 +79,23 @@ export const structuredData = {
         'Phone to desktop audio streaming',
         'Synced karaoke lyrics',
         'Internet radio, TV and movies',
-        'Google Drive and Dropbox libraries'
+        'Google Drive and Dropbox libraries',
+        'Remote control from any web browser (Hype Connect)',
+        'Phone and desktop remote with one-tap takeover'
       ]
+    },
+    {
+      '@type': 'WebApplication',
+      '@id': `${SITE_URL}/#web-remote`,
+      name: 'Hype Connect',
+      url: WEB_REMOTE_URL,
+      applicationCategory: 'MultimediaApplication',
+      operatingSystem: 'Any',
+      browserRequirements: 'Requires JavaScript and a modern web browser',
+      description:
+        'Control HypeMuzik on your phone or desktop from any browser: search, queue, synced lyrics and a live visualiser. Nothing plays in the browser.',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      publisher: { '@id': `${SITE_URL}/#org` }
     }
   ]
 };

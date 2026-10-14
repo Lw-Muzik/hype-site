@@ -1,5 +1,15 @@
 <script lang="ts">
   import { reveal } from '$lib/actions';
+
+  // Defaults render the #desktop Enhancer window. Pass `url` for a browser
+  // frame (centred URL pill instead of a mono app title).
+  let {
+    base = 'desktop-enhancer',
+    title = 'HypeMuzik — Enhancer',
+    url = '',
+    height = 870,
+    alt = 'HypeMuzik desktop — Enhancer: the effects chain with live toggles, beside synced lyrics'
+  }: { base?: string; title?: string; url?: string; height?: number; alt?: string } = $props();
 </script>
 
 <!-- Section-hero window: scales 0.92 -> 1 and fades in as it enters the viewport. -->
@@ -10,25 +20,32 @@
         <span class="dot" style="background:#e5564b"></span>
         <span class="dot" style="background:#efab3c"></span>
         <span class="dot" style="background:#34c13a"></span>
-        <b class="title">HypeMuzik — Enhancer</b>
+        {#if url}
+          <span class="urlpill">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
+            {url}
+          </span>
+        {:else}
+          <b class="title">{title}</b>
+        {/if}
       </div>
     </div>
     <div class="spacer"></div>
     <picture>
       <source
         type="image/avif"
-        srcset="/shots/desktop-enhancer-960.avif 960w, /shots/desktop-enhancer-1440.avif 1440w, /shots/desktop-enhancer-2160.avif 2160w"
+        srcset="/shots/{base}-960.avif 960w, /shots/{base}-1440.avif 1440w, /shots/{base}-2160.avif 2160w"
         sizes="(min-width: 1104px) 1040px, 92vw"
       />
       <img
-        src="/shots/desktop-enhancer-1440.webp"
-        srcset="/shots/desktop-enhancer-960.webp 960w, /shots/desktop-enhancer-1440.webp 1440w, /shots/desktop-enhancer-2160.webp 2160w"
+        src="/shots/{base}-1440.webp"
+        srcset="/shots/{base}-960.webp 960w, /shots/{base}-1440.webp 1440w, /shots/{base}-2160.webp 2160w"
         sizes="(min-width: 1104px) 1040px, 92vw"
         width="1440"
-        height="870"
+        {height}
         loading="lazy"
         decoding="async"
-        alt="HypeMuzik desktop — Enhancer: the effects chain with live toggles, beside synced lyrics"
+        {alt}
       />
     </picture>
   </div>
@@ -71,6 +88,21 @@
     font-weight: 400;
     color: var(--color-faint);
   }
+  .urlpill {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+  .titlebar { position: relative; }
   .spacer {
     height: var(--tb);
   }
@@ -84,6 +116,7 @@
   @media (max-width: 520px) {
     .win { --tb: 26px; }
     .title { font-size: 10px; }
+    .urlpill { font-size: 10px; padding: 2px 10px; }
     .dot { width: 8px; height: 8px; }
   }
 

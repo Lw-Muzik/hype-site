@@ -11,6 +11,7 @@ The desktop app processes system-wide audio, not just its own playback.
 - [Desktop releases](https://github.com/Lw-Muzik/hype-dsp/releases/latest): macOS (universal .dmg), Windows (.exe/.msi), Linux (AppImage/.deb/.rpm).
 - [iOS](https://apps.apple.com/us/app/hypemuzik-dsp/id6760889647)
 - [Android](https://play.google.com/store/apps/details?id=x.a.zix)
+- [Hype Connect web remote](https://play.hypemuzik.com): control HypeMuzik on your phone or desktop from any browser.
 
 ## Key facts
 - 31-band graphic equalizer at ISO third-octave centres (20 Hz – 20 kHz).
@@ -22,3 +23,8 @@ The desktop app processes system-wide audio, not just its own playback.
   libraries (Google Drive, Dropbox) and YouTube Music.
 - Phone Link streams a phone's library through the desktop's DSP chain over the
   local network, with no cloud intermediary.
+- Hype Connect links a phone, a desktop and any web browser to one anonymous
+  account (linked by a 6-digit code or QR). Pick the device that plays, then
+  search, queue, skip, follow lyrics and watch the visualiser from any of them.
+  The web remote at https://play.hypemuzik.com never plays audio itself; one
+  device plays at a time and pressing play on another takes over.

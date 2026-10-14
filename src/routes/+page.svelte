@@ -8,7 +8,7 @@
   import DesktopShowcase from '$lib/components/DesktopShowcase.svelte';
   import { reveal, countup, tilt } from '$lib/actions';
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
-  import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
+  import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
   import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT, structuredDataJson } from '$lib/seo';
   import { GOOGLE_DRIVE_SCOPE as DRIVE, GOOGLE_PERMISSIONS_URL } from '$lib/legal';
 
@@ -18,8 +18,10 @@
   // Below md the section links have nowhere to live, so they get a
   // disclosure panel rather than disappearing.
   let menuOpen = $state(false);
-  const NAV = [
-    ['#connect', 'Connect'],
+  // Third item: true = hidden from the inline bar below lg (kept in the menu).
+  const NAV: [string, string, boolean?][] = [
+    ['#connect', 'Phone Link'],
+    ['#hype-connect', 'Hype Connect', true],
     ['#desktop', 'Desktop'],
     ['#chain', 'The chain'],
     ['#mobile', 'Mobile'],
@@ -154,11 +156,11 @@
       <Logo size={30} />
       <span class="font-display text-[19px] font-semibold tracking-[-0.01em]">HypeMuzik</span>
     </a>
-    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
-      {#each NAV as [href, label]}
+    <nav class="hidden items-center gap-5 md:flex lg:gap-8" aria-label="Primary">
+      {#each NAV as [href, label, lgOnly]}
         <a
           {href}
-          class="group relative text-[15px] font-medium text-muted transition-colors hover:text-text"
+          class="group relative text-[15px]{lgOnly ? ' hidden lg:inline' : ''} font-medium text-muted transition-colors hover:text-text"
         >
           {label}
           <span
@@ -293,11 +295,80 @@
     </div>
   </section>
 
+  <!-- ============================== HYPE CONNECT ============================== -->
+  <section id="hype-connect" class="py-[clamp(72px,10vw,140px)]">
+    <div class="wrap">
+      <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
+        <p class="kicker">02 — Hype Connect</p>
+        <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">
+          Pick it here.<br /><span class="grad-text">Play it there.</span>
+        </h2>
+        <p class="mx-auto mt-[18px] max-w-[56ch] text-[clamp(15px,1.4vw,18px)] text-muted">
+          Hype Connect links your phone, your desktop and any web browser to one account. Choose the device that plays, then search, queue and skip from whichever one is in your hand — the sound always comes from the player, through its own engine.
+        </p>
+      </header>
+
+      <DesktopShowcase
+        base="web-remote"
+        url="play.hypemuzik.com"
+        height={757}
+        alt="Hype Connect in a browser — a phone's queue and now playing, controlled from play.hypemuzik.com"
+      />
+
+      <ol class="mt-14 grid gap-4 lg:grid-cols-3" aria-label="How Hype Connect works">
+        {#each [
+          { t: 'Open the remote', s: 'Go to play.hypemuzik.com on any computer, tablet or TV browser. It shows a QR code and a 6-digit code.' },
+          { t: 'Link your phone', s: 'In HypeMuzik on your phone, open Settings → Cloud & Devices → Hype Connect, then scan the code — or type the 6 digits — and approve. No email, no password.' },
+          { t: 'Pick where it plays', s: 'Choose your phone or your desktop as the player, then search, queue, skip, follow the synced lyrics and watch the live visualiser from the browser.' }
+        ] as step, i}
+          <li
+            class="reveal rounded-[18px] border border-line bg-surface-1 p-[30px]"
+            use:reveal={{ delay: i * 150 }}
+          >
+            <span class="font-mono text-[44px] leading-none text-gold-deep">0{i + 1}</span>
+            <h3 class="section-title mt-5 text-[22px]">{step.t}</h3>
+            <p class="mt-2.5 text-[14.5px] text-muted">{step.s}</p>
+          </li>
+        {/each}
+      </ol>
+
+      <div class="reveal mt-4 rounded-[18px] border border-line bg-surface-1 p-[30px] md:p-10" use:reveal>
+        <h3 class="section-title text-[clamp(22px,2.6vw,30px)]">Your phone and desktop, as one</h3>
+        <p class="mt-3 max-w-[62ch] text-[15px] text-muted">
+          On the desktop, open Settings → Devices → Hype Connect and scan its code with your phone. The phone asks where music should play — from then on, what you pick on one plays on the other. Press play on any device and it takes over; only one plays at a time.
+        </p>
+      </div>
+
+      <div class="mx-auto mt-14 max-w-[760px]">
+        <h3 class="reveal section-title text-[clamp(22px,2.6vw,30px)]" use:reveal>Get the most out of it</h3>
+        <ul class="reveal mt-4 flex flex-col" use:reveal={{ delay: 80 }}>
+          {#each [
+            { b: 'Play on the desktop for the full chain', s: 'Make the desktop the player and every song runs through its 12-stage chain, while your phone or browser does the choosing.' },
+            { b: 'Leave Hype Connect on', s: 'On Android it keeps running in the background with a quiet notification, so the remote can always reach your phone.' },
+            { b: 'Local songs stay local', s: 'Files that live on one device play there; HypeMuzik offers to switch the player for you.' },
+            { b: 'Media keys follow the music', s: 'On the desktop, media keys and the tray control whichever device is playing.' },
+            { b: 'Nothing to install in the browser', s: 'The web remote never plays audio itself, so any screen with a browser works — even a TV.' }
+          ] as f}
+            <li class="flex flex-col gap-1 border-b border-line py-[18px] last:border-b-0">
+              <b class="text-[16.5px]">{f.b}</b>
+              <span class="text-[14.5px] text-muted">{f.s}</span>
+            </li>
+          {/each}
+        </ul>
+        <div class="mt-8 flex flex-wrap items-center gap-3.5">
+          <a href={WEB_REMOTE_URL} target="_blank" rel="noopener" class="btn btn-primary">Open the web remote <span aria-hidden="true">↗</span></a>
+          <a href="#download" class="btn btn-ghost">Get the mobile app</a>
+        </div>
+        <p class="mt-4 font-mono text-[12px] text-faint">Needs HypeMuzik on your phone, or the desktop app v0.1.31 or later.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ============================== DESKTOP (bento) ============================== -->
   <section id="desktop" class="py-[clamp(72px,10vw,140px)]">
     <div class="wrap">
       <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
-        <p class="kicker">02 — The control room</p>
+        <p class="kicker">03 — The control room</p>
         <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">The desktop is a <span class="grad-text">studio</span>.</h2>
         <p class="mx-auto mt-[18px] max-w-[56ch] text-[clamp(15px,1.4vw,18px)] text-muted">
           Everything you hear, shaped — not just HypeMuzik&rsquo;s player, but every app on your machine.
@@ -405,7 +476,7 @@
   <section id="chain" class="border-y border-line bg-surface-1 py-[clamp(72px,10vw,140px)]">
     <div class="wrap">
       <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
-        <p class="kicker">03 — Signal path</p>
+        <p class="kicker">04 — Signal path</p>
         <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">Every sample, <span class="grad-text">in order.</span></h2>
         <p class="mx-auto mt-[18px] max-w-[56ch] text-[clamp(15px,1.4vw,18px)] text-muted">
           The same custom chain runs on both platforms. Order matters — so we show it the way the audio actually flows.
@@ -467,7 +538,7 @@
 
       <div class="order-1 min-w-0 lg:order-2 lg:pb-[22svh]">
         <header class="reveal" use:reveal>
-          <p class="kicker">04 — In your pocket</p>
+          <p class="kicker">05 — In your pocket</p>
           <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">The same engine,<br /><span class="grad-text">smaller screen.</span></h2>
           <p class="mt-[18px] text-[clamp(15px,1.4vw,18px)] text-muted">HypeMuzik for Android &amp; iOS carries a hand-tuned C++ DSP pipeline — the desktop&rsquo;s sound, wherever you are.</p>
         </header>
@@ -544,7 +615,7 @@
   <section id="data" class="py-[clamp(72px,10vw,140px)]">
     <div class="wrap">
       <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
-        <p class="kicker">05 &mdash; Your data</p>
+        <p class="kicker">06 &mdash; Your data</p>
         <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">
           Your library<br /><span class="grad-text">stays yours.</span>
         </h2>

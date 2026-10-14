@@ -201,6 +201,11 @@
         </a>
         <a href="#mobile" class="btn btn-ghost">Get the mobile app</a>
       </div>
+      <a href="#hype-connect" class="announce">
+        <b>New</b>
+        <span>Hype Connect — play from any browser</span>
+        <i aria-hidden="true">›</i>
+      </a>
     </div>
   </div>
 </section>
@@ -417,6 +422,31 @@
     gap: 14px;
     margin-top: 32px;
   }
+  .announce {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    padding: 5px 14px 5px 6px;
+    border: 1px solid var(--color-line-2);
+    border-radius: 999px;
+    font-size: 13.5px;
+    color: var(--color-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .announce:hover { border-color: var(--color-gold); color: var(--color-text); }
+  .announce b {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--color-gold);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-bg);
+  }
+  .announce i { font-style: normal; color: var(--color-gold); }
   @media (max-width: 639px) {
     .hero { --cam: 4; }
     .copy {

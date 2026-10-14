@@ -1,7 +1,7 @@
 <script lang="ts">
   import Logo from '$lib/components/Logo.svelte';
   import { RELEASES_URL, formatDate, type LatestRelease } from '$lib/releases';
-  import { IOS_URL, PLAY_URL, GITHUB_URL } from '$lib/links';
+  import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
   import { CONTACT_EMAIL } from '$lib/legal';
 
   let { release = null }: { release?: LatestRelease | null } = $props();
@@ -35,7 +35,8 @@
   // Absolute, not bare '#connect': this footer also renders on /privacy and
   // /terms, where those sections do not exist and a bare hash goes nowhere.
   const product = [
-    ['/#connect', 'Connect'],
+    ['/#connect', 'Phone Link'],
+    ['/#hype-connect', 'Hype Connect'],
     ['/#desktop', 'Desktop'],
     ['/#chain', 'The chain'],
     ['/#mobile', 'Mobile']
@@ -99,6 +100,9 @@
               <a {href} class="text-[14.5px] text-muted transition-colors hover:text-text">{label}</a>
             </li>
           {/each}
+          <li>
+            <a href={WEB_REMOTE_URL} target="_blank" rel="noopener" class="text-[14.5px] text-muted transition-colors hover:text-text">Web remote ↗</a>
+          </li>
         </ul>
       </nav>
 
