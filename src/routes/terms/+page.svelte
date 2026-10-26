@@ -6,7 +6,11 @@
     OPERATOR_FULL,
     JURISDICTION,
     JURISDICTION_SHORT,
-    CONTACT_EMAIL
+    CONTACT_EMAIL,
+    EFFECTIVE,
+    PADDLE_MOR_DISCLOSURE,
+    PADDLE_BUYER_TERMS_URL,
+    REFUND_WINDOW_DAYS
   } from '$lib/legal';
 
   const sections = [
@@ -17,7 +21,7 @@
     { id: 'third-party', label: 'Third-party services' },
     { id: 'copyright', label: 'Copyright & takedowns' },
     { id: 'hearing', label: 'Listening safely' },
-    { id: 'payments', label: 'Payments & donations' },
+    { id: 'payments', label: 'Payments & refunds' },
     { id: 'open-source', label: 'Open-source components' },
     { id: 'availability', label: 'Availability & changes' },
     { id: 'warranty', label: 'No warranties' },
@@ -34,6 +38,7 @@
   title="Terms & Conditions"
   description="The terms you agree to when you use the HypeMuzik desktop app, mobile app, or website — licence, acceptable use, disclaimers and liability."
   path="/terms"
+  effective={EFFECTIVE.terms}
   intro="These are the rules for using HypeMuzik. They are written to be read, not to be
          skimmed past — but the short version is: the app is provided free and as-is, you
          are responsible for the music you play through it, and there are limits on what we
@@ -54,7 +59,8 @@
       organisation, you confirm you have the authority to bind that organisation.
     </p>
     <p>
-      Our <a href="/privacy">Privacy Policy</a> forms part of these Terms.
+      Our <a href="/privacy">Privacy Policy</a> and <a href="/refunds">Refund Policy</a> form
+      part of these Terms.
     </p>
   </section>
 
@@ -193,15 +199,32 @@
   </section>
 
   <section>
-    <h2 id="payments">Payments and donations</h2>
+    <h2 id="payments">Payments and refunds</h2>
     <p>
       HypeMuzik is currently free to download and use, and in-app payments are switched off.
     </p>
     <p>
-      If we later introduce paid features, supporter tiers, or donations, the price, what it
-      includes, and the refund terms will be shown clearly before you pay, and payment will
-      be handled by a third-party payment processor under its own terms. Nothing in these
+      If we offer paid features, Supporter contributions, or plans, the price, what it
+      includes, and whether it renews will be shown clearly before you pay. Nothing in these
       Terms obliges you to pay for anything you have not explicitly bought.
+    </p>
+    <div class="legal-note is-key">
+      <p>
+        <strong>Who you buy from.</strong> For anything you buy from us on this website or in
+        the desktop app: {PADDLE_MOR_DISCLOSURE} Paddle handles payment, sales tax, invoicing
+        and refunds for those orders, and the
+        <a href={PADDLE_BUYER_TERMS_URL} target="_blank" rel="noopener noreferrer">Paddle Buyer Terms</a>
+        apply to the transaction alongside these Terms.
+      </p>
+    </div>
+    <p>
+      Purchases made inside the iOS or Android app, if offered, are sold by Apple or Google
+      under their own terms.
+    </p>
+    <p>
+      Refunds are covered by our <a href="/refunds">Refund Policy</a>, which includes a full
+      refund on request within {REFUND_WINDOW_DAYS} days of anything you buy from us
+      directly.
     </p>
   </section>
 
@@ -291,7 +314,8 @@
     <h2 id="termination">Termination</h2>
     <p>
       You may end this agreement at any time by uninstalling the Service. We may suspend or
-      terminate your licence if you breach these Terms, or if we discontinue the Service.
+      terminate your licence if you breach these Terms, if we reasonably suspect fraud,
+      payment abuse, or a security risk, or if we discontinue the Service.
     </p>
     <p>
       The sections that by their nature should survive termination — your responsibility for
@@ -322,8 +346,9 @@
     <h2 id="general">General terms</h2>
     <ul>
       <li>
-        <strong>Entire agreement.</strong> These Terms and the Privacy Policy are the whole
-        agreement between us about the Service, and replace any earlier understanding.
+        <strong>Entire agreement.</strong> These Terms, the Privacy Policy and the Refund
+        Policy are the whole agreement between us about the Service, and replace any earlier
+        understanding.
       </li>
       <li>
         <strong>Severability.</strong> If any provision is found unenforceable, it is limited
@@ -351,7 +376,8 @@
       <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>.
     </p>
     <p>
-      See also our <a href="/privacy">Privacy Policy</a>.
+      See also our <a href="/privacy">Privacy Policy</a> and
+      <a href="/refunds">Refund Policy</a>.
     </p>
   </section>
 </LegalPage>

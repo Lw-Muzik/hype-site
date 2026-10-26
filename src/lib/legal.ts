@@ -34,9 +34,46 @@ export const JURISDICTION_SHORT = 'Uganda';
 
 export const CONTACT_EMAIL = 'brunolabs256@gmail.com';
 
-/** ISO date the current text took effect, and its human rendering. */
-export const EFFECTIVE_ISO = '2026-09-06';
-export const EFFECTIVE_DISPLAY = '6 September 2026';
+/**
+ * ISO date each document's current text took effect, and its human rendering.
+ * Bump only the document you changed: the page header and the sitemap's
+ * lastmod both read from here.
+ */
+export const EFFECTIVE = {
+  privacy: { iso: '2026-09-06', display: '6 September 2026' },
+  terms: { iso: '2026-10-26', display: '26 October 2026' },
+  refunds: { iso: '2026-10-26', display: '26 October 2026' }
+} as const;
+
+export type Effective = (typeof EFFECTIVE)[keyof typeof EFFECTIVE];
+
+// --------------------------------------------------------------------- Refunds
+
+/**
+ * Change-of-mind refund window, in days, for anything bought from us
+ * directly. Paddle rejects a site at domain review if this is under 14 (or
+ * over 90), or if the policy says "no refunds" / "all sales are final".
+ * 14 also meets the EU/UK withdrawal period and beats Uganda's 7-day
+ * cancellation right (Electronic Transactions Act 2011, s.25), so it is the
+ * floor — raise it if you like, never lower it.
+ */
+export const REFUND_WINDOW_DAYS = 14;
+
+/**
+ * Paddle is the Merchant of Record for website purchases. Its reviewers look
+ * for this disclosure, effectively verbatim, in the Terms — do not paraphrase.
+ */
+export const PADDLE_MOR_DISCLOSURE =
+  'Our order process is conducted by our online reseller Paddle.com. ' +
+  'Paddle.com is the Merchant of Record for all our orders.';
+
+/** Where buyers look up a Paddle order, cancel a plan, or ask for a refund. */
+export const PADDLE_ORDERS_URL = 'https://paddle.net';
+export const PADDLE_BUYER_TERMS_URL = 'https://www.paddle.com/legal/checkout-buyer-terms';
+
+/** Store refunds are the stores' call, not ours. */
+export const APPLE_REFUND_URL = 'https://reportaproblem.apple.com';
+export const GOOGLE_PLAY_REFUND_URL = 'https://support.google.com/googleplay/answer/2479637';
 
 // ---------------------------------------------------------------- OAuth scopes
 

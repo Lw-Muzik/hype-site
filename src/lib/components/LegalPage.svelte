@@ -1,11 +1,11 @@
 <script lang="ts">
   /**
-   * Shared chrome for /privacy and /terms.
+   * Shared chrome for /privacy, /terms and /refunds.
    *
-   * Both documents need the same things — a way back to the site, a title
-   * block with the effective date, a table of contents that tracks where you
-   * are, and the site footer — so they live here once rather than being
-   * copied into two routes and drifting apart.
+   * All three documents need the same things — a way back to the site, a
+   * title block with the effective date, a table of contents that tracks where
+   * you are, and the site footer — so they live here once rather than being
+   * copied into each route and drifting apart.
    *
    * The page owns its own <svelte:head>: a legal document that a Google
    * reviewer must reach has to be indexable and have a stable canonical URL.
@@ -14,14 +14,21 @@
   import Logo from '$lib/components/Logo.svelte';
   import SiteFooter from '$lib/components/SiteFooter.svelte';
   import { SITE_URL, SITE_NAME, OG_IMAGE, OG_IMAGE_ALT } from '$lib/seo';
-  import { EFFECTIVE_DISPLAY, EFFECTIVE_ISO } from '$lib/legal';
+  import type { Effective } from '$lib/legal';
 
   type Section = { id: string; label: string };
+
+  const DOCS = [
+    ['/privacy', 'Privacy'],
+    ['/terms', 'Terms'],
+    ['/refunds', 'Refunds']
+  ];
 
   let {
     title,
     description,
     path,
+    effective,
     intro,
     sections = [],
     children
@@ -30,6 +37,8 @@
     description: string;
     /** Absolute path of this page, e.g. '/privacy'. Used for the canonical URL. */
     path: string;
+    /** This document's entry in EFFECTIVE — each one is dated separately. */
+    effective: Effective;
     intro: string;
     sections?: Section[];
     children: import('svelte').Snippet;
@@ -95,28 +104,23 @@
   <div class="wrap flex h-[68px] items-center justify-between gap-6">
     <a href="/" class="flex items-center gap-2.5">
       <Logo size={30} />
-      <span class="font-display text-[19px] font-semibold tracking-[-0.01em]">HypeMuzik</span>
+      <!-- Phones need the room for the three document links; the wordmark
+           stays for screen readers so the logo link keeps its name. -->
+      <span class="font-display text-[19px] font-semibold tracking-[-0.01em] max-sm:sr-only">HypeMuzik</span>
     </a>
-    <nav class="flex items-center gap-6" aria-label="Legal">
-      <a
-        href="/privacy"
-        class="text-[14.5px] font-medium transition-colors {path === '/privacy'
-          ? 'text-text'
-          : 'text-muted hover:text-text'}"
-        aria-current={path === '/privacy' ? 'page' : undefined}
-      >
-        Privacy
-      </a>
-      <a
-        href="/terms"
-        class="text-[14.5px] font-medium transition-colors {path === '/terms'
-          ? 'text-text'
-          : 'text-muted hover:text-text'}"
-        aria-current={path === '/terms' ? 'page' : undefined}
-      >
-        Terms
-      </a>
-      <a href="/" class="btn btn-ghost px-[18px] py-[9px]">Back to site</a>
+    <nav class="flex items-center gap-4 sm:gap-6" aria-label="Legal">
+      {#each DOCS as [href, label] (href)}
+        <a
+          {href}
+          class="text-[14.5px] font-medium transition-colors {path === href
+            ? 'text-text'
+            : 'text-muted hover:text-text'}"
+          aria-current={path === href ? 'page' : undefined}
+        >
+          {label}
+        </a>
+      {/each}
+      <a href="/" class="btn btn-ghost px-[18px] py-[9px] max-sm:hidden">Back to site</a>
     </nav>
   </div>
 </header>
@@ -128,7 +132,7 @@
       <h1 class="section-title mt-3 text-[clamp(34px,5.4vw,52px)]">{title}</h1>
       <p class="mt-5 text-[16.5px] leading-relaxed text-muted">{intro}</p>
       <p class="mt-6 font-mono text-[12.5px] text-faint">
-        Effective <time datetime={EFFECTIVE_ISO}>{EFFECTIVE_DISPLAY}</time>
+        Effective <time datetime={effective.iso}>{effective.display}</time>
       </p>
     </div>
 

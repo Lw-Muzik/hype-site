@@ -45,6 +45,7 @@
   const legal = [
     ['/privacy', 'Privacy Policy'],
     ['/terms', 'Terms & Conditions'],
+    ['/refunds', 'Refund Policy'],
     [`mailto:${CONTACT_EMAIL}`, 'Contact']
   ];
 
@@ -164,6 +165,8 @@
           <a href="/privacy" class="transition-colors hover:text-muted">Privacy</a>
           <span class="mx-1.5 text-line-2">·</span>
           <a href="/terms" class="transition-colors hover:text-muted">Terms</a>
+          <span class="mx-1.5 text-line-2">·</span>
+          <a href="/refunds" class="transition-colors hover:text-muted">Refunds</a>
         </p>
 
         <div class="flex flex-wrap items-center gap-3">

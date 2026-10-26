@@ -117,7 +117,7 @@
 }
 
 /* =========================================================================
-   Legal pages (/privacy, /terms).
+   Legal pages (/privacy, /terms, /refunds).
 
    Tailwind v4 here ships without @tailwindcss/typography, so long-form prose
    gets its own small scoped block rather than a plugin. Everything below is
@@ -163,7 +163,8 @@
     @apply my-6 rounded-2xl border border-line-2 bg-surface-1 p-5 text-[14.5px] leading-relaxed;
   }
   .legal-note.is-key { border-color: var(--color-gold-deep); }
-  .legal-note p:last-child { @apply mb-0; }
+  .legal-note p:last-child,
+  .legal-note ul:last-child { @apply mb-0; }
 
   /* Capitalised legal boilerplate stays legible instead of shouting. */
   .legal-caps {

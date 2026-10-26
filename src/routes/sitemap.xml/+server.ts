@@ -1,5 +1,5 @@
 import { SITE_URL } from '$lib/seo';
-import { EFFECTIVE_ISO } from '$lib/legal';
+import { EFFECTIVE } from '$lib/legal';
 
 export const prerender = true;
 
@@ -8,8 +8,9 @@ export function GET() {
   const built = new Date().toISOString().slice(0, 10);
   const pages: [string, string][] = [
     ['/', built],
-    ['/privacy', EFFECTIVE_ISO],
-    ['/terms', EFFECTIVE_ISO]
+    ['/privacy', EFFECTIVE.privacy.iso],
+    ['/terms', EFFECTIVE.terms.iso],
+    ['/refunds', EFFECTIVE.refunds.iso]
   ];
   const urls = pages
     .map(

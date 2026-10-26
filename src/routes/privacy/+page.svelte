@@ -5,6 +5,7 @@
     OPERATOR_FULL,
     JURISDICTION,
     CONTACT_EMAIL,
+    EFFECTIVE,
     GOOGLE_DRIVE_SCOPE as DRIVE,
     LIMITED_USE_DISCLOSURE,
     GOOGLE_USER_DATA_POLICY_URL,
@@ -35,6 +36,7 @@
   title="Privacy Policy"
   description="How HypeMuzik handles your data: what stays on your device, exactly why the apps ask for Google Drive and Dropbox access, and how to revoke it."
   path="/privacy"
+  effective={EFFECTIVE.privacy}
   intro="HypeMuzik is a music player. It runs on your computer and your phone, it plays
          your own music, and it is built so that your listening stays yours. This policy
          explains — in plain language — what the apps and this website handle, why, and
