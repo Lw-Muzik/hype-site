@@ -57,6 +57,20 @@
       // Gates the scroll-reveal styles. If anything below fails, the class is
       // never added and every .reveal element simply stays visible.
       document.documentElement.classList.add('js');
+      // The apps' splash (IntroSplash.svelte): home page, once per tab session,
+      // motion allowed, not a deep link. Decided here so the first paint is
+      // already the splash's ground rather than a flash of the hero.
+      try {
+        if (
+          location.pathname === '/' &&
+          !location.hash &&
+          !sessionStorage.getItem('hm.intro.seen') &&
+          !matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          sessionStorage.setItem('hm.intro.seen', '1');
+          document.documentElement.classList.add('splash');
+        }
+      } catch (e) {}
     </script>
     %sveltekit.head%
   </head>
@@ -69,12 +83,27 @@
       // past 1.8s we skip the intro rather than hold the headline hostage to a
       // slow image. It also measures where the phone must start so its screen
       // centre sits at the window centre (layout offsets: transform-free).
+      // Both clocks start when the ring starts blooming: now, or — with the
+      // splash up — when IntroSplash hands over ('hm:splash-handoff').
       (function () {
         var d = document.documentElement, img = document.getElementById('phone-shot');
         var dock = document.getElementById('phone-dock'), cx = dock && dock.offsetParent;
-        var decoded = false, waited = false, done = false;
+        var decoded = false, waited = false, done = false, ticking = false;
         function end(c) { if (!done) { done = true; d.classList.add(c); } }
         function check() { if (decoded && waited) end('intro-go'); }
+        function bloom() {
+          if (ticking) return;
+          ticking = true;
+          setTimeout(function () { waited = true; check(); }, 650);
+          setTimeout(function () { end('intro-skip'); }, 1800);
+        }
+        if (d.classList.contains('splash')) {
+          document.addEventListener('hm:splash-handoff', bloom);
+          // Bundles not in by 1.6s: drop the splash rather than hold a blank page.
+          setTimeout(function () {
+            if (!d.classList.contains('splash-run')) { d.classList.remove('splash'); bloom(); }
+          }, 1600);
+        } else bloom();
         try {
           var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
           if (!img || !img.decode || !cx || !d.classList.contains('js') || rm) return end('intro-skip');
@@ -85,8 +114,6 @@
           d.style.setProperty('--dock-x', dx + 'px');
           d.style.setProperty('--dock-y', dy + 'px');
           img.decode().then(function () { decoded = true; check(); }, function () { end('intro-skip'); });
-          setTimeout(function () { waited = true; check(); }, 650);
-          setTimeout(function () { end('intro-skip'); }, 1800);
         } catch (e) { end('intro-skip'); }
       })();
     </script>

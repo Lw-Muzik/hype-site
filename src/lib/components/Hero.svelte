@@ -500,6 +500,9 @@
     /* Must out-specify the rule above, or the invisible ring keeps its 96
        spike animations running forever after the intro. */
     :global(html.js:not(.intro-skip).intro-done) .halo { display: none; }
+    /* Held while the splash covers the page, so the ring blooms (display:none
+       -> block restarts its animations) around the mark as it arrives. */
+    :global(html.js.splash:not(.intro-skip)) .halo { display: none; }
 
     /* --- will-change only while the intro is live --- */
     :global(html.js:not(.intro-skip):not(.intro-done)) .window,
