@@ -4,6 +4,8 @@
   type Props = {
     /** Platform name on the pill. */
     label: string;
+    /** Analytics platform id (macos|windows|linux), written to `data-download`. */
+    platformId: string;
     /** Where the button points until the release resolves (or if it never does). */
     fallbackUrl: string;
     /** Resolved release data; `null` while loading or when the lookup failed. */
@@ -11,7 +13,7 @@
     children: import('svelte').Snippet;
   };
 
-  let { label, fallbackUrl, platform = null, children }: Props = $props();
+  let { label, platformId, fallbackUrl, platform = null, children }: Props = $props();
 
   const href = $derived(platform?.primary.url ?? fallbackUrl);
   // A menu only earns its place when there is a real choice to make: Linux
@@ -50,6 +52,7 @@
   >
     <a
       {href}
+      data-download={platformId}
       rel="noopener"
       class="inline-flex items-center gap-2 whitespace-nowrap py-[13px] text-[15px] font-bold
              {hasMenu ? 'pl-[22px] pr-4' : 'px-[22px]'}"
@@ -91,6 +94,7 @@
         <a
           role="menuitem"
           href={option.url}
+          data-download={platformId}
           rel="noopener"
           onclick={close}
           class="flex items-center justify-between gap-4 rounded-xl px-3.5 py-2.5 transition

@@ -193,13 +193,13 @@
         link that streams your phone&rsquo;s music straight through your desktop&rsquo;s sound.
       </p>
       <div class="ctas">
-        <a href="#download" class="btn btn-primary">
+        <a href="#download" data-track="hero-get" class="btn btn-primary">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
             ><path fill="currentColor" d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 2h14v2H5z" /></svg
           >
           Download for desktop
         </a>
-        <a href="#mobile" class="btn btn-ghost">Get the mobile app</a>
+        <a href="#mobile" data-track="hero-mobile" class="btn btn-ghost">Get the mobile app</a>
       </div>
       <a href="#hype-connect" class="announce">
         <b>New</b>

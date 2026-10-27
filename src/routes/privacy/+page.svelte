@@ -308,15 +308,36 @@
   <section>
     <h2 id="website">This website</h2>
     <p>
-      This site is a static marketing page. It sets no advertising cookies and runs no
-      third-party tracking scripts.
+      This site is a static marketing page. It sets no cookies and runs no third-party
+      tracking scripts.
     </p>
     <p>
-      If page analytics are enabled for a given build, the site stores a randomly generated
-      identifier in your browser's local storage and records which pages were viewed, so we
-      can count unique visitors. That identifier is not linked to your name, your email, or
-      anything you do inside the apps, and it never leaves this purpose. Clearing your
-      browser's site data removes it.
+      The site does count visits, anonymously and without cookies. It stores a randomly
+      generated identifier in your browser's local storage (to count unique visitors) and a
+      second one in session storage (to group one visit's pages together, renewed after 30
+      minutes of inactivity). Neither is linked to your name, your email, or anything you do
+      inside the apps. For each page you view we record:
+    </p>
+    <ul>
+      <li>the page, and the website you came from (only if it is a different site);</li>
+      <li>campaign tags in the link you followed (<code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>);</li>
+      <li>your device type, browser and operating system, read from your browser's user-agent string (the string itself is not kept);</li>
+      <li>your browser language and screen width;</li>
+      <li>how long the page was open and visible, and how far down you scrolled;</li>
+      <li>clicks on download buttons (which platform), on links to other sites (which site), and on a few marked buttons.</li>
+    </ul>
+    <p>
+      <strong>Country is worked out from your IP address on our server and the address is
+      then discarded.</strong> The lookup happens in memory against an offline database; your
+      IP address is never stored, logged, or sent to anyone. Only the country code is kept.
+    </p>
+    <p>
+      There are no cookies and no advertising or cross-site tracking. If your browser sends
+      the <strong>Global Privacy Control</strong> signal, the site honours it by sending
+      nothing at all. Clearing your browser's site data removes the identifiers.
+    </p>
+    <p class="text-sm">
+      IP geolocation by <a href="https://db-ip.com" target="_blank" rel="noopener noreferrer">DB-IP</a>.
     </p>
     <p>
       Downloads are served from GitHub, and the app-store buttons link to Apple and Google.

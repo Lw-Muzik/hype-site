@@ -52,9 +52,9 @@
   // Same live release the download buttons use, so the footer is a second,
   // quieter way to get the app — and never points at a stale version.
   const desktop = $derived([
-    { label: 'macOS', url: release?.platforms.mac?.primary.url ?? RELEASES_URL },
-    { label: 'Windows', url: release?.platforms.windows?.primary.url ?? RELEASES_URL },
-    { label: 'Linux', url: release?.platforms.linux?.primary.url ?? RELEASES_URL }
+    { label: 'macOS', id: 'macos', url: release?.platforms.mac?.primary.url ?? RELEASES_URL },
+    { label: 'Windows', id: 'windows', url: release?.platforms.windows?.primary.url ?? RELEASES_URL },
+    { label: 'Linux', id: 'linux', url: release?.platforms.linux?.primary.url ?? RELEASES_URL }
   ]);
 </script>
 
@@ -110,9 +110,9 @@
       <nav aria-labelledby="footer-desktop">
         <h2 id="footer-desktop" class="text-[13px] font-semibold text-faint">Desktop</h2>
         <ul class="mt-4 space-y-2.5">
-          {#each desktop as { label, url }}
+          {#each desktop as { label, id, url }}
             <li>
-              <a href={url} rel="noopener" class="text-[14.5px] text-muted transition-colors hover:text-text">
+              <a href={url} data-download={id} rel="noopener" class="text-[14.5px] text-muted transition-colors hover:text-text">
                 {label}
               </a>
             </li>
@@ -133,12 +133,12 @@
         <h2 id="footer-mobile" class="text-[13px] font-semibold text-faint">Mobile</h2>
         <ul class="mt-4 space-y-2.5">
           <li>
-            <a href={IOS_URL} target="_blank" rel="noopener noreferrer" class="text-[14.5px] text-muted transition-colors hover:text-text">
+            <a href={IOS_URL} data-download="ios" target="_blank" rel="noopener noreferrer" class="text-[14.5px] text-muted transition-colors hover:text-text">
               App Store
             </a>
           </li>
           <li>
-            <a href={PLAY_URL} target="_blank" rel="noopener noreferrer" class="text-[14.5px] text-muted transition-colors hover:text-text">
+            <a href={PLAY_URL} data-download="android" target="_blank" rel="noopener noreferrer" class="text-[14.5px] text-muted transition-colors hover:text-text">
               Google Play
             </a>
           </li>

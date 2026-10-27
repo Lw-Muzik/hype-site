@@ -170,7 +170,7 @@
       {/each}
     </nav>
     <div class="flex shrink-0 items-center gap-2">
-      <a href="#download" class="btn btn-ghost px-3.5 py-[9px] sm:px-[18px]"><span class="sm:hidden">Get the app</span><span class="hidden sm:inline">Get HypeMuzik</span></a>
+      <a href="#download" data-track="nav-get-app" class="btn btn-ghost px-3.5 py-[9px] sm:px-[18px]"><span class="sm:hidden">Get the app</span><span class="hidden sm:inline">Get HypeMuzik</span></a>
       <button
         type="button"
         class="flex size-10 items-center justify-center rounded-full border border-line-2 text-muted transition hover:border-gold hover:text-text md:hidden"
@@ -356,7 +356,7 @@
           {/each}
         </ul>
         <div class="mt-8 flex flex-wrap items-center gap-3.5">
-          <a href={WEB_REMOTE_URL} target="_blank" rel="noopener" class="btn btn-primary">Open the web remote <span aria-hidden="true">↗</span></a>
+          <a href={WEB_REMOTE_URL} data-track="web-remote-open" target="_blank" rel="noopener" class="btn btn-primary">Open the web remote <span aria-hidden="true">↗</span></a>
           <a href="#download" class="btn btn-ghost">Get the mobile app</a>
         </div>
         <p class="mt-4 font-mono text-[12px] text-faint">Needs HypeMuzik on your phone, or the desktop app v0.1.31 or later.</p>
@@ -696,20 +696,20 @@
         <h2 class="section-title relative text-[clamp(36px,6vw,76px)] tracking-[-0.025em]">Hear the difference.</h2>
         <p class="relative mt-3.5 text-lg text-muted">Free to try. Studio-grade out of the box.</p>
         <div class="relative mt-8 flex flex-wrap justify-center gap-3">
-          <DownloadButton label="macOS" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
+          <DownloadButton label="macOS" platformId="macos" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
           </DownloadButton>
-          <DownloadButton label="Windows" fallbackUrl={RELEASES_URL} platform={release?.platforms.windows}>
+          <DownloadButton label="Windows" platformId="windows" fallbackUrl={RELEASES_URL} platform={release?.platforms.windows}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 4.5l8-1.1v8.1H3V4.5zm0 15l8 1.1v-8H3v6.9zM12 3.3L21 2v9.5h-9V3.3zM12 12.5h9V22l-9-1.3v-8.2z"/></svg>
           </DownloadButton>
-          <DownloadButton label="Linux" fallbackUrl={RELEASES_URL} platform={release?.platforms.linux}>
+          <DownloadButton label="Linux" platformId="linux" fallbackUrl={RELEASES_URL} platform={release?.platforms.linux}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2c2 0 3 2 3 4 0 1 .6 2 1.4 3.2C17.6 11 19 13 19 16c0 3-2 6-7 6s-7-3-7-6c0-3 1.4-5 2.6-6.8C8.4 8 9 7 9 6c0-2 1-4 3-4z"/></svg>
           </DownloadButton>
-          <a href={IOS_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <a href={IOS_URL} data-download="ios" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
             App Store
           </a>
-          <a href={PLAY_URL} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <a href={PLAY_URL} data-download="android" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3.6 2.3a1 1 0 0 0-.6.9v17.6a1 1 0 0 0 .6.9l9.8-9.7L3.6 2.3zm11.2 7.5L5.5 1.3l11.2 6.4-1.9 2.1zm0 4.4 1.9 2.1L5.5 22.7l9.3-8.5zM17.9 9l2.7 1.5c.7.4.7 1.6 0 2l-2.7 1.5-2.1-2.5L17.9 9z"/></svg>
             Google Play
           </a>
