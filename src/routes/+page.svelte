@@ -3,6 +3,7 @@
   import Logo from '$lib/components/Logo.svelte';
   import Spectrum from '$lib/components/Spectrum.svelte';
   import Hero from '$lib/components/Hero.svelte';
+  import IntroSplash from '$lib/components/IntroSplash.svelte';
   import DownloadButton from '$lib/components/DownloadButton.svelte';
   import SiteFooter from '$lib/components/SiteFooter.svelte';
   import DesktopShowcase from '$lib/components/DesktopShowcase.svelte';
@@ -216,6 +217,7 @@
 <main id="top">
   <!-- ============================== HERO ============================== -->
   <Hero />
+  <IntroSplash />
 
   <!-- platform ribbon -->
   <div
