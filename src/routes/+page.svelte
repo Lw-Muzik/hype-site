@@ -48,7 +48,8 @@
     { n: 'stems', alt: 'HypeMuzik mobile — stem separation: vocals, drums, instruments' },
     { n: 'queue', alt: 'HypeMuzik mobile — now playing with a 26-track daily-mix queue' },
     { n: 'settings', alt: 'HypeMuzik mobile — playback settings: gapless, crossfade, replay gain, autoplay' },
-    { n: 'nowplaying', alt: 'HypeMuzik mobile — now playing with album art, waveform and synced lyrics' }
+    { n: 'lyrics', alt: 'HypeMuzik mobile — synced lyrics with the current line highlighted, over a waveform seek bar' },
+    { n: 'source', alt: 'HypeMuzik mobile — Stream to desktop: share your music over Wi-Fi with a pairing code' }
   ];
   const features = [
     { b: 'The full chain, on a phone', s: 'Graphic and parametric EQ, tone, dynamics, space, room reverb and a speaker EQ — the desktop stages, hand-tuned in C++.', shot: 0 },
@@ -56,7 +57,7 @@
     { b: 'Daily mixes that learn', s: 'Mixes blended from your library and your cloud drives, seeded by the time of day and what you actually play.', shot: 2 },
     { b: 'Gapless, crossfade & replay-gain', s: 'Seamless transitions and consistent loudness across your library.', shot: 3 },
     { b: 'Synced lyrics & identify', s: 'Karaoke lyrics and AcoustID fingerprinting, the same as desktop.', shot: 4 },
-    { b: 'Be a source, or a speaker', s: 'Stream your library to the desktop over your own Wi-Fi, or receive a cast from it.', shot: 4 }
+    { b: 'Be a source, or a speaker', s: 'Stream your library to the desktop over your own Wi-Fi, or receive a cast from it.', shot: 5 }
   ];
   let activeFeature = $state(0);
   const activeShot = $derived(features[activeFeature].shot);
