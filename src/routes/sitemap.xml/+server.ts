@@ -3,12 +3,20 @@ import { EFFECTIVE } from '$lib/legal';
 
 export const prerender = true;
 
-/** The homepage ships with every deploy, so its lastmod is the build date. */
+/**
+ * lastmod is the day a page's copy last changed — not the build date: a
+ * lastmod that moves on every deploy teaches crawlers to ignore it. Bump a
+ * page's date when you change what it says. Legal pages use their own
+ * effective dates.
+ */
 export function GET() {
-  const built = new Date().toISOString().slice(0, 10);
   const pages: [string, string][] = [
-    ['/', built],
-    ['/support', built],
+    ['/', '2026-10-30'],
+    ['/support', '2026-10-30'],
+    ['/mac-equalizer', '2026-10-30'],
+    ['/autoeq', '2026-10-30'],
+    ['/vocal-remover', '2026-10-30'],
+    ['/linux-music-player', '2026-10-30'],
     ['/privacy', EFFECTIVE.privacy.iso],
     ['/terms', EFFECTIVE.terms.iso],
     ['/refunds', EFFECTIVE.refunds.iso]

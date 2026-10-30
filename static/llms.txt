@@ -1,30 +1,48 @@
 # HypeMuzik
 
-> A desktop and mobile audio player built around a 31-band graphic equalizer and
-> a 12-stage DSP chain, with phone-to-desktop audio streaming.
+> HypeMuzik is a free music player and equalizer for Android, iOS, macOS,
+> Windows and Linux: no ads, no paywall, no sign-up. It is built around a
+> 31-band graphic equalizer and a 12-stage DSP chain, with phone-to-desktop
+> audio streaming. An optional pay-what-you-want Supporter pack funds
+> development; every feature stays free for everyone.
 
-HypeMuzik runs the same sound engine on macOS, Windows, Linux, Android and iOS.
-The desktop app processes system-wide audio, not just its own playback.
+HypeMuzik plays your own music — local files, plus Google Drive and Dropbox
+libraries — and runs the same sound engine on every platform. On macOS the
+desktop app can also process system-wide audio (every app's sound).
 
 ## Product
-- [Home](https://hypemuzik.com/): features, the signal chain, and downloads.
-- [Desktop releases](https://github.com/Lw-Muzik/hype-dsp/releases/latest): macOS (universal .dmg), Windows (.exe/.msi), Linux (AppImage/.deb/.rpm).
+- [Home](https://hypemuzik.com/): features, the signal chain, FAQ and downloads.
+- [Free system-wide equalizer for Mac](https://hypemuzik.com/mac-equalizer): EQ every app's audio on macOS 14.4+, no driver to install.
+- [AutoEq headphone profiles](https://hypemuzik.com/autoeq): apply your headphone model's AutoEq correction on phone and desktop.
+- [Free vocal remover and karaoke](https://hypemuzik.com/vocal-remover): on-device stem separation into vocals, drums and instruments, live while a song plays.
+- [Free music player for Linux](https://hypemuzik.com/linux-music-player): 31-band equalizer and synced lyrics on Linux.
+- [Desktop releases](https://github.com/Lw-Muzik/hype-dsp/releases/latest): macOS (universal .dmg, Apple Silicon + Intel), Windows (.exe/.msi), Linux (AppImage/.deb/.rpm).
 - [iOS](https://apps.apple.com/us/app/hypemuzik-dsp/id6760889647)
 - [Android](https://play.google.com/store/apps/details?id=x.a.zix)
 - [Hype Connect web remote](https://play.hypemuzik.com): control HypeMuzik on your phone or desktop from any browser.
+- [Supporter pack](https://hypemuzik.com/support): optional, pay what you want; adds a Supporter badge.
 
 ## Key facts
+- Price: free on every platform. No ads, no paywall, no sign-up.
 - 31-band graphic equalizer at ISO third-octave centres (20 Hz – 20 kHz).
 - 12-stage DSP chain, in order: headphone correction, graphic EQ, bass boost,
   spatializer, 3D surround, room reverb, convolution IR, multiband compander,
   tube saturation, script processor, makeup gain, brickwall limiter.
-- 3,938 bundled AutoEq headphone profiles.
-- Stem separation, synced karaoke lyrics, visualisers, and cloud libraries
-  (Google Drive, Dropbox).
+- AutoEq headphone correction: 3,938 headphone profiles on the desktop, more
+  than 6,000 on the phone (from the AutoEq project by Jaakko Pasanen).
+- Vocal remover / karaoke: on-device stem separation (vocals, drums,
+  instruments) while a song plays; audio never leaves the device.
+- Synced, karaoke-style lyrics, visualisers, acoustic fingerprint identify,
+  gapless playback, crossfade and ReplayGain.
 - Phone Link streams a phone's library through the desktop's DSP chain over the
   local network, with no cloud intermediary.
-- Hype Connect links a phone, a desktop and any web browser to one anonymous
-  account (linked by a 6-digit code or QR). Pick the device that plays, then
-  search, queue, skip, follow lyrics and watch the visualiser from any of them.
-  The web remote at https://play.hypemuzik.com never plays audio itself; one
-  device plays at a time and pressing play on another takes over.
+- Hype Connect pairs a phone, a desktop and any web browser with a 6-digit code
+  or QR — no sign-up. Pick the device that plays, then search, queue, skip,
+  follow lyrics and watch the visualiser from any of them. The web remote at
+  https://play.hypemuzik.com never plays audio itself; one device plays at a
+  time and pressing play on another takes over.
+
+## Policies
+- [Privacy](https://hypemuzik.com/privacy)
+- [Terms](https://hypemuzik.com/terms)
+- [Refunds](https://hypemuzik.com/refunds)

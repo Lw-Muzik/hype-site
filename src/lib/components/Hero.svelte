@@ -183,14 +183,19 @@
   <div class="copy wrap">
     <div class="hero-top">
       <Logo size={40} />
-      <p class="product">HypeMuzik</p>
-      <h1 id="hero-title">Shape every <span class="grad-text">sound</span> you hear.</h1>
+      <!-- Apple's product-page pattern: the h1 is the product and what it is —
+           the words people search — while the big line stays the headline. -->
+      <h1 id="hero-title" class="product">
+        HypeMuzik<span class="product-tag"><span class="dash">{' — '}</span>free music player &amp; equalizer</span>
+      </h1>
+      <p class="headline">Shape every <span class="grad-text">sound</span> you hear.</p>
     </div>
     <div class="hero-body">
       <p class="lede">
-        A 31-band equalizer, a full custom DSP chain, and system-wide processing —
-        on the desktop. A player that carries the same engine in your pocket. And a
-        link that streams your phone&rsquo;s music straight through your desktop&rsquo;s sound.
+        A free music player for Android, iPhone, Mac, Windows and Linux — no ads, no
+        sign-up. A 31-band equalizer and a full DSP chain, system-wide on the desktop,
+        and a link that streams your phone&rsquo;s music straight through your
+        desktop&rsquo;s sound.
       </p>
       <div class="ctas">
         <a href="#download" data-track="hero-get" class="btn btn-primary">
@@ -401,7 +406,26 @@
     line-height: 1.2;
     word-spacing: 0.12em;
   }
-  h1 {
+  .product-tag {
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  /* Too long for one line beside the name on a phone: drop under it. */
+  @media (max-width: 639px) {
+    .product-tag {
+      display: block;
+      margin-top: 4px;
+      font-size: 15px;
+    }
+    .dash {
+      display: none;
+    }
+    /* On its own line it starts a sentence. */
+    .product-tag::first-letter {
+      text-transform: uppercase;
+    }
+  }
+  .headline {
     margin: 14px 0 0;
     font-family: var(--font-display);
     font-weight: 600;

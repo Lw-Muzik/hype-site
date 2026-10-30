@@ -6,7 +6,9 @@ const config = {
   preprocess: vitePreprocess(),
   kit: {
     // Fully static marketing site — prerendered in src/routes/+layout.ts.
-    adapter: adapter({ fallback: undefined })
+    // 404.html is the shell nginx serves (with a 404 status) for any path
+    // that has no prerendered page; it renders src/routes/+error.svelte.
+    adapter: adapter({ fallback: '404.html' })
   }
 };
 

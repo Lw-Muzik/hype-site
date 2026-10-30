@@ -64,6 +64,8 @@
   }
   ::selection { background: var(--color-gold); color: #0a0b0e; }
   :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+  /* `list-none` drops the disclosure triangle everywhere but Safari. */
+  summary::-webkit-details-marker { display: none; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -98,6 +100,10 @@
   .btn-ghost:hover { border-color: var(--color-gold); color: #fff; }
 
   .kicker { @apply font-mono text-[12.5px] tracking-[0.02em] text-gold-deep; }
+  /* "Read more" from a homepage card to the page that covers it in depth. */
+  .card-link {
+    @apply mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-gold underline decoration-transparent underline-offset-4 transition-colors hover:decoration-gold;
+  }
   .eyebrow { @apply inline-flex items-center gap-2.5 font-mono text-[12.5px] tracking-[0.02em] text-muted; }
   .section-title { @apply font-display font-semibold leading-[1.02] tracking-[-0.02em]; }
   /* Clash Display ships a very narrow space: with the tight tracking, short

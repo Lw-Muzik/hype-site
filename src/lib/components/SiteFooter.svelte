@@ -3,6 +3,7 @@
   import { RELEASES_URL, formatDate, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
   import { CONTACT_EMAIL } from '$lib/legal';
+  import { FEATURE_PAGES } from '$lib/feature-pages';
 
   let { release = null }: { release?: LatestRelease | null } = $props();
 
@@ -84,8 +85,8 @@
   </div>
 
   <div class="border-t border-line">
-    <div class="wrap grid gap-x-10 gap-y-11 py-[clamp(40px,6vw,72px)] sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
-      <div class="max-w-[34ch]">
+    <div class="wrap grid gap-x-10 gap-y-11 py-[clamp(40px,6vw,72px)] sm:grid-cols-2 lg:grid-cols-5">
+      <div class="max-w-[34ch] lg:col-span-5 lg:max-w-[52ch]">
         <a href="/#top" class="inline-flex items-center gap-2.5">
           <Logo size={28} />
           <span class="font-display text-[18px] font-semibold">HypeMuzik</span>
@@ -107,6 +108,17 @@
           <li>
             <a href={WEB_REMOTE_URL} target="_blank" rel="noopener" class="text-[14.5px] text-muted transition-colors hover:text-text">Web remote ↗</a>
           </li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-features">
+        <h2 id="footer-features" class="text-[13px] font-semibold text-faint">Features</h2>
+        <ul class="mt-4 space-y-2.5">
+          {#each FEATURE_PAGES as { path, label }}
+            <li>
+              <a href={path} class="text-[14.5px] text-muted transition-colors hover:text-text">{label}</a>
+            </li>
+          {/each}
         </ul>
       </nav>
 

@@ -10,7 +10,7 @@
   import { reveal, countup, tilt } from '$lib/actions';
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
-  import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT, structuredDataJson } from '$lib/seo';
+  import { HOME_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT, HOME_FAQ, structuredDataJson } from '$lib/seo';
   import { GOOGLE_DRIVE_SCOPE as DRIVE, GOOGLE_PERMISSIONS_URL } from '$lib/legal';
   import { SUPPORTER_AMOUNTS } from '$lib/supporter';
 
@@ -109,13 +109,13 @@
   <link rel="preload" as="image" type="image/avif" imagesrcset="/hero/phone-visualiser-540.avif 540w, /hero/phone-visualiser-1080.avif 1080w" imagesizes="(min-width: 800px) 480px, 66vw" />
   <title>{TITLE}</title>
   <meta name="description" content={DESCRIPTION} />
-  <link rel="canonical" href={SITE_URL} />
+  <link rel="canonical" href={HOME_URL} />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content={SITE_NAME} />
   <meta property="og:title" content={TITLE} />
   <meta property="og:description" content={DESCRIPTION} />
-  <meta property="og:url" content={SITE_URL} />
+  <meta property="og:url" content={HOME_URL} />
   <meta property="og:image" content={OG_IMAGE} />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -393,6 +393,7 @@
               <li class="rounded-full border border-line px-2.5 py-[5px] font-mono text-[11.5px] text-muted">{t}</li>
             {/each}
           </ul>
+          <a href="/mac-equalizer" class="card-link">The free system-wide equalizer for Mac <span aria-hidden="true">&rarr;</span></a>
         </article>
 
         <!-- EQ -->
@@ -402,6 +403,7 @@
           </div>
           <h3 class="section-title mt-[18px] text-[22px]">31-band graphic EQ</h3>
           <p class="mt-2.5 text-[14.5px] text-muted">A live response curve over a real-time spectrum, with 12 built-in presets and 3,938 AutoEq headphone profiles.</p>
+          <a href="/autoeq" class="card-link">AutoEq headphone profiles <span aria-hidden="true">&rarr;</span></a>
         </article>
 
         <!-- DSP -->
@@ -438,6 +440,7 @@
           </div>
           <h3 class="section-title mt-[18px] text-[22px]">Split a song into stems</h3>
           <p class="mt-2.5 text-[14.5px] text-muted">Separate any track into vocals, drums, bass and everything else — then solo, mute or remix the parts while it plays.</p>
+          <a href="/vocal-remover" class="card-link">The free vocal remover <span aria-hidden="true">&rarr;</span></a>
         </article>
 
         <!-- visuals -->
@@ -689,6 +692,43 @@
     </div>
   </section>
 
+  <!-- ============================== FAQ ==============================
+       Plain questions people actually search, answered from HOME_FAQ in
+       $lib/seo — the same list feeds the FAQPage JSON-LD, so the markup
+       always matches what is on the page. <details> keeps every answer in
+       the HTML (and indexable) while the list stays scannable. -->
+  <section id="faq" class="border-t border-line py-[clamp(72px,10vw,140px)]">
+    <div class="wrap">
+      <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
+        <p class="kicker">07 &mdash; Questions</p>
+        <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">
+          Free, and <span class="grad-text">no catch.</span>
+        </h2>
+      </header>
+      <div class="reveal mx-auto mt-12 max-w-[820px] border-t border-line" use:reveal>
+        {#each HOME_FAQ as { q, a, more }}
+          <details class="faq group border-b border-line">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left">
+              <h3 class="font-display text-[clamp(17px,1.6vw,20px)] font-semibold leading-snug">{q}</h3>
+              <span
+                class="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line text-muted transition-transform duration-300 ease-brand group-open:rotate-45 group-open:border-gold/40 group-open:text-gold"
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+              </span>
+            </summary>
+            <div class="pb-6 sm:pr-14">
+              <p class="max-w-[64ch] text-[15.5px] leading-relaxed text-muted">{a}</p>
+              {#if more}
+                <a href={more[0]} class="card-link !mt-3">{more[1]} <span aria-hidden="true">&rarr;</span></a>
+              {/if}
+            </div>
+          </details>
+        {/each}
+      </div>
+    </div>
+  </section>
+
   <!-- ============================== CTA ============================== -->
   <section id="download" class="py-[clamp(72px,10vw,140px)] text-center">
     <div class="wrap">
@@ -697,7 +737,7 @@
           class="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] w-full opacity-35 [mask-image:linear-gradient(to_top,#000,transparent)]"
         />
         <h2 class="section-title relative text-[clamp(36px,6vw,76px)] tracking-[-0.025em]">Hear the difference.</h2>
-        <p class="relative mt-3.5 text-lg text-muted">Free, every feature, no ads. Studio-grade out of the box.</p>
+        <p class="relative mt-3.5 text-lg text-muted">Free music player and equalizer — every feature, no ads, no sign-up.</p>
         <div class="relative mt-8 flex flex-wrap justify-center gap-3">
           <DownloadButton label="macOS" platformId="macos" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
