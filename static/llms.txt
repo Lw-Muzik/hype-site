@@ -19,8 +19,8 @@ The desktop app processes system-wide audio, not just its own playback.
   spatializer, 3D surround, room reverb, convolution IR, multiband compander,
   tube saturation, script processor, makeup gain, brickwall limiter.
 - 3,938 bundled AutoEq headphone profiles.
-- Stem separation, synced karaoke lyrics, internet radio and TV, cloud
-  libraries (Google Drive, Dropbox) and YouTube Music.
+- Stem separation, synced karaoke lyrics, visualisers, and cloud libraries
+  (Google Drive, Dropbox).
 - Phone Link streams a phone's library through the desktop's DSP chain over the
   local network, with no cloud intermediary.
 - Hype Connect links a phone, a desktop and any web browser to one anonymous

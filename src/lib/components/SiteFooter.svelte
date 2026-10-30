@@ -29,7 +29,9 @@
     text,
     left: (CENTRES.indexOf(hz) / (CENTRES.length - 1)) * 100,
     // The end labels sit inside the axis rather than hanging off it.
-    shift: i === 0 ? '0' : i === all.length - 1 ? '-100%' : '-50%'
+    shift: i === 0 ? '0' : i === all.length - 1 ? '-100%' : '-50%',
+    // On a phone-width axis "10k" lands inside the right-anchored "20 kHz".
+    narrowHidden: hz === 10000
   }));
 
   // Absolute, not bare '#connect': this footer also renders on /privacy and
@@ -39,7 +41,8 @@
     ['/#hype-connect', 'Hype Connect'],
     ['/#desktop', 'Desktop'],
     ['/#chain', 'The chain'],
-    ['/#mobile', 'Mobile']
+    ['/#mobile', 'Mobile'],
+    ['/support', 'Supporter pack']
   ];
 
   const legal = [
@@ -69,9 +72,9 @@
       {/each}
     </div>
     <div class="relative mt-2 h-[13px]">
-      {#each AXIS_LABELS as { text, left, shift }}
+      {#each AXIS_LABELS as { text, left, shift, narrowHidden }}
         <span
-          class="absolute top-0 whitespace-nowrap font-mono text-[10.5px] leading-none text-faint"
+          class="absolute top-0 whitespace-nowrap font-mono text-[10.5px] leading-none text-faint{narrowHidden ? ' max-sm:hidden' : ''}"
           style="left: {left}%; transform: translateX({shift});"
         >
           {text}

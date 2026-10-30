@@ -22,6 +22,7 @@
     { id: 'diagnostics', label: 'Diagnostics & analytics' },
     { id: 'permissions', label: 'Device permissions' },
     { id: 'website', label: 'This website' },
+    { id: 'purchases', label: 'Buying the Supporter pack' },
     { id: 'never', label: 'What we never do' },
     { id: 'retention', label: 'Keeping & deleting data' },
     { id: 'security', label: 'Security' },
@@ -54,6 +55,11 @@
       <li>
         <strong>We do not run accounts.</strong> There is no HypeMuzik sign-up, no
         password, and no profile.
+      </li>
+      <li>
+        <strong>Buying is optional, and Paddle handles it.</strong> If you buy the Supporter
+        pack, Paddle takes the payment and we keep its order record, including your email
+        address — see <a href="#purchases">Buying the Supporter pack</a>.
       </li>
       <li>
         <strong>Cloud access is opt-in and stays between you and your provider.</strong> If
@@ -309,7 +315,9 @@
     <h2 id="website">This website</h2>
     <p>
       This site is a static marketing page. It sets no cookies and runs no third-party
-      tracking scripts.
+      tracking scripts. The one third-party script it can load is Paddle's checkout, and only
+      when you press Buy on the <a href="/support">Supporter pack</a> page — see
+      <a href="#purchases">Buying the Supporter pack</a>.
     </p>
     <p>
       The site does count visits, anonymously and without cookies. It stores a randomly
@@ -343,6 +351,31 @@
       Downloads are served from GitHub, and the app-store buttons link to Apple and Google.
       Following those links takes you to services with their own privacy policies, which we
       do not control.
+    </p>
+  </section>
+
+  <section>
+    <h2 id="purchases">Buying the Supporter pack</h2>
+    <p>
+      Pressing Buy on the <a href="/support">Supporter pack</a> page loads Paddle's checkout.
+      Paddle.com is the Merchant of Record: it takes your payment details, works out sales
+      tax, screens for fraud and emails your receipt, using cookies and similar technology
+      inside its checkout. That processing is Paddle's, under the
+      <a href="https://www.paddle.com/legal/privacy" target="_blank" rel="noopener noreferrer">Paddle Privacy Policy</a>.
+      We never see or store your full card number or security code.
+    </p>
+    <p>When an order completes, Paddle sends us its record of the order, which we keep. It contains:</p>
+    <ul>
+      <li>your email address;</li>
+      <li>what you paid, the currency, and the tax on it;</li>
+      <li>Paddle's identifiers for the order and for you as a customer;</li>
+      <li>the payment method summary Paddle includes — for a card, its brand, last four digits, expiry date and the cardholder name.</li>
+    </ul>
+    <p>
+      We use it to give you the Supporter badge (the app looks up your purchase by that email
+      when you choose "Restore purchase"), to answer questions and refunds about your order,
+      and to keep the records that tax and accounting rules require. We keep it for as long
+      as those rules require, and we never use it for marketing or share it with anyone else.
     </p>
   </section>
 

@@ -12,6 +12,7 @@
   import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
   import { SITE_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT, structuredDataJson } from '$lib/seo';
   import { GOOGLE_DRIVE_SCOPE as DRIVE, GOOGLE_PERMISSIONS_URL } from '$lib/legal';
+  import { SUPPORTER_AMOUNTS } from '$lib/supporter';
 
   let y = $state(0);
   const stuck = $derived(y > 8);
@@ -26,7 +27,8 @@
     ['#desktop', 'Desktop'],
     ['#chain', 'The chain'],
     ['#mobile', 'Mobile'],
-    ['#data', 'Your data']
+    ['#data', 'Your data'],
+    ['/support', 'Supporter', true]
   ];
 
   // Desktop downloads resolve against the live GitHub release, so publishing a
@@ -44,7 +46,6 @@
   const shots = [
     { n: 'eq', alt: 'HypeMuzik mobile — graphic equalizer with presets' },
     { n: 'stems', alt: 'HypeMuzik mobile — stem separation: vocals, drums, instruments' },
-    { n: 'search', alt: 'HypeMuzik mobile — one search across your library, cloud drives and YouTube Music' },
     { n: 'queue', alt: 'HypeMuzik mobile — now playing with a 26-track daily-mix queue' },
     { n: 'settings', alt: 'HypeMuzik mobile — playback settings: gapless, crossfade, replay gain, autoplay' },
     { n: 'nowplaying', alt: 'HypeMuzik mobile — now playing with album art, waveform and synced lyrics' }
@@ -52,11 +53,10 @@
   const features = [
     { b: 'The full chain, on a phone', s: 'Graphic and parametric EQ, tone, dynamics, space, room reverb and a speaker EQ — the desktop stages, hand-tuned in C++.', shot: 0 },
     { b: 'Stem separation on device', s: 'Split a track into vocals, drums, bass and other, then mix the stems live.', shot: 1 },
-    { b: 'One search, every source', s: 'Your library, your cloud drives and YouTube Music in a single list — tap anything to start a station.', shot: 2 },
-    { b: 'Daily mixes that learn', s: 'Mixes blended from your drive, YouTube and videos, seeded by the time of day and what you actually play.', shot: 3 },
-    { b: 'Gapless, crossfade & replay-gain', s: 'Seamless transitions and consistent loudness across your library.', shot: 4 },
-    { b: 'Synced lyrics & identify', s: 'Karaoke lyrics and AcoustID fingerprinting, the same as desktop.', shot: 5 },
-    { b: 'Be a source, or a speaker', s: 'Stream your library to the desktop over your own Wi-Fi, or receive a cast from it.', shot: 5 }
+    { b: 'Daily mixes that learn', s: 'Mixes blended from your library and your cloud drives, seeded by the time of day and what you actually play.', shot: 2 },
+    { b: 'Gapless, crossfade & replay-gain', s: 'Seamless transitions and consistent loudness across your library.', shot: 3 },
+    { b: 'Synced lyrics & identify', s: 'Karaoke lyrics and AcoustID fingerprinting, the same as desktop.', shot: 4 },
+    { b: 'Be a source, or a speaker', s: 'Stream your library to the desktop over your own Wi-Fi, or receive a cast from it.', shot: 4 }
   ];
   let activeFeature = $state(0);
   const activeShot = $derived(features[activeFeature].shot);
@@ -439,22 +439,22 @@
           <p class="mt-2.5 text-[14.5px] text-muted">Separate any track into vocals, drums, bass and everything else — then solo, mute or remix the parts while it plays.</p>
         </article>
 
-        <!-- stations + movies -->
+        <!-- visuals -->
         <article class="reveal group rounded-[18px] border border-line bg-surface-1 p-[30px] transition-colors hover:border-line-2" use:tilt use:reveal={{ delay: 120 }}>
           <div class="grid h-[52px] w-[52px] place-items-center rounded-[13px] border border-gold/20 bg-gold/10 text-gold">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8 7l8-4"/><circle cx="17" cy="13.5" r="1.6"/></svg>
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"/></svg>
           </div>
-          <h3 class="section-title mt-[18px] text-[22px]">Radio, TV and movies</h3>
-          <p class="mt-2.5 text-[14.5px] text-muted">Internet radio and world TV, checked for a live signal before you tune in — plus a movies browser, in the same window.</p>
+          <h3 class="section-title mt-[18px] text-[22px]">Visuals that hear it</h3>
+          <p class="mt-2.5 text-[14.5px] text-muted">Visualisers driven by the processed signal, so what moves on screen is the sound coming out of your speakers.</p>
         </article>
 
-        <!-- cloud + ytmusic -->
+        <!-- cloud -->
         <article class="reveal group rounded-[18px] border border-line bg-surface-1 p-[30px] transition-colors hover:border-line-2" use:tilt use:reveal={{ delay: 60 }}>
           <div class="grid h-[52px] w-[52px] place-items-center rounded-[13px] border border-gold/20 bg-gold/10 text-gold">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18h10a3.5 3.5 0 0 0 .5-6.96 5.5 5.5 0 0 0-10.6-1.2A4 4 0 0 0 7 18z"/></svg>
           </div>
-          <h3 class="section-title mt-[18px] text-[22px]">Your cloud, and YouTube Music</h3>
-          <p class="mt-2.5 text-[14.5px] text-muted">Play straight from Google Drive or Dropbox — several accounts at once — and search YouTube Music for tracks, playlists and endless radio.</p>
+          <h3 class="section-title mt-[18px] text-[22px]">Your cloud, every account</h3>
+          <p class="mt-2.5 text-[14.5px] text-muted">Play straight from Google Drive or Dropbox — several accounts at once — with the same library on desktop and phone.</p>
         </article>
 
         <!-- wide: lyrics -->
@@ -696,7 +696,7 @@
           class="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] w-full opacity-35 [mask-image:linear-gradient(to_top,#000,transparent)]"
         />
         <h2 class="section-title relative text-[clamp(36px,6vw,76px)] tracking-[-0.025em]">Hear the difference.</h2>
-        <p class="relative mt-3.5 text-lg text-muted">Free to try. Studio-grade out of the box.</p>
+        <p class="relative mt-3.5 text-lg text-muted">Free, every feature, no ads. Studio-grade out of the box.</p>
         <div class="relative mt-8 flex flex-wrap justify-center gap-3">
           <DownloadButton label="macOS" platformId="macos" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
@@ -728,6 +728,12 @@
               all downloads
             </a>
           {/if}
+        </p>
+        <p class="relative mt-3 text-[14.5px] text-muted">
+          Want to back it?
+          <a href="/support" data-track="cta-supporter" class="font-semibold text-text underline decoration-line-2 underline-offset-4 transition hover:decoration-gold">
+            Supporter pack, from ${SUPPORTER_AMOUNTS[0]}
+          </a>
         </p>
       </div>
     </div>

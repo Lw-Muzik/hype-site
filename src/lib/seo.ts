@@ -78,7 +78,7 @@ export const structuredData = {
         'Stem separation',
         'Phone to desktop audio streaming',
         'Synced karaoke lyrics',
-        'Internet radio, TV and movies',
+        'Visualisers driven by the processed signal',
         'Google Drive and Dropbox libraries',
         'Remote control from any web browser (Hype Connect)',
         'Phone and desktop remote with one-tap takeover'

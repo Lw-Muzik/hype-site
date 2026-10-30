@@ -8,6 +8,7 @@ export function GET() {
   const built = new Date().toISOString().slice(0, 10);
   const pages: [string, string][] = [
     ['/', built],
+    ['/support', built],
     ['/privacy', EFFECTIVE.privacy.iso],
     ['/terms', EFFECTIVE.terms.iso],
     ['/refunds', EFFECTIVE.refunds.iso]

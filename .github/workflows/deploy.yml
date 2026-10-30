@@ -9,6 +9,12 @@ name: Deploy HypeMuzik Site
 #              VITE_MANAGEMENT_API (optional, https:// — analytics stays off
 #              while unset; an http:// endpoint would be blocked as mixed
 #              content because the site is served over TLS)
+#              VITE_PADDLE_ENV, VITE_PADDLE_CLIENT_TOKEN,
+#              VITE_PADDLE_SUPPORTER_PRICES (optional — /support's Buy button
+#              stays off until all three are set. ENV is exactly `sandbox` or
+#              `production`; the token must match it (test_… / live_…);
+#              PRICES is `3:pri_…,5:pri_…,10:pri_…,25:pri_…`, one Paddle
+#              price per amount in src/lib/supporter.ts)
 #   Secrets:   SSH_KEY   (private key authorized on the VPS, port 30620)
 
 on:
@@ -78,6 +84,9 @@ jobs:
         run: |
           docker build \
             --build-arg VITE_MANAGEMENT_API="${{ vars.VITE_MANAGEMENT_API }}" \
+            --build-arg VITE_PADDLE_ENV="${{ vars.VITE_PADDLE_ENV }}" \
+            --build-arg VITE_PADDLE_CLIENT_TOKEN="${{ vars.VITE_PADDLE_CLIENT_TOKEN }}" \
+            --build-arg VITE_PADDLE_SUPPORTER_PRICES="${{ vars.VITE_PADDLE_SUPPORTER_PRICES }}" \
             -t ${{ env.IMAGE_NAME }}:production .
 
       - name: Save Docker Image

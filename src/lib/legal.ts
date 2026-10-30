@@ -40,8 +40,8 @@ export const CONTACT_EMAIL = 'brunolabs256@gmail.com';
  * lastmod both read from here.
  */
 export const EFFECTIVE = {
-  privacy: { iso: '2026-10-27', display: '27 October 2026' },
-  terms: { iso: '2026-10-26', display: '26 October 2026' },
+  privacy: { iso: '2026-10-30', display: '30 October 2026' },
+  terms: { iso: '2026-10-30', display: '30 October 2026' },
   refunds: { iso: '2026-10-26', display: '26 October 2026' }
 } as const;
 

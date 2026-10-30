@@ -24,6 +24,16 @@ COPY . .
 ARG VITE_MANAGEMENT_API=""
 ENV VITE_MANAGEMENT_API=${VITE_MANAGEMENT_API}
 
+# Supporter pack checkout (Paddle), baked at build time. Left empty the
+# /support page still shows the pack and its prices, but Buy stays off — see
+# src/lib/supporter.ts. The client-side token is public by design.
+ARG VITE_PADDLE_ENV=""
+ARG VITE_PADDLE_CLIENT_TOKEN=""
+ARG VITE_PADDLE_SUPPORTER_PRICES=""
+ENV VITE_PADDLE_ENV=${VITE_PADDLE_ENV} \
+    VITE_PADDLE_CLIENT_TOKEN=${VITE_PADDLE_CLIENT_TOKEN} \
+    VITE_PADDLE_SUPPORTER_PRICES=${VITE_PADDLE_SUPPORTER_PRICES}
+
 # `pnpm exec vite build` rather than `pnpm build`: pnpm-workspace.yaml makes
 # this directory a workspace root, and at the pinned pnpm version a bare
 # `pnpm <script>` there can fail with "Command not found" (same reason the

@@ -152,8 +152,7 @@
       <p>
         <strong>No affiliation.</strong> HypeMuzik is an independent product. It is not
         affiliated with, sponsored by, endorsed by, or otherwise connected to Google LLC,
-        YouTube, Dropbox, Inc., Apple Inc., or any other third party whose service it can
-        connect to. All trademarks belong to their respective owners and are used only to
+        Dropbox, Inc., Apple Inc., or any other third party whose service it can connect to. All trademarks belong to their respective owners and are used only to
         describe compatibility.
       </p>
     </div>
@@ -201,12 +200,19 @@
   <section>
     <h2 id="payments">Payments and refunds</h2>
     <p>
-      HypeMuzik is currently free to download and use, and in-app payments are switched off.
+      HypeMuzik is free to download and use, with every feature, on every platform.
     </p>
     <p>
-      If we offer paid features, Supporter contributions, or plans, the price, what it
-      includes, and whether it renews will be shown clearly before you pay. Nothing in these
-      Terms obliges you to pay for anything you have not explicitly bought.
+      The one thing we sell is the optional <a href="/support">Supporter pack</a>: a
+      one-time payment, at a price you choose from the amounts on that page, that adds a
+      Supporter badge to the apps. It is not a subscription and does not renew. It unlocks
+      no features and its absence removes none. The badge is tied to the email address you
+      pay with and is removed if the payment is refunded.
+    </p>
+    <p>
+      If we ever offer anything else, its price, what it includes, and whether it renews will
+      be shown clearly before you pay. Nothing in these Terms obliges you to pay for anything
+      you have not explicitly bought.
     </p>
     <div class="legal-note is-key">
       <p>
