@@ -7,7 +7,7 @@
    * Checkout is Paddle's overlay, loaded only when someone presses Buy, so a
    * visitor who only reads the page never fetches Paddle's script.
    */
-  import { onDestroy } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import type { Paddle, PaddleEventData } from '@paddle/paddle-js';
   import Logo from '$lib/components/Logo.svelte';
   import SiteFooter from '$lib/components/SiteFooter.svelte';
@@ -55,24 +55,34 @@
     }
   }
 
-  async function buy() {
-    if (!CHECKOUT || !priceId || phase === 'opening') return;
+  function startOpening() {
     phase = 'opening';
     openTimer = setTimeout(() => {
       if (phase === 'opening') phase = 'failed';
     }, OPEN_TIMEOUT_MS);
+  }
 
+  /** Loads and initialises Paddle.js once; later calls reuse it. */
+  async function ensurePaddle(config: NonNullable<typeof CHECKOUT>): Promise<Paddle> {
+    if (!paddle) {
+      const { initializePaddle } = await import('@paddle/paddle-js');
+      paddle = await initializePaddle({
+        environment: config.environment,
+        token: config.token,
+        eventCallback: onPaddleEvent,
+        checkout: { settings: { displayMode: 'overlay', theme: 'dark', variant: 'one-page' } }
+      });
+    }
+    if (!paddle) throw new Error('Paddle.js did not load');
+    return paddle;
+  }
+
+  async function buy() {
+    if (!CHECKOUT || !priceId || phase === 'opening') return;
+    startOpening();
     try {
-      if (!paddle) {
-        const { initializePaddle } = await import('@paddle/paddle-js');
-        paddle = await initializePaddle({
-          environment: CHECKOUT.environment,
-          token: CHECKOUT.token,
-          eventCallback: onPaddleEvent
-        });
-      }
-      if (!paddle) throw new Error('Paddle.js did not load');
-      paddle.Checkout.open({
+      const p = await ensurePaddle(CHECKOUT);
+      p.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         settings: { displayMode: 'overlay', theme: 'dark', variant: 'one-page' }
       });
@@ -80,6 +90,20 @@
       settle('failed');
     }
   }
+
+  // This page is also Paddle's default payment link: a checkout started in the
+  // desktop app arrives here as /support?_ptxn=txn_…, and Paddle.js opens that
+  // transaction by itself once it is initialised. Ordinary visitors (no _ptxn)
+  // still never load Paddle's script until they press Buy.
+  onMount(() => {
+    if (!new URL(window.location.href).searchParams.get('_ptxn')) return;
+    if (!CHECKOUT) {
+      phase = 'failed';
+      return;
+    }
+    startOpening();
+    ensurePaddle(CHECKOUT).catch(() => settle('failed'));
+  });
 
   onDestroy(() => clearTimeout(openTimer));
 
