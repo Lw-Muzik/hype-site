@@ -22,7 +22,7 @@
     { id: 'diagnostics', label: 'Diagnostics & analytics' },
     { id: 'permissions', label: 'Device permissions' },
     { id: 'website', label: 'This website' },
-    { id: 'purchases', label: 'Buying the Supporter pack' },
+    { id: 'purchases', label: 'Buying HypeMuzik Plus' },
     { id: 'never', label: 'What we never do' },
     { id: 'retention', label: 'Keeping & deleting data' },
     { id: 'security', label: 'Security' },
@@ -57,9 +57,9 @@
         password, and no profile.
       </li>
       <li>
-        <strong>Buying is optional, and Paddle handles it.</strong> If you buy the Supporter
-        pack, Paddle takes the payment and we keep its order record, including your email
-        address — see <a href="#purchases">Buying the Supporter pack</a>.
+        <strong>Buying is optional, and Paddle handles it.</strong> If you buy HypeMuzik
+        Plus, Paddle takes the payment and we keep its order record, including your email
+        address — see <a href="#purchases">Buying HypeMuzik Plus</a>.
       </li>
       <li>
         <strong>Cloud access is opt-in and stays between you and your provider.</strong> If
@@ -316,8 +316,8 @@
     <p>
       This site is a static marketing page. It sets no cookies and runs no third-party
       tracking scripts. The one third-party script it can load is Paddle's checkout, and only
-      when you press Buy on the <a href="/support">Supporter pack</a> page — see
-      <a href="#purchases">Buying the Supporter pack</a>.
+      when you press Buy on the <a href="/plus">HypeMuzik Plus</a> page — see
+      <a href="#purchases">Buying HypeMuzik Plus</a>.
     </p>
     <p>
       The site does count visits, anonymously and without cookies. It stores a randomly
@@ -355,9 +355,9 @@
   </section>
 
   <section>
-    <h2 id="purchases">Buying the Supporter pack</h2>
+    <h2 id="purchases">Buying HypeMuzik Plus</h2>
     <p>
-      Pressing Buy on the <a href="/support">Supporter pack</a> page loads Paddle's checkout.
+      Pressing Buy on the <a href="/plus">HypeMuzik Plus</a> page loads Paddle's checkout.
       Paddle.com is the Merchant of Record: it takes your payment details, works out sales
       tax, screens for fraud and emails your receipt, using cookies and similar technology
       inside its checkout. That processing is Paddle's, under the
@@ -372,7 +372,7 @@
       <li>the payment method summary Paddle includes — for a card, its brand, last four digits, expiry date and the cardholder name.</li>
     </ul>
     <p>
-      We use it to give you the Supporter badge (the app looks up your purchase by that email
+      We use it to give you HypeMuzik Plus and the Supporter badge (the app looks up your purchase by that email
       when you choose "Restore purchase"), to answer questions and refunds about your order,
       and to keep the records that tax and accounting rules require. We keep it for as long
       as those rules require, and we never use it for marketing or share it with anyone else.

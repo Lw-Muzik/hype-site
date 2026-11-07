@@ -43,7 +43,7 @@
     ['/#desktop', 'Desktop'],
     ['/#chain', 'The chain'],
     ['/#mobile', 'Mobile'],
-    ['/support', 'Supporter pack']
+    ['/plus', 'Plus']
   ];
 
   const legal = [

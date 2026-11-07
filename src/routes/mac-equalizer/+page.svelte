@@ -6,7 +6,7 @@
   const faqs = [
     {
       q: 'Is the Mac equalizer really free?',
-      a: 'Yes. HypeMuzik has no ads and no paywall, and playback and the equalizer need no sign-up. There is an optional pay-what-you-want Supporter pack that adds a badge, but every feature stays free for everyone.'
+      a: 'Yes. The player, the 31-band equalizer and system-wide EQ are free, with no ads and no sign-up. HypeMuzik Plus is an optional US$5 one-time upgrade that adds six pro audio tools to the desktop app: per-app EQ, per-app mixer, convolver, 3D surround, room reverb and ViPER DDC curves.'
     },
     {
       q: 'Does it equalize every app on my Mac, or only HypeMuzik?',
@@ -26,7 +26,7 @@
     },
     {
       q: 'How many bands does the equalizer have?',
-      a: 'The graphic equalizer has 31 bands at ISO ⅓-octave centres from 20 Hz to 20 kHz. It is one stage of a 12-stage chain that also includes bass boost, a stereo spatializer, 3D surround, reverb and a limiter.'
+      a: 'The graphic equalizer has 31 bands at ISO ⅓-octave centres from 20 Hz to 20 kHz. It is one stage of a 12-stage chain that also includes bass boost, a stereo spatializer, 3D surround and room reverb (both part of the optional HypeMuzik Plus desktop upgrade) and a limiter.'
     },
     {
       q: 'Can I correct my headphones on Mac?',
@@ -113,9 +113,9 @@
     <li>31-band graphic equalizer</li>
     <li>Bass boost</li>
     <li>Stereo spatializer</li>
-    <li>3D surround</li>
-    <li>Room reverb</li>
-    <li>Convolution impulse response</li>
+    <li>3D surround (HypeMuzik Plus)</li>
+    <li>Room reverb (HypeMuzik Plus)</li>
+    <li>Convolution impulse response (HypeMuzik Plus)</li>
     <li>Multiband compander</li>
     <li>Tube saturation</li>
     <li>Script processor</li>
@@ -144,7 +144,8 @@
   </p>
   <p>
     If you also want a quick preset, the equalizer includes a preset picker, and you can save your
-    own. Everything here is free on Mac, and the same engine runs on the
+    own. The equalizer and system-wide EQ are free on Mac; the stages marked Plus come with the optional
+    <a href="/plus">HypeMuzik Plus</a> upgrade (US$5, one time). The same engine runs on the
     <a href="/linux-music-player">Linux build</a> and in the phone apps.
   </p>
 </FeaturePage>

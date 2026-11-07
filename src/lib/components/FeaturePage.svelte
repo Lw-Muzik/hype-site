@@ -16,6 +16,7 @@
   import { SITE_URL, SITE_NAME, OG_IMAGE, OG_IMAGE_ALT } from '$lib/seo';
   import { fetchLatestRelease, formatDate, RELEASES_URL, type LatestRelease } from '$lib/releases';
   import { IOS_URL, PLAY_URL } from '$lib/links';
+  import { PLUS_PRICE_TEXT } from '$lib/plus';
   import { FEATURE_PAGES } from '$lib/feature-pages';
 
   type Faq = { q: string; a: string };
@@ -116,7 +117,7 @@
       <span class="font-display text-[19px] font-semibold tracking-[-0.01em] max-sm:sr-only">HypeMuzik</span>
     </a>
     <nav class="flex items-center gap-4 sm:gap-6" aria-label="Site">
-      <a href="/support" class="text-[14.5px] font-medium text-muted transition-colors hover:text-text">Supporter pack</a>
+      <a href="/plus" class="text-[14.5px] font-medium text-muted transition-colors hover:text-text">Plus</a>
       <a href="/" class="btn btn-ghost px-[18px] py-[9px]">Back to site</a>
     </nav>
   </div>
@@ -168,7 +169,7 @@
       <div class="rounded-[24px] border border-line bg-surface-1 px-6 py-[clamp(36px,5vw,64px)] text-center">
         <h2 id="download-heading" class="section-title text-[clamp(28px,4.4vw,48px)]">Free on every device.</h2>
         <p class="mx-auto mt-3.5 max-w-[52ch] text-[16.5px] text-muted">
-          Every feature, no ads, and no sign-up to play music or use the equalizer.
+          No ads, and no sign-up to play music or use the equalizer.
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
           <DownloadButton label="macOS" platformId="macos" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
@@ -195,7 +196,7 @@
           {/if}
         </p>
         <p class="mt-2 text-[14px] text-faint">
-          Want to back the project? The optional <a href="/support" class="underline decoration-line-2 underline-offset-4 hover:text-text">Supporter pack</a> adds a badge; nothing is locked behind it.
+          On the desktop, the optional <a href="/plus" class="underline decoration-line-2 underline-offset-4 hover:text-text">HypeMuzik Plus</a> adds six pro audio tools for {PLUS_PRICE_TEXT}, one time.
         </p>
       </div>
     </div>

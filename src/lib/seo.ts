@@ -36,7 +36,8 @@ export const DESCRIPTION =
 export const HOME_FAQ: { q: string; a: string; more?: [href: string, label: string] }[] = [
   {
     q: 'Is HypeMuzik really free?',
-    a: 'Yes. Every feature is free on every platform, with no ads, no paywall and no sign-up. If you want to back development there is an optional, pay-what-you-want Supporter pack; it adds a Supporter badge, and every feature stays free for everyone.'
+    a: 'Yes. The player is free on every platform, with no ads and no sign-up, and so are the 31-band equalizer, AutoEq headphone profiles, stem separation, lyrics and cloud music. HypeMuzik Plus is an optional US$5 one-time upgrade for six pro audio features in the desktop app: per-app EQ, per-app mixer, convolver, 3D surround, room reverb and ViPER DDC curves. Every new desktop install gets those six free for 7 days, with no card and no automatic charge. The phone apps stay fully free.',
+    more: ['/plus', 'About HypeMuzik Plus']
   },
   {
     q: 'Which devices does HypeMuzik run on?',
@@ -45,7 +46,7 @@ export const HOME_FAQ: { q: string; a: string; more?: [href: string, label: stri
   },
   {
     q: 'Does HypeMuzik have an equalizer?',
-    a: 'Yes: a 31-band graphic equalizer at ISO third-octave centres from 20 Hz to 20 kHz, inside a 12-stage DSP chain that adds headphone correction, bass boost, 3D surround, room reverb, a multiband compander and a brickwall limiter.'
+    a: 'Yes: a 31-band graphic equalizer at ISO third-octave centres from 20 Hz to 20 kHz, inside a 12-stage DSP chain that adds headphone correction, bass boost, a multiband compander and a brickwall limiter. On the desktop, 3D surround, room reverb and a convolver come with HypeMuzik Plus.'
   },
   {
     q: 'Can it equalize all the sound on my Mac?',
@@ -128,18 +129,30 @@ export const structuredData = {
       image: OG_IMAGE,
       screenshot: HERO_SCREENSHOT,
       isAccessibleForFree: true,
-      offers: {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock'
-      },
+      offers: [
+        {
+          '@type': 'Offer',
+          name: 'HypeMuzik',
+          price: '0',
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock'
+        },
+        {
+          '@type': 'Offer',
+          name: 'HypeMuzik Plus (desktop, one-time)',
+          price: '5',
+          priceCurrency: 'USD',
+          url: `${SITE_URL}/plus`,
+          availability: 'https://schema.org/InStock'
+        }
+      ],
       downloadUrl: [RELEASES_URL, IOS_URL, PLAY_URL],
       softwareHelp: GITHUB_URL,
       publisher: { '@id': `${SITE_URL}/#org` },
       author: { '@id': `${SITE_URL}/#org` },
       featureList: [
         'Free, with no ads and no sign-up',
+        'HypeMuzik Plus: optional US$5 one-time desktop upgrade',
         '31-band graphic equalizer',
         '12-stage DSP chain',
         'System-wide audio processing',

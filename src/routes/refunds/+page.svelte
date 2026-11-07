@@ -35,9 +35,10 @@
   description="How refunds work for HypeMuzik purchases: a full refund within {DAYS} days of buying from us, how to ask for one, and what Paddle, Apple and Google handle."
   path="/refunds"
   effective={EFFECTIVE.refunds}
-  intro="HypeMuzik is free to use today — nothing in the apps or on this site charges you.
-         This policy sets out how refunds work for whenever you do pay us, and the short
-         version is simple: change your mind within {DAYS} days and you get your money back."
+  intro="HypeMuzik is free to use. The one thing we sell is HypeMuzik Plus, an optional
+         US$5 one-time licence for the desktop app. This policy sets out how refunds work,
+         and the short version is simple: change your mind within {DAYS} days and you get
+         your money back."
   {sections}
 >
   <section>
@@ -45,8 +46,10 @@
     <div class="legal-note is-key">
       <ul>
         <li>
-          <strong>HypeMuzik is free today.</strong> Nothing in the apps or on this site charges
-          you, so there is nothing to refund yet. This policy is here for when that changes.
+          <strong>HypeMuzik Plus is covered.</strong> Plus is a one-time US$5 licence for the
+          desktop app, sold by Paddle. Ask within {DAYS} days and you get the US$5 back, with
+          the tax Paddle charged on it. The rest of HypeMuzik is free, so there is nothing to
+          refund there.
         </li>
         <li>
           <strong>Changed your mind?</strong> Anything you buy from us directly is refunded in
@@ -71,9 +74,9 @@
   <section>
     <h2 id="scope">What this policy covers</h2>
     <p>
-      This policy covers every payment you make to {OPERATOR} — Supporter contributions,
-      paid features, plans, tips and donations — whether you pay on this website, in the
-      desktop app, or in the mobile app.
+      This policy covers every payment you make to {OPERATOR} — HypeMuzik Plus and anything
+      else we may sell — whether you pay on this website, in the desktop app, or in the
+      mobile app.
     </p>
     <p>
       <strong>About returns.</strong> Everything we sell is digital, so there is nothing to
@@ -257,8 +260,8 @@
   <section>
     <h2 id="access">What a refund removes</h2>
     <p>
-      When a payment is refunded, whatever it unlocked — Supporter status or a paid feature —
-      is removed from your account and devices. Everything that is free keeps working, and
+      When a payment is refunded, whatever it unlocked — HypeMuzik Plus, its Supporter badge
+      or any other paid feature — is removed from your account and devices. Everything that is free keeps working, and
       your music library, playlists and settings are not deleted.
     </p>
     <p>You are welcome to buy again later.</p>

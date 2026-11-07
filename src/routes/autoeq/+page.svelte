@@ -9,7 +9,7 @@
     },
     {
       q: 'Is it free?',
-      a: 'Yes. HypeMuzik has no ads and no paywall, and the equalizer and headphone profiles need no sign-up. An optional pay-what-you-want Supporter pack adds a badge only.'
+      a: 'Yes. The equalizer and the AutoEq headphone profiles are free, with no ads and no sign-up. HypeMuzik Plus is an optional US$5 one-time upgrade for six pro audio tools in the desktop app; AutoEq is not one of them.'
     },
     {
       q: 'How many headphone profiles are there?',

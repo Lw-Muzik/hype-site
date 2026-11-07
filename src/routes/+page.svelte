@@ -12,7 +12,8 @@
   import { IOS_URL, PLAY_URL, GITHUB_URL, WEB_REMOTE_URL } from '$lib/links';
   import { HOME_URL, SITE_NAME, TITLE, DESCRIPTION, OG_IMAGE, OG_IMAGE_ALT, HOME_FAQ, structuredDataJson } from '$lib/seo';
   import { GOOGLE_DRIVE_SCOPE as DRIVE, GOOGLE_PERMISSIONS_URL } from '$lib/legal';
-  import { SUPPORTER_AMOUNTS } from '$lib/supporter';
+  import { PLUS_PRICE_TEXT } from '$lib/plus';
+  import PlusTag from '$lib/components/PlusTag.svelte';
 
   let y = $state(0);
   const stuck = $derived(y > 8);
@@ -28,7 +29,7 @@
     ['#chain', 'The chain'],
     ['#mobile', 'Mobile'],
     ['#data', 'Your data'],
-    ['/support', 'Supporter', true]
+    ['/plus', 'Plus']
   ];
 
   // Desktop downloads resolve against the live GitHub release, so publishing a
@@ -93,6 +94,8 @@
     'Makeup gain',
     'Brickwall limiter'
   ];
+  // Chain stages that HypeMuzik Plus unlocks in the desktop app.
+  const PLUS_STAGES = new Set(['3D surround', 'Room reverb', 'Convolution IR']);
   const stats = [
     { n: 31, l: 'EQ bands' },
     { n: 3938, l: 'AutoEq profiles' },
@@ -320,7 +323,7 @@
 
       <ol class="mt-14 grid gap-4 lg:grid-cols-3" aria-label="How Hype Connect works">
         {#each [
-          { t: 'Open the remote', s: 'Go to play.hypemuzik.com on any computer, tablet or TV browser. It shows a QR code and a 6-digit code.' },
+          { t: 'Open the remote', s: 'Go to play.hypemuzik.com on any computer or tablet browser. It shows a QR code and a 6-digit code.' },
           { t: 'Link your phone', s: 'In HypeMuzik on your phone, open Settings → Cloud & Devices → Hype Connect, then scan the code — or type the 6 digits — and approve. No email, no password.' },
           { t: 'Pick where it plays', s: 'Choose your phone or your desktop as the player, then search, queue, skip, follow the synced lyrics and watch the live visualiser from the browser.' }
         ] as step, i}
@@ -350,7 +353,7 @@
             { b: 'Leave Hype Connect on', s: 'On Android it keeps running in the background with a quiet notification, so the remote can always reach your phone.' },
             { b: 'Local songs stay local', s: 'Files that live on one device play there; HypeMuzik offers to switch the player for you.' },
             { b: 'Media keys follow the music', s: 'On the desktop, media keys and the tray control whichever device is playing.' },
-            { b: 'Nothing to install in the browser', s: 'The web remote never plays audio itself, so any screen with a browser works — even a TV.' }
+            { b: 'Nothing to install in the browser', s: 'The web remote never plays audio itself, so any screen with a browser works.' }
           ] as f}
             <li class="flex flex-col gap-1 border-b border-line py-[18px] last:border-b-0">
               <b class="text-[16.5px]">{f.b}</b>
@@ -390,7 +393,7 @@
           <p class="mt-2.5 max-w-[46ch] text-[14.5px] text-muted">Route <em class="text-text italic">all</em> system audio through the chain — a macOS Core Audio process tap or per-app WASAPI control on Windows. Tune the whole machine, not one player.</p>
           <ul class="mt-4 flex flex-wrap gap-2">
             {#each ['Core Audio tap', 'Per-app mixer', 'macOS 14.4+'] as t}
-              <li class="rounded-full border border-line px-2.5 py-[5px] font-mono text-[11.5px] text-muted">{t}</li>
+              <li class="rounded-full border border-line px-2.5 py-[5px] font-mono text-[11.5px] text-muted">{t}{#if t === 'Per-app mixer'}<PlusTag />{/if}</li>
             {/each}
           </ul>
           <a href="/mac-equalizer" class="card-link">The free system-wide equalizer for Mac <span aria-hidden="true">&rarr;</span></a>
@@ -412,7 +415,8 @@
             <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path stroke-linecap="round" d="M10 3v2M14 3v2M10 19v2M14 19v2M3 10h2M3 14h2M19 10h2M19 14h2"/></svg>
           </div>
           <h3 class="section-title mt-[18px] text-[22px]">Full DSP chain</h3>
-          <p class="mt-2.5 text-[14.5px] text-muted">Headphone correction, bass boost, spatializer, 3D surround, room reverb, convolution IR, multiband compander and tube saturation — into a brickwall limiter.</p>
+          <p class="mt-2.5 text-[14.5px] text-muted">Headphone correction, bass boost, spatializer, 3D surround<PlusTag />, room reverb<PlusTag />, convolution IR<PlusTag />, multiband compander and tube saturation — into a brickwall limiter.</p>
+          <a href="/plus" class="card-link">HypeMuzik Plus for the desktop <span aria-hidden="true">&rarr;</span></a>
         </article>
 
         <!-- library -->
@@ -485,7 +489,7 @@
         <p class="kicker">04 — Signal path</p>
         <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">Every sample, <span class="grad-text">in order.</span></h2>
         <p class="mx-auto mt-[18px] max-w-[56ch] text-[clamp(15px,1.4vw,18px)] text-muted">
-          The same custom chain runs on both platforms. Order matters — so we show it the way the audio actually flows.
+          The same custom chain runs on both platforms. Order matters — so we show it the way the audio actually flows. On the desktop, the stages marked <a href="/plus" class="text-text underline decoration-line-2 underline-offset-4 hover:decoration-gold">Plus</a> are unlocked by HypeMuzik Plus; the phone apps are free.
         </p>
       </header>
 
@@ -498,7 +502,7 @@
               : 'border-r-0 bg-surface-2'}"
           >
             <span class="font-mono text-xs text-gold-deep">{String(i + 1).padStart(2, '0')}</span>
-            <span class="text-[14.5px] font-bold tracking-[-0.01em]">{step}</span>
+            <span class="text-[14.5px] font-bold tracking-[-0.01em]">{step}{#if PLUS_STAGES.has(step)}<PlusTag />{/if}</span>
             {#if !last}
               <span class="absolute -right-[9px] top-1/2 z-[2] -translate-y-1/2 text-[13px] text-faint">→</span>
             {/if}
@@ -702,7 +706,7 @@
       <header class="reveal mx-auto max-w-[760px] text-center" use:reveal>
         <p class="kicker">07 &mdash; Questions</p>
         <h2 class="section-title mt-3.5 text-[clamp(32px,5vw,60px)]">
-          Free, and <span class="grad-text">no catch.</span>
+          Free to use, with an <span class="grad-text">optional upgrade.</span>
         </h2>
       </header>
       <div class="reveal mx-auto mt-12 max-w-[820px] border-t border-line" use:reveal>
@@ -737,7 +741,7 @@
           class="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] w-full opacity-35 [mask-image:linear-gradient(to_top,#000,transparent)]"
         />
         <h2 class="section-title relative text-[clamp(36px,6vw,76px)] tracking-[-0.025em]">Hear the difference.</h2>
-        <p class="relative mt-3.5 text-lg text-muted">Free music player and equalizer — every feature, no ads, no sign-up.</p>
+        <p class="relative mt-3.5 text-lg text-muted">Free music player and equalizer — no ads, no sign-up.</p>
         <div class="relative mt-8 flex flex-wrap justify-center gap-3">
           <DownloadButton label="macOS" platformId="macos" fallbackUrl={RELEASES_URL} platform={release?.platforms.mac}>
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.89 2.65 3.24 2.6 1.3-.05 1.79-.84 3.36-.84 1.57 0 2.01.84 3.39.81 1.4-.03 2.29-1.27 3.15-2.53.99-1.45 1.4-2.86 1.42-2.93-.03-.01-2.72-1.04-2.75-4.13zM14.69 4.81c.72-.87 1.2-2.08 1.07-3.29-1.03.04-2.28.69-3.02 1.56-.66.77-1.24 2-1.08 3.18 1.15.09 2.32-.58 3.03-1.45z"/></svg>
@@ -771,9 +775,9 @@
           {/if}
         </p>
         <p class="relative mt-3 text-[14.5px] text-muted">
-          Want to back it?
-          <a href="/support" data-track="cta-supporter" class="font-semibold text-text underline decoration-line-2 underline-offset-4 transition hover:decoration-gold">
-            Supporter pack, from ${SUPPORTER_AMOUNTS[0]}
+          Want pro audio tools on the desktop?
+          <a href="/plus" data-track="cta-plus" class="font-semibold text-text underline decoration-line-2 underline-offset-4 transition hover:decoration-gold">
+            HypeMuzik Plus, {PLUS_PRICE_TEXT} one-time
           </a>
         </p>
       </div>

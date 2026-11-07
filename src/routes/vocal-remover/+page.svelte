@@ -5,7 +5,7 @@
   const faqs = [
     {
       q: 'Is the vocal remover free?',
-      a: 'Yes. There is no subscription, no ads and no paywall, and you do not need an account to use it. The only extra step is a one-time model download.'
+      a: 'Yes. There is no subscription and no ads, and you do not need an account to use it. It is not part of HypeMuzik Plus, the optional desktop upgrade. The only extra step is a one-time model download.'
     },
     {
       q: 'Does my music get uploaded anywhere?',

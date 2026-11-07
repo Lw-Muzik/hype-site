@@ -1,10 +1,10 @@
 # HypeMuzik
 
 > HypeMuzik is a free music player and equalizer for Android, iOS, macOS,
-> Windows and Linux: no ads, no paywall, no sign-up. It is built around a
-> 31-band graphic equalizer and a 12-stage DSP chain, with phone-to-desktop
-> audio streaming. An optional pay-what-you-want Supporter pack funds
-> development; every feature stays free for everyone.
+> Windows and Linux: no ads, no sign-up. It is built around a 31-band graphic
+> equalizer and a 12-stage DSP chain, with phone-to-desktop audio streaming.
+> HypeMuzik Plus is an optional US$5 one-time, lifetime licence that unlocks
+> six pro audio features in the desktop app; the phone apps stay fully free.
 
 HypeMuzik plays your own music — local files, plus Google Drive and Dropbox
 libraries — and runs the same sound engine on every platform. On macOS the
@@ -20,13 +20,13 @@ desktop app can also process system-wide audio (every app's sound).
 - [iOS](https://apps.apple.com/us/app/hypemuzik-dsp/id6760889647)
 - [Android](https://play.google.com/store/apps/details?id=x.a.zix)
 - [Hype Connect web remote](https://play.hypemuzik.com): control HypeMuzik on your phone or desktop from any browser.
-- [Supporter pack](https://hypemuzik.com/support): optional, pay what you want; adds a Supporter badge.
+- [HypeMuzik Plus](https://hypemuzik.com/plus): optional US$5 one-time desktop licence (macOS, Windows, Linux) for per-app EQ, per-app mixer, convolver, 3D surround, room reverb and ViPER DDC curves.
 
 ## Key facts
-- Price: free on every platform. No ads, no paywall, no sign-up.
+- Price: the player is free on every platform, with no ads and no sign-up. HypeMuzik Plus is an optional US$5 one-time payment (lifetime licence, no subscription, sold by Paddle as Merchant of Record, 14-day refund) that (after a free 7-day trial on every new desktop install, no card needed) unlocks per-app EQ, per-app mixer, convolver, 3D surround, room reverb and ViPER DDC curves in the desktop app. The 31-band EQ, system-wide EQ, AutoEq profiles, stem separation, cloud music, lyrics and Hype Connect stay free.
 - 31-band graphic equalizer at ISO third-octave centres (20 Hz – 20 kHz).
 - 12-stage DSP chain, in order: headphone correction, graphic EQ, bass boost,
-  spatializer, 3D surround, room reverb, convolution IR, multiband compander,
+  spatializer, 3D surround (Plus), room reverb (Plus), convolution IR (Plus), multiband compander,
   tube saturation, script processor, makeup gain, brickwall limiter.
 - AutoEq headphone correction: 3,938 headphone profiles on the desktop, more
   than 6,000 on the phone (from the AutoEq project by Jaakko Pasanen).

@@ -42,7 +42,7 @@ export const CONTACT_EMAIL = 'brunolabs256@gmail.com';
 export const EFFECTIVE = {
   privacy: { iso: '2026-11-07', display: '7 November 2026' },
   terms: { iso: '2026-11-07', display: '7 November 2026' },
-  refunds: { iso: '2026-10-26', display: '26 October 2026' }
+  refunds: { iso: '2026-11-07', display: '7 November 2026' }
 } as const;
 
 export type Effective = (typeof EFFECTIVE)[keyof typeof EFFECTIVE];

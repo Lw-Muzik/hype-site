@@ -200,14 +200,26 @@
   <section>
     <h2 id="payments">Payments and refunds</h2>
     <p>
-      HypeMuzik is free to download and use, with every feature, on every platform.
+      HypeMuzik is free to download and use on every platform. The phone apps are fully free.
     </p>
     <p>
-      The one thing we sell is the optional <a href="/support">Supporter pack</a>: a
-      one-time payment, at a price you choose from the amounts on that page, that adds a
-      Supporter badge to the apps. It is not a subscription and does not renew. It unlocks
-      no features and its absence removes none. The badge is tied to the email address you
-      pay with and is removed if the payment is refunded.
+      The one thing we sell is <a href="/plus">HypeMuzik Plus</a>: a lifetime licence to the
+      HypeMuzik Plus features in the desktop app (macOS, Windows and Linux), for a fixed price
+      of US$5 plus any applicable tax, paid once. It is not a subscription and does not
+      renew. Plus unlocks six features: per-app EQ, per-app mixer, convolver, 3D surround,
+      room reverb and ViPER DDC curves. A Supporter badge comes with it as a small extra.
+      Everything else in HypeMuzik stays free.
+    </p>
+    <p>
+      Every new desktop install gets the six Plus features free for its first 7 days, with no
+      card and nothing charged. When the 7 days end, those six features lock and everything
+      else keeps working. Nothing is charged automatically at the end of the trial: buying
+      Plus is always a deliberate one-time purchase.
+    </p>
+    <p>
+      The licence is tied to the email address you pay with, and is for your personal use.
+      In the desktop app, “Restore purchase” with that email unlocks Plus on your own
+      computers. The licence ends if the payment is refunded.
     </p>
     <p>
       If we ever offer anything else, its price, what it includes, and whether it renews will
@@ -216,8 +228,8 @@
     </p>
     <div class="legal-note is-key">
       <p>
-        <strong>Who you buy from.</strong> For anything you buy from us on this website or in
-        the desktop app: {PADDLE_MOR_DISCLOSURE} Paddle handles payment, sales tax, invoicing
+        <strong>Who you buy from.</strong> HypeMuzik Plus is sold by Paddle as Merchant of
+        Record. For anything you buy from us on this website or in the desktop app: {PADDLE_MOR_DISCLOSURE} Paddle handles payment, sales tax, invoicing
         and refunds for those orders, and the
         <a href={PADDLE_BUYER_TERMS_URL} target="_blank" rel="noopener noreferrer">Paddle Buyer Terms</a>
         apply to the transaction alongside these Terms.

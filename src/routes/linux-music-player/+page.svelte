@@ -6,7 +6,7 @@
   const faqs = [
     {
       q: 'Is HypeMuzik free on Linux?',
-      a: 'Yes. There are no ads and no paywall, and playback and the equalizer need no sign-up. An optional pay-what-you-want Supporter pack adds a badge only.'
+      a: 'Yes. The player and the 31-band equalizer are free, with no ads and no sign-up. HypeMuzik Plus is an optional US$5 one-time upgrade for six pro audio tools in the desktop app: per-app EQ, per-app mixer, convolver, 3D surround, room reverb and ViPER DDC curves.'
     },
     {
       q: 'Which package formats are available?',
@@ -90,7 +90,7 @@
 
   <h2>What you get</h2>
   <ul>
-    <li><strong>A 31-band equalizer</strong> at ISO ⅓-octave centres from 20 Hz to 20 kHz, inside a 12-stage chain that adds headphone correction, bass boost, a stereo spatializer, 3D surround, room reverb, convolution, a multiband compander, tube saturation, a script processor, makeup gain and a brickwall limiter.</li>
+    <li><strong>A 31-band equalizer</strong> at ISO ⅓-octave centres from 20 Hz to 20 kHz, inside a 12-stage chain that adds headphone correction, bass boost, a stereo spatializer, 3D surround, room reverb and convolution (those three are part of the optional <a href="/plus">HypeMuzik Plus</a> upgrade), a multiband compander, tube saturation, a script processor, makeup gain and a brickwall limiter.</li>
     <li><strong>Synced, word-by-word lyrics</strong> on desktop and phone.</li>
     <li><strong>Headphone profiles</strong> from <a href="/autoeq">the AutoEq project</a>, so you can correct your headphone model before you tune the rest.</li>
     <li><strong>Visualisers</strong> that react to the music.</li>

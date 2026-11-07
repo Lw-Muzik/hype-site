@@ -12,7 +12,7 @@ export const prerender = true;
 export function GET() {
   const pages: [string, string][] = [
     ['/', '2026-10-30'],
-    ['/support', '2026-10-30'],
+    ['/plus', '2026-11-07'],
     ['/mac-equalizer', '2026-10-30'],
     ['/autoeq', '2026-10-30'],
     ['/vocal-remover', '2026-10-30'],
