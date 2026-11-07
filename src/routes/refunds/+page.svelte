@@ -260,7 +260,7 @@
   <section>
     <h2 id="access">What a refund removes</h2>
     <p>
-      When a payment is refunded, whatever it unlocked — HypeMuzik Plus, its Supporter badge
+      When a payment is refunded, whatever it unlocked — HypeMuzik Plus, its Plus badge
       or any other paid feature — is removed from your account and devices. Everything that is free keeps working, and
       your music library, playlists and settings are not deleted.
     </p>

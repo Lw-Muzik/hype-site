@@ -207,7 +207,9 @@
       HypeMuzik Plus features in the desktop app (macOS, Windows and Linux), for a fixed price
       of US$5 plus any applicable tax, paid once. It is not a subscription and does not
       renew. Plus unlocks six features: per-app EQ, per-app mixer, convolver, 3D surround,
-      room reverb and ViPER DDC curves. A Supporter badge comes with it as a small extra.
+      room reverb and ViPER DDC curves. Per-app EQ needs macOS 14.4 or later and the per-app
+      mixer needs macOS 14.4 or later or Windows; the other four work on all three systems.
+      A Plus badge in the app comes with it.
       Everything else in HypeMuzik stays free.
     </p>
     <p>

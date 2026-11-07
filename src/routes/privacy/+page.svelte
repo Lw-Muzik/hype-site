@@ -372,7 +372,7 @@
       <li>the payment method summary Paddle includes — for a card, its brand, last four digits, expiry date and the cardholder name.</li>
     </ul>
     <p>
-      We use it to give you HypeMuzik Plus and the Supporter badge (the app looks up your purchase by that email
+      We use it to give you HypeMuzik Plus and its Plus badge (the app looks up your purchase by that email
       when you choose "Restore purchase"), to answer questions and refunds about your order,
       and to keep the records that tax and accounting rules require. We keep it for as long
       as those rules require, and we never use it for marketing or share it with anyone else.

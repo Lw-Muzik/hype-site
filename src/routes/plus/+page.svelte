@@ -171,7 +171,7 @@
     },
     {
       q: 'Which devices does it work on?',
-      a: 'Your computers. Plus unlocks features in the HypeMuzik desktop app on macOS, Windows and Linux. The licence is tied to the email you bought with, so “Restore purchase” turns Plus on for each of your own computers.'
+      a: 'Your computers. Plus unlocks features in the HypeMuzik desktop app on macOS, Windows and Linux. Convolver, 3D Surround, room reverb and ViPER DDC curves work on all three. Per-app EQ needs macOS 14.4 or later, and the per-app mixer needs macOS 14.4 or later or Windows. The licence is tied to the email you bought with, so “Restore purchase” turns Plus on for each of your own computers.'
     },
     {
       q: 'What about the phone apps?',
@@ -331,7 +331,7 @@
       <header class="max-w-[60ch]">
         <p class="kicker">What Plus unlocks</p>
         <h2 id="features-heading" class="section-title mt-3 text-[clamp(30px,4.6vw,52px)]">Six tools for the desktop app.</h2>
-        <p class="mt-4 text-[16.5px] text-muted">These six features, and nothing else, are what Plus adds.</p>
+        <p class="mt-4 text-[16.5px] text-muted">Buy once and they stay unlocked. The rest of HypeMuzik is free either way.</p>
       </header>
 
       <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -345,13 +345,16 @@
             </div>
             <h3 class="section-title mt-5 text-[21px]">{f.name}</h3>
             <p class="mt-2 text-[14.5px] leading-relaxed text-muted">{f.desc}</p>
+            {#if f.avail}
+              <p class="mt-3 font-mono text-[11.5px] tracking-[0.02em] text-muted">Needs {f.avail}</p>
+            {/if}
           </li>
         {/each}
       </ul>
 
       <p class="mt-8 max-w-[64ch] text-[14.5px] leading-relaxed text-muted">
-        A Supporter badge comes with Plus as a small thank-you extra. It is not the product: the
-        product is the six tools above.
+        Per-app EQ and the per-app mixer depend on what your operating system allows; the other four
+        tools work on macOS, Windows and Linux. Plus owners also get a Plus badge in the app.
       </p>
     </div>
   </section>

@@ -22,14 +22,22 @@ export const PLUS_TRIAL_DAYS = 7;
 export const PLUS_PRICE_LINE = `${PLUS_PRICE_TEXT} · one-time · yours for life`;
 
 /** The six desktop features Plus unlocks. Nothing else is gated. */
-export const PLUS_FEATURES = [
-  { name: 'Per-app EQ', desc: 'Give individual apps their own equalizer settings.' },
-  { name: 'Per-app mixer', desc: 'Balance the volume of each app on its own, from one mixer.' },
+export const PLUS_FEATURES: ReadonlyArray<{ name: string; desc: string; avail?: string }> = [
+  {
+    name: 'Per-app EQ',
+    desc: 'Choose which apps the system-wide EQ shapes: every app, only the ones you pick, or all but a few.',
+    avail: 'macOS 14.4 or later'
+  },
+  {
+    name: 'Per-app mixer',
+    desc: 'Set the volume of each app on its own, from one mixer.',
+    avail: 'macOS 14.4 or later, or Windows'
+  },
   { name: 'Convolver', desc: 'Load your own impulse responses (convolution IR) to model a space or a speaker.' },
   { name: '3D Surround', desc: 'Spread the stereo image into a wider, more immersive sound field.' },
   { name: 'Room reverb', desc: 'Add the ambience of a room to your music.' },
   { name: 'ViPER DDC curves', desc: 'Apply ViPER DDC curve files to correct your headphones\u2019 response.' }
-] as const;
+];
 
 /** Plain-text list, for FAQ answers and structured data. */
 export const PLUS_FEATURES_TEXT =
