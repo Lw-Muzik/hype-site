@@ -21,8 +21,8 @@
  */
 export const OPERATOR = 'HypeMuzik';
 
-/** Optional. e.g. 'Bruno Ssemakula'. Empty = the pages just say "HypeMuzik". */
-export const OPERATOR_LEGAL_NAME = '';
+/** The owner's legal name; Paddle matches it against the verified account holder. */
+export const OPERATOR_LEGAL_NAME = 'Mugamba Bruno';
 
 /** Rendered wherever the documents introduce who is responsible. */
 export const OPERATOR_FULL = OPERATOR_LEGAL_NAME
@@ -40,8 +40,8 @@ export const CONTACT_EMAIL = 'brunolabs256@gmail.com';
  * lastmod both read from here.
  */
 export const EFFECTIVE = {
-  privacy: { iso: '2026-10-30', display: '30 October 2026' },
-  terms: { iso: '2026-10-30', display: '30 October 2026' },
+  privacy: { iso: '2026-11-07', display: '7 November 2026' },
+  terms: { iso: '2026-11-07', display: '7 November 2026' },
   refunds: { iso: '2026-10-26', display: '26 October 2026' }
 } as const;
 
