@@ -24,15 +24,15 @@ COPY . .
 ARG VITE_MANAGEMENT_API=""
 ENV VITE_MANAGEMENT_API=${VITE_MANAGEMENT_API}
 
-# Supporter pack checkout (Paddle), baked at build time. Left empty the
-# /support page still shows the pack and its prices, but Buy stays off — see
-# src/lib/supporter.ts. The client-side token is public by design.
+# HypeMuzik Plus checkout (Paddle), baked at build time. Left empty the
+# /plus page still shows the product and its price, but Buy stays off — see
+# src/lib/plus.ts. The client-side token is public by design.
 ARG VITE_PADDLE_ENV=""
 ARG VITE_PADDLE_CLIENT_TOKEN=""
-ARG VITE_PADDLE_SUPPORTER_PRICES=""
+ARG VITE_PADDLE_PLUS_PRICE_ID=""
 ENV VITE_PADDLE_ENV=${VITE_PADDLE_ENV} \
     VITE_PADDLE_CLIENT_TOKEN=${VITE_PADDLE_CLIENT_TOKEN} \
-    VITE_PADDLE_SUPPORTER_PRICES=${VITE_PADDLE_SUPPORTER_PRICES}
+    VITE_PADDLE_PLUS_PRICE_ID=${VITE_PADDLE_PLUS_PRICE_ID}
 
 # `pnpm exec vite build` rather than `pnpm build`: pnpm-workspace.yaml makes
 # this directory a workspace root, and at the pinned pnpm version a bare
